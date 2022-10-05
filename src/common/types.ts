@@ -53,3 +53,8 @@ export enum LabelType {
   LabelTag,
   PlainText
 }
+
+export interface QRData {
+  config: string;
+  codes: number;
+}
