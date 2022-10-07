@@ -70,20 +70,26 @@ export const useWidgetsStore = defineStore("widgets", () => {
   }
 
   // Saves the temporary array of widget data to a record in local storage.
-  function save() {
-    // Turns a value into a string. Arrays are space-delimited to minimize collision with the CSV format.
-    const stringify = (value: unknown) => Array.isArray(value) ? value.join(" ") : String(value);
+  function save(header?: string[], record?: string[], table?: string) {
+    if (!header || !record)
+    {
+      // Turns a value into a string. Arrays are space-delimited to minimize collision with the CSV format.
+      const stringify = (value: unknown) => Array.isArray(value) ? value.join(" ") : String(value);
 
-    // Get header and record from the data (`name` is already a string so it does not need stringification)
-    // Then add the current timestamp as the last field in the record
-    const header = values.map(i => i.name).concat("ScoutedTime");
-    const record = values.map(i => stringify(i.value)).concat(new Date().toString());
-
+      // Get header and record from the data (`name` is already a string so it does not need stringification)
+      // Then add the current timestamp as the last field in the record
+      header = values.map(i => i.name).concat("ScoutedTime");
+      record = values.map(i => stringify(i.value)).concat(new Date().toString());
+    }
     // Add to saved local storage
-    const entry = savedData.get(config.name);
+    let entry: SavedData | undefined;
+    if (!table) {
+      table = config.name;
+    }
+    entry = savedData.get(table);
     if (entry === undefined) {
       // The entry for the current configuration name does not exist, create it
-      savedData.set(config.name, { header, values: [record] });
+      savedData.set(table, { header, values: [record] });
     } else {
       // The entry exists, overwrite the header and append the record
       entry.header = header;

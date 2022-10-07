@@ -57,4 +57,5 @@ export enum LabelType {
 export interface QRData {
   config: string;
   codes: number;
+  header: string[];
 }

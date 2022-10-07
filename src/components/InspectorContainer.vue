@@ -53,11 +53,13 @@ Portions from https://vuejs.org/examples/#modal
     </Modal>
   </Teleport>
   <Teleport to="body">
-    <Modal :show="cameraModal" @close="cameraModal = false">
+    <Modal :show="cameraModal" @close="closeCameraModal()">
       <template #body>
         <p>Use the camera to scan the QR codes in order:</p>
-        <div id="camera-container">
+        <div id="camera-container" class="centered">
           <qrcode-stream @decode="onDecode"/>
+          <p class="centered" v-if="showQrCount">Scanning code {{ currentCode + 1 }}/{{ totalCodes }}</p>
+          <p class="centered" v-if="showErrorMessage">Invalid QR Code scanned. Please try again.</p>
         </div>
       </template>
     </Modal>
@@ -96,6 +98,15 @@ let qrModal = $ref(false);
 let cameraModal = $ref(false);
 let qrStrings = $ref([""]);
 const qrCarousel = $ref<typeof Carousel>();
+
+let decodedJSON = "";
+let table = "";
+let header = [""];
+
+let showQrCount = $ref(false);
+let showErrorMessage = $ref(false);
+let currentCode = $ref(0);
+let totalCodes = $ref(0);
 
 const entries = $computed(() => [...widgets.savedData.keys()]); // The entries in local storage
 const selectedEntry = $computed(() => widgets.savedData.get(entries[selectedIdx])); // The selected entry
@@ -141,7 +152,8 @@ function showQRExportModal() {
   qrStrings.push(element);
   let header: QRData = {
     config: entries[selectedIdx],
-    codes: qrStrings.length
+    codes: qrStrings.length,
+    header: selectedEntry.header
   };
   qrStrings = [JSON.stringify(header)].concat(qrStrings);
   qrModal = true;
@@ -155,12 +167,88 @@ function showCameraModal() {
   cameraModal = true;
 }
 
+function closeCameraModal() {
+  cameraModal = false;
+  showQrCount = false;
+  showErrorMessage = false;
+  currentCode = 0;
+  totalCodes = 0;
+  table = "";
+  decodedJSON = "";
+  header = [""];
+}
+
 function updateQrModalWidth() {
   qrCarousel?.updateSlideWidth();
 }
 
 function onDecode(s: string) {
   console.log(s);
+  // If we haven't set up yet
+  if (!showQrCount) {
+    let data: QRData;
+    try {
+      data = JSON.parse(s);
+    }
+    catch {
+      showErrorMessage = true;
+      return;
+    }
+    if (data.codes === undefined) {
+      showErrorMessage = true;
+      return;
+    }
+    if (data.config === undefined) {
+      showErrorMessage = true;
+      return;
+    }
+    if (data.header === undefined) {
+      showErrorMessage = true;
+      return;
+    }
+    // Set data for the count text.
+    currentCode = 0;
+    totalCodes = data.codes;
+
+    // Show the count text
+    showQrCount = true;
+
+    // Update table and header
+    table = data.config;
+    header = data.header;
+
+    // Remove error message
+    showErrorMessage = false;
+  }
+  // If we have
+  else {
+    decodedJSON += s;
+    currentCode += 1;
+    if (currentCode === totalCodes) {
+      let data:string[][];
+      try {
+        data = JSON.parse(decodedJSON);
+      }
+      catch {
+        // If something went wrong, reset.
+        showErrorMessage = true;
+        showQrCount = false;
+        currentCode = 0;
+        totalCodes = 0;
+        table = "";
+        decodedJSON = "";
+        header = [""];
+        return;
+      }
+      console.log(data);
+      data.forEach(row => {
+        console.log(row);
+        widgets.save(header, row, table);
+      });
+      closeCameraModal();
+      return;
+    }
+  }
 }
 
 function clearData() {
@@ -183,7 +271,10 @@ function clearData() {
 
 #camera-container {
   width: 50%;
-  margin: 0 auto;
 }
 
+.centered {
+  margin: 0 auto;
+  text-align: center;
+}
 </style>
