@@ -41,14 +41,20 @@ Portions from https://vuejs.org/examples/#modal
     <Modal :show="qrModal" @close="qrModal = false">
       <template #body>
         <p>Scan the following QR codes in order on the target device:</p>
-        <carousel ref="qrCarousel">
+        <div class="centered" v-for="index in qrStrings.length" :key="index">
+            <qrcode-vue :value=qrStrings[index-1] :size=windowSize/3 :margin=2 />
+            <p>QR Code {{ index }}/{{ qrStrings.length }}</p>
+        </div>
+        <!--
+          <carousel ref="qrCarousel">
           <slide class="carousel__item" v-for="index in qrStrings" :key="index">
             <qrcode-vue :value=index :size=windowSize/3 :margin=2 />
           </slide>
-        </carousel>
+          </carousel>
+        -->
       </template>
       <template #footer>
-        <button @click="updateQrModalWidth()">Fix Slides</button>
+        <p></p>
       </template>
     </Modal>
   </Teleport>
@@ -144,9 +150,10 @@ function showQRExportModal() {
   let blob = JSON.stringify(filterRecords(true));
   const qrSize = 512;
   let substr = 0;
-  for (substr; substr < Math.floor(blob.length / qrSize); substr += qrSize) {
+  for (let i = 0; i < Math.floor(blob.length / qrSize); i++) {
     const element = blob.slice(substr, substr + qrSize);
     qrStrings.push(element);
+    substr = substr + qrSize;
   }
   const element = blob.slice(substr);
   qrStrings.push(element);
@@ -156,11 +163,8 @@ function showQRExportModal() {
     header: selectedEntry.header
   };
   qrStrings = [JSON.stringify(header)].concat(qrStrings);
+  console.log(qrStrings)
   qrModal = true;
-  // Update slides after 100ms ( magic number :( ))
-  new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
-    // updateQrModalWidth();
-  });
 }
 
 function showCameraModal() {
@@ -277,4 +281,5 @@ function clearData() {
   margin: 0 auto;
   text-align: center;
 }
+
 </style>
