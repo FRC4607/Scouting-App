@@ -4,6 +4,7 @@ import { fileURLToPath, URL } from "url";
 import postcssNested from "postcss-nested";
 import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -37,7 +38,8 @@ export default defineConfig({
           }
         ]
       }
-    })
+    }),
+    basicSsl()
   ],
   resolve: {
     alias: {

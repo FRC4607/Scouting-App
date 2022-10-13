@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.184",
+    "@vitejs/plugin-basic-ssl": "^0.1.2",
     "@vueuse/core": "^9.1.1",
     "pinia": "^2.0.20",
     "qrcode.vue": "^3.3.3",
