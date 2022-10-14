@@ -81,12 +81,9 @@ Portions from https://vuejs.org/examples/#modal
 <script setup lang="ts">
 import InspectorTable from "./InspectorTable.vue";
 import { useWidgetsStore } from "@/common/stores.js";
-import Modal from "./Modal.vue";
+import Modal from "./ModalComponent.vue";
 
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide } from 'vue3-carousel';
-
-import QrcodeVue from 'qrcode.vue'
+import QrcodeVue from "qrcode.vue"
 import { QRData } from "@/common/types";
 
 import { QrcodeStream } from "vue-qrcode-reader"
@@ -103,7 +100,6 @@ const hasSelectedRecords = $computed(() => selectedRecords.size > 0);
 let qrModal = $ref(false);
 let cameraModal = $ref(false);
 let qrStrings = $ref([""]);
-const qrCarousel = $ref<typeof Carousel>();
 
 let decodedJSON = "";
 let table = "";
@@ -147,7 +143,7 @@ function downloadData() {
 function showQRExportModal() {
   if (selectedEntry == undefined) return;
   qrStrings = [];
-  let blob = JSON.stringify(filterRecords(true));
+  const blob = JSON.stringify(filterRecords(true));
   const qrSize = 512;
   let substr = 0;
   for (let i = 0; i < Math.floor(blob.length / qrSize); i++) {
@@ -157,13 +153,12 @@ function showQRExportModal() {
   }
   const element = blob.slice(substr);
   qrStrings.push(element);
-  let header: QRData = {
+  const header: QRData = {
     config: entries[selectedIdx],
     codes: qrStrings.length,
     header: selectedEntry.header
   };
   qrStrings = [JSON.stringify(header)].concat(qrStrings);
-  console.log(qrStrings)
   qrModal = true;
 }
 
@@ -182,12 +177,7 @@ function closeCameraModal() {
   header = [""];
 }
 
-function updateQrModalWidth() {
-  qrCarousel?.updateSlideWidth();
-}
-
 function onDecode(s: string) {
-  console.log(s);
   // If we haven't set up yet
   if (!showQrCount) {
     let data: QRData;
@@ -244,9 +234,7 @@ function onDecode(s: string) {
         header = [""];
         return;
       }
-      console.log(data);
       data.forEach(row => {
-        console.log(row);
         widgets.save(header, row, table);
       });
       closeCameraModal();

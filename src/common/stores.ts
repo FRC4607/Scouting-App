@@ -82,11 +82,10 @@ export const useWidgetsStore = defineStore("widgets", () => {
       record = values.map(i => stringify(i.value)).concat(new Date().toString());
     }
     // Add to saved local storage
-    let entry: SavedData | undefined;
     if (!table) {
       table = config.name;
     }
-    entry = savedData.get(table);
+    const entry: SavedData | undefined = savedData.get(table);
     if (entry === undefined) {
       // The entry for the current configuration name does not exist, create it
       savedData.set(table, { header, values: [record] });
