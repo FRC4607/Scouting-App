@@ -1,9 +1,6 @@
 # Base image for nodejs v18 (LTS)
 FROM node:lts
 
-# Set the node environment to production
-ENV NODE_ENV production
-
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -21,6 +18,9 @@ RUN npm run build
 
 # Expose port 4173
 EXPOSE 4173
+
+# Set the node environment to production
+ENV NODE_ENV production
 
 # Define the app run command
 CMD [ "npm", "run", "serve" ]
