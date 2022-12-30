@@ -9,8 +9,10 @@
     "checkUpdates": "ncu -u",
     "dev": "vite --host",
     "installModules": "npm install",
-    "docker-build": "docker build -t beckerrobotics/scouting .",
-    "docker-run": "docker run -p 4173:4173 -d beckerrobotics/scouting"
+    "docker-build": "docker build -t beckerrobotics/scouting-app .",
+    "docker-run": "docker run -p 4173:4173 -d beckerrobotics/scouting-app",
+    "docker-push": "docker push beckerrobotics/scouting-app",
+    "docker-deploy": "echo HEADS UP! && echo This requires that you are logged into the robotics DockerHub account within the terminal && echo Run 'docker login' to login && npm run docker-build && npm run docker-push"
   },
   "dependencies": {
     "@types/lodash": "^4.14.191",
