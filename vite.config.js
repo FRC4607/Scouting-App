@@ -4,7 +4,6 @@ import { fileURLToPath, URL } from "url";
 import postcssNested from "postcss-nested";
 import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
-import basicSsl from '@vitejs/plugin-basic-ssl'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,9 +19,9 @@ export default defineConfig({
     VitePWA({
       includeAssets: ["assets/*", "icons/*"],
       manifest: {
-        name: "Black Hawks Scouting",
+        name: "CIS Scouting",
         short_name: "Scouting",
-        description: "A scouting app by FRC Team 2834",
+        description: "A scouting app based off Black Hawks Scouting made by FRC Team 2834",
         theme_color: "#292929",
         background_color: "#292929",
         icons: [
@@ -39,7 +38,6 @@ export default defineConfig({
         ]
       }
     }),
-    basicSsl()
   ],
   resolve: {
     alias: {
