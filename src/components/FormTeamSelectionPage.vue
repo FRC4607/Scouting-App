@@ -1,5 +1,8 @@
 <template>
   <FormPage title="Team Selection" ref="page">
+    <FormGroup :label-type="LabelType.LabelTag" id="scouter-name" name="Scouter Name">
+      <input id="scouter-name" type="text" v-model="scouterName"/>
+    </FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="event-key-input" name="Event Key">
       <input id="event-key-input" type="text" v-model="eventKey" @keyup.enter="loadTBAData" />
       <button @click="loadTBAData">Load</button>
@@ -51,10 +54,25 @@ const config = useConfigStore();
 const tba = useTBAStore();
 const widgets = useWidgetsStore();
 
-let eventKey = $ref("");
-const matchLevel = $ref(0);
-const matchNumber = $ref(1);
-const selectedTeam = $ref(0);
+const savedData = widgets.savedData.get("matches");
+const lastScouterName = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "scouter_name")];
+const lastEventKey = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "event_key")];
+const lastMatchLevel = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "match_level")];
+const lastMatchNumber = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "match_number")];
+let lastSelectedTeam = 0;
+const lastSelectedStation = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "team_station")];
+if (lastSelectedStation) {
+  const parts = lastSelectedStation.split("_");
+  lastSelectedTeam = ((parts[0]=="BLUE") ? 3 : 0) + Number.parseInt(parts[1]) - 1;
+}
+
+const scouterName = $ref(lastScouterName ? lastScouterName: "");
+let eventKey = $ref(lastEventKey ? lastEventKey : "");
+const matchLevel = $ref(lastMatchLevel ? Number.parseInt(lastMatchLevel): 0);
+const matchNumber = $ref(lastMatchNumber ? Number.parseInt(lastMatchNumber) + 1 : 1);
+const selectedTeam = $ref(lastSelectedTeam);
+
+if (lastEventKey) loadTBAData();
 
 const teamsLoadStatus = $ref("");
 const matchesLoadStatus = $ref("");
@@ -114,13 +132,18 @@ const teamsList = $computed(() => {
 });
 
 // The exported team information
-const teamData = $computed(() => teamsList[selectedTeam] ? Object.values(teamsList[selectedTeam]).join() : "");
+const teamData = $computed(() => teamsList[selectedTeam]);
+
+const teamStation = $computed(() => teamData.color !== null && teamData.index !== null ? `${teamData.color.toUpperCase()}_${teamData.index}` : "");
+const teamNumber = $computed(() => teamData.number !== null ? teamData.number : 0);
 
 // Add values to export
-widgets.addWidgetValue("EventKey", $$(eventKey));
-widgets.addWidgetValue("MatchLevel", $$(matchLevel));
-widgets.addWidgetValue("MatchNumber", $$(matchNumber));
-widgets.addWidgetValue("Team", $$(teamData));
+widgets.addWidgetValue("event_key", $$(eventKey));
+widgets.addWidgetValue("match_level", $$(matchLevel));
+widgets.addWidgetValue("match_number", $$(matchNumber));
+widgets.addWidgetValue("team_station", $$(teamStation));
+widgets.addWidgetValue("team_number", $$(teamNumber));
+widgets.addWidgetValue("scouter_name", $$(scouterName));
 
 // Updates the loaded status message for a variable.
 // This function takes Ref objects to get a behavior similar to pass-by-reference in C++.

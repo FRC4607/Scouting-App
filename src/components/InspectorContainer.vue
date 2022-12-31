@@ -34,6 +34,8 @@ Portions from https://vuejs.org/examples/#modal
       <button @click="deleteData">Delete</button>
       <button @click="downloadData">Download</button>
       <button @click="showQRExportModal">Show QR Codes</button>
+      <button @click="showCameraModal">Import from QR Codes</button>
+      <button @click="uploadData">Upload Data</button>
       <button @click="clearData">Clear All</button>
     </template>
   </div>
@@ -73,7 +75,6 @@ Portions from https://vuejs.org/examples/#modal
   <div class="table-container">
     <span v-if="selectedEntry === undefined">No Data</span>
     <InspectorTable v-else v-model="selectedRecords" :data="selectedEntry" />
-    <button @click="showCameraModal()">Import from QR Codes</button>
   </div>
   <a :hidden="true" :download="entries[selectedIdx]" ref="downloadLink"></a>
 </template>
@@ -249,6 +250,15 @@ function clearData() {
   widgets.savedData.clear();
   selectedIdx = 0; // Reset selected index
 }
+
+function uploadData() {
+  if (selectedEntry == undefined) return;
+
+  // Generate the download link for the selected records, then trigger the download
+  // If there are no records selected, they will all be included in the generated file
+  widgets.uploadData({ header: selectedEntry.header, values: filterRecords(true) });
+}
+
 </script>
 
 <style>

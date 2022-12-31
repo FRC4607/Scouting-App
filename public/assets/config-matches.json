@@ -6,15 +6,11 @@
       "name": "Setup+Autonomous",
       "widgets": [
         {
-          "name": "Scouter Name",
-          "type": "text"
-        },
-        {
           "name": "Starting Position",
           "type": "positions",
           "file": "field.png",
           "height": 160,
-          "colspan": 3
+          "colspan": 1
         },
         {
           "name": "Taxi",
@@ -28,22 +24,21 @@
         {
           "name": "Upper Cargo Missed",
           "type": "spinbox",
-          "prefix": "Auto",
-          "col": 3,
-          "row": 4
+          "prefix": "Auto"
+        },
+        {
+          "type": "spacer",
+          "height": 20
         },
         {
           "name": "Lower Cargo Scored",
           "type": "spinbox",
-          "prefix": "Auto",
-          "col": 1
+          "prefix": "Auto"
         },
         {
           "name": "Lower Cargo Missed",
           "type": "spinbox",
-          "prefix": "Auto",
-          "col": 3,
-          "row": 5
+          "prefix": "Auto"
         }
       ]
     },
@@ -51,42 +46,29 @@
       "name": "Teleop",
       "widgets": [
         {
-          "type": "picture",
-          "file": "hub-upper.png",
-          "width": 220,
-          "col": 3,
-          "rowspan": 2
-        },
-        {
-          "type": "picture",
-          "file": "hub-lower.png",
-          "width": 220,
-          "col": 3,
-          "rowspan": 2
-        },
-        {
           "name": "Upper Scored",
           "row": 1,
           "type": "spinbox",
-          "prefix": "NDEF"
+          "prefix": "teleop"
         },
         {
           "name": "Upper Missed",
           "type": "spinbox",
-          "prefix": "NDEF"
+          "prefix": "teleop"
+        },
+        {
+          "type": "spacer",
+          "height": 20
         },
         {
           "name": "Lower Scored",
-          "row": 3,
-          "col": 4,
           "type": "spinbox",
-          "prefix": "NDEF"
+          "prefix": "teleop"
         },
         {
           "name": "Lower Missed",
-          "col": 4,
           "type": "spinbox",
-          "prefix": "NDEF"
+          "prefix": "teleop"
         },
         {
           "type": "spacer",
@@ -100,8 +82,7 @@
             "Not Effective",
             "Average",
             "Very Effective"
-          ],
-          "labelColspan": 2
+          ]
         }
       ]
     },

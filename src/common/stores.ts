@@ -57,10 +57,10 @@ export const useWidgetsStore = defineStore("widgets", () => {
 
     if (typeof key === "string") {
       // String key provided, use it as the name
-      name = key;
+      name = key.replaceAll(/\s/g, "_").toLowerCase();
     } else if (key.name !== undefined) {
       // Data object key provided, use its name field if it's defined
-      name = key.prefix ? `${key.prefix}-${key.name}`.replaceAll(/\s/g, "") : key.name;
+      name = key.prefix ? `${key.prefix}_${key.name}`.replaceAll(/\s/g, "_").toLowerCase() : key.name.replaceAll(/\s/g, "_").toLowerCase();
     } else {
       // Invalid argument
       return;
@@ -78,7 +78,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
 
       // Get header and record from the data (`name` is already a string so it does not need stringification)
       // Then add the current timestamp as the last field in the record
-      header = values.map(i => i.name).concat("ScoutedTime");
+      header = values.map(i => i.name).concat("scouted_time");
       record = values.map(i => stringify(i.value)).concat(new Date().toString());
     }
     // Add to saved local storage
@@ -96,7 +96,17 @@ export const useWidgetsStore = defineStore("widgets", () => {
     }
   }
 
-  return $$({ values, savedData, lastWidgetRowEnd, downloadLink, makeDownloadLink, addWidgetValue, save });
+  function uploadData(data: SavedData): void {
+      // Transforms an array of strings into valid CSV by escaping quotes, then joining each value.
+    // https://en.wikipedia.org/wiki/Comma-separated_values
+    const escape = (s: string[]) => s.map(i => `"${i.replaceAll('"', '""')}"`).join();
+
+    // Escape the header and list of records, then put them together into a blob for downloading
+    const header = escape(data.header);
+    const records = data.values.map(escape);
+  }
+
+  return $$({ values, savedData, lastWidgetRowEnd, downloadLink, makeDownloadLink, uploadData, addWidgetValue, save });
 });
 
 // Store to contain data fetched from The Blue Alliance
