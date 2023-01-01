@@ -25,7 +25,9 @@ Portions from https://vuejs.org/examples/#modal
 <template>
   <div id="controls-container">
     <RouterLink :to="{ name: 'home' }" style="margin-right: 40px;">Home</RouterLink>
-    <span v-if="widgets.savedData.size === 0">&lt;No Entries&gt;</span>
+    <span v-if="widgets.savedData.size === 0">&lt;No Entries&gt;
+      <button @click="showCameraModal">Import from QR Codes</button>
+    </span>
     <template v-else>
       <label for="entry-select">Entry</label>
       <select id="entry-select" v-model.number="selectedIdx">
