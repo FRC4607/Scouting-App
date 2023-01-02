@@ -1,5 +1,5 @@
 import fs from 'fs';
-import https from "https";
+import http from "http";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -7,12 +7,6 @@ import mysql from 'mysql';
 
 import { TableLayouts } from './TableSchemes.js'
 import { DataType, Filters } from "./DataType.js";
-
-const options: https.ServerOptions = {
-    key: fs.readFileSync('keys/server.key'),
-    cert: fs.readFileSync('keys/server.crt'),
-
-};
 
 
 /* ------ FILE: mysql-config.json ------
@@ -23,7 +17,7 @@ const options: https.ServerOptions = {
     "database": "database"
 }
 */
-const connection = mysql.createConnection(JSON.parse(fs.readFileSync("keys/mysql-config.json").toString()));
+const connection = mysql.createConnection(JSON.parse(fs.readFileSync("mysql-config.json").toString()));
 
 interface SavedData {
     title: string;
@@ -48,11 +42,7 @@ connection.connect((err) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log(__filename);
-console.log(__dirname);
-
-https.createServer(options, (req, res) => {
-
+http.createServer((req, res) => {
     try {
 
         if (req.method === "GET") {
