@@ -10,6 +10,7 @@ interface WidgetValue {
 }
 
 export interface SavedData {
+  title: string;
   header: string[]; // Each element is a value in the CSV header
   values: string[][]; // Each element is a CSV record, each element in a record is a widget value
 }
@@ -71,15 +72,16 @@ export const useWidgetsStore = defineStore("widgets", () => {
 
   // Saves the temporary array of widget data to a record in local storage.
   function save(header?: string[], record?: string[], table?: string) {
-    if (!header || !record)
-    {
+    if (!header || !record) {
       // Turns a value into a string. Arrays are space-delimited to minimize collision with the CSV format.
       const stringify = (value: unknown) => Array.isArray(value) ? value.join(" ") : String(value);
 
       // Get header and record from the data (`name` is already a string so it does not need stringification)
       // Then add the current timestamp as the last field in the record
       header = values.map(i => i.name).concat("scouted_time");
-      record = values.map(i => stringify(i.value)).concat(new Date().toString());
+      let time = new Date()
+      let timeString = `${time.getUTCFullYear().toString().padStart(4, "0")}-${(time.getUTCMonth()+1).toString().padStart(2, "0")}-${time.getUTCDate().toString().padStart(2, "0")} ${time.getUTCHours().toString().padStart(2, "0")}:${time.getUTCMinutes().toString().padStart(2, "0")}:${time.getUTCSeconds().toString().padStart(2, "0")}`;
+      record = values.map(i => stringify(i.value)).concat(timeString);
     }
     // Add to saved local storage
     if (!table) {
@@ -88,7 +90,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
     const entry: SavedData | undefined = savedData.get(table);
     if (entry === undefined) {
       // The entry for the current configuration name does not exist, create it
-      savedData.set(table, { header, values: [record] });
+      savedData.set(table, { title: table, header, values: [record] });
     } else {
       // The entry exists, overwrite the header and append the record
       entry.header = header;
@@ -96,14 +98,32 @@ export const useWidgetsStore = defineStore("widgets", () => {
     }
   }
 
-  function uploadData(data: SavedData): void {
-      // Transforms an array of strings into valid CSV by escaping quotes, then joining each value.
-    // https://en.wikipedia.org/wiki/Comma-separated_values
-    const escape = (s: string[]) => s.map(i => `"${i.replaceAll('"', '""')}"`).join();
+  function uploadData(data: SavedData): Promise<string> {
+    return new Promise(function (resolve, reject) {
+      const upload = new XMLHttpRequest();
+      upload.open("POST", `https://${document.location.hostname}:5000`);
+      upload.setRequestHeader("Content-Type", "application/json");
 
-    // Escape the header and list of records, then put them together into a blob for downloading
-    const header = escape(data.header);
-    const records = data.values.map(escape);
+      upload.onloadend = function () {
+        if (this.status >= 200 && this.status < 300) {
+          resolve(upload.response);
+        } else {
+          reject({
+            status: this.status,
+            statusText: upload.statusText
+          });
+        }
+      };
+      upload.onerror = function (event) {
+      console.log(event);
+        reject({
+          status: this.status,
+          statusText: upload.statusText
+        });
+      };
+
+      upload.send(JSON.stringify(data));
+    });
   }
 
   return $$({ values, savedData, lastWidgetRowEnd, downloadLink, makeDownloadLink, uploadData, addWidgetValue, save });

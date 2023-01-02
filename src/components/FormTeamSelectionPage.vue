@@ -55,22 +55,25 @@ const tba = useTBAStore();
 const widgets = useWidgetsStore();
 
 const savedData = widgets.savedData.get("matches");
-const lastScouterName = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "scouter_name")];
-const lastEventKey = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "event_key")];
-const lastMatchLevel = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "match_level")];
-const lastMatchNumber = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "match_number")];
-let lastSelectedTeam = 0;
-const lastSelectedStation = savedData?.values[savedData.values.length-1][savedData?.header.findIndex((value) => value == "team_station")];
-if (lastSelectedStation) {
-  const parts = lastSelectedStation.split("_");
-  lastSelectedTeam = ((parts[0]=="BLUE") ? 3 : 0) + Number.parseInt(parts[1]) - 1;
+const lastEntry = savedData?.values[savedData.values.length-1];
+let lastScouterName, lastSelectedTeam, lastEventKey, lastMatchLevel, lastMatchNumber;
+if (savedData && lastEntry) {
+  lastScouterName = lastEntry[savedData.header.findIndex((value) => value == "scouter_name")];
+  lastEventKey = lastEntry[savedData.header.findIndex((value) => value == "event_key")];
+  lastMatchLevel = lastEntry[savedData.header.findIndex((value) => value == "match_level")];
+  lastMatchNumber = lastEntry[savedData.header.findIndex((value) => value == "match_number")];
+  const lastSelectedStation = lastEntry[savedData.header.findIndex((value) => value == "team_station")];
+  if (lastSelectedStation) {
+    const parts = lastSelectedStation.split("_");
+    lastSelectedTeam = ((parts[0]=="BLUE") ? 3 : 0) + Number.parseInt(parts[1]) - 1;
+  }
 }
 
-const scouterName = $ref(lastScouterName ? lastScouterName: "");
-let eventKey = $ref(lastEventKey ? lastEventKey : "");
+const scouterName = $ref(lastScouterName ?? "");
+let eventKey = $ref(lastEventKey ?? "");
 const matchLevel = $ref(lastMatchLevel ? Number.parseInt(lastMatchLevel): 0);
 const matchNumber = $ref(lastMatchNumber ? Number.parseInt(lastMatchNumber) + 1 : 1);
-const selectedTeam = $ref(lastSelectedTeam);
+const selectedTeam = $ref(lastSelectedTeam ?? 0);
 
 if (lastEventKey) loadTBAData();
 

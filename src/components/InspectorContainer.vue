@@ -39,6 +39,7 @@ Portions from https://vuejs.org/examples/#modal
       <button @click="showCameraModal">Import from QR Codes</button>
       <button @click="uploadData">Upload Data</button>
       <button @click="clearData">Clear All</button>
+    <span v-text="uploadInfo" v-show="uploadInfo" id="uploadInfo"></span>
     </template>
   </div>
   <Teleport to="body">
@@ -104,6 +105,8 @@ let qrModal = $ref(false);
 let cameraModal = $ref(false);
 let qrStrings = $ref([""]);
 
+let uploadInfo = $ref("");
+
 let decodedJSON = "";
 let table = "";
 let header = [""];
@@ -139,7 +142,7 @@ function downloadData() {
 
   // Generate the download link for the selected records, then trigger the download
   // If there are no records selected, they will all be included in the generated file
-  downloadLink.href = widgets.makeDownloadLink({ header: selectedEntry.header, values: filterRecords(true) });
+  downloadLink.href = widgets.makeDownloadLink({ title: selectedEntry.title, header: selectedEntry.header, values: filterRecords(true) });
   downloadLink.click();
 }
 
@@ -253,12 +256,9 @@ function clearData() {
   selectedIdx = 0; // Reset selected index
 }
 
-function uploadData() {
+async function uploadData() {
   if (selectedEntry == undefined) return;
-
-  // Generate the download link for the selected records, then trigger the download
-  // If there are no records selected, they will all be included in the generated file
-  widgets.uploadData({ header: selectedEntry.header, values: filterRecords(true) });
+  uploadInfo = await widgets.uploadData({title: selectedEntry.title,  header: selectedEntry.header, values: filterRecords(true) });
 }
 
 </script>
@@ -280,6 +280,13 @@ function uploadData() {
 .centered {
   margin: 0 auto;
   text-align: center;
+}
+
+#uploadInfo {
+  background-color: rgb(10, 52, 131);
+  border-radius: 5px;
+  padding: 4px;
+  font-weight: bold;
 }
 
 </style>
