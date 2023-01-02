@@ -6,9 +6,10 @@ WORKDIR /usr/src/app
 
 # Copy over the package.json and package-lock.json
 COPY package*.json ./
+COPY backend/package*.json ./backend/
 
 # Install app dependencies
-RUN npm install
+RUN npm run installAll
 
 # Bundle app source
 COPY . .
@@ -23,4 +24,4 @@ EXPOSE 4173
 ENV NODE_ENV production
 
 # Define the app run command
-CMD [ "npm", "run", "serve" ]
+CMD [ "npm", "run", "run" ]
