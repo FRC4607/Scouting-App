@@ -2,49 +2,32 @@ import fs from 'fs';
 import http from "http";
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import mysql from 'mysql';
-
-import { TableLayouts } from './TableSchemes.js'
-import { DataType, Filters } from "./DataType.js";
-
-
-/* ------ FILE: mysql-config.json ------
-{
-    "host": "localhost",
-    "username": "username",
-    "password": "password",
-    "database": "database"
-}
-*/
-const connection = mysql.createConnection(JSON.parse(fs.readFileSync("mysql-config.json").toString()));
-
+import { TableLayouts, TableLayoutQueries } from './TableSchemes.js'
+import { DataType, Filters, getUTCDateTime, stringToDataType } from "./DataType.js";
 interface SavedData {
     title: string;
     header: string[]; // Each element is a value in the CSV header
     values: string[][]; // Each element is a CSV record, each element in a record is a widget value
 }
 
-/*
-// TODO: table checking/creation
 
-connection.connect((err) => {
-    if (err) throw err;
-    console.log("Connected!");
-    connection.query("", function (err, result) {
-        if (err) throw err;
-        console.log(result);
-    });
-});
-
+/* ------ FILE: mysql-config.json ------
+{
+    "host": "localhost",
+    "user": "username",
+    "password": "password",
+    "database": "database"
+}
 */
+const mysqlConfig: mysql.ConnectionConfig = JSON.parse(fs.readFileSync("mysql-config.json").toString());
+const connection = mysql.createConnection(mysqlConfig);
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-http.createServer((req, res) => {
+let app:http.RequestListener = (req, res) => {
     try {
-
         if (req.method === "GET") {
             let url = path.normalize(`${__dirname}/static${req.url}`)
             if (req.url == "/") url += "index.html";
@@ -193,19 +176,18 @@ http.createServer((req, res) => {
                 }
 
                 let query = `INSERT INTO ${data.title} (${headers}) VALUES (${stringValues.join("), (")})`
-                
-                console.log(query);
-                // connection.connect(function (err) {
-                //     if (err) throw err;
-                //     console.log("Connected!");
-                //     connection.query(query, function (err, result) {
-                //         if (err) throw err;
-                //         console.log(result);
-                //         res.statusCode = 200;
-                //         res.end("Data Submitted");
-                //         return;
-                //     });
-                // });
+
+                // console.log(query);
+
+                connection.query(query, function (err, result) {
+                    if (err) throw err;
+
+                    res.statusCode = 200;
+                    res.end("Data Submitted");
+
+                    console.log("Data Added");
+                    return;
+                });
 
                 res.setHeader("content-type", "plaintext");
                 res.writeHead(200);
@@ -220,6 +202,86 @@ http.createServer((req, res) => {
         console.error(error);
         return;
     }
-}).listen(4173, () => {
-    console.log("Server started on port 4173");
+}
+
+
+function validateTables() {
+    connection.query("SHOW TABLES", function (err, result, fields) {
+        if (err)
+            throw err;
+        let tables: string[] = [];
+        for (const dataPacket of result) {
+            tables.push(dataPacket[`Tables_in_${mysqlConfig.database}`]);
+        }
+
+
+        for (const Table of TableLayouts) {
+            if (tables.includes(Table[0])) {
+                connection.query(`DESCRIBE ${Table[0]}`, function (err, result, fields) {
+                    if (err)
+                        throw err;
+
+                    let keyTypes: Map<string, DataType> = new Map();
+                    for (const column of result) {
+                        let type = stringToDataType(column.Type);
+                        if (type == null)
+                            throw Error("Datatype Undetermined");
+                        keyTypes.set(column.Field, type);
+                    }
+
+                    let tablesMatch: boolean = true;
+                    for (const column of Table[1]) {
+                        let databaseType = keyTypes.get(column[0]);
+                        if (databaseType == null)
+                            tablesMatch = false;
+                        else {
+                            if (databaseType.valueOf() !== column[1].valueOf())
+                                tablesMatch = false;
+                        }
+                    }
+                    if (!tablesMatch)
+                        archiveAndReplaceTable(Table);
+
+                });
+            } else {
+                createTable(Table);
+            }
+        }
+    });
+
+    function createTable(Table: [string, Map<string, DataType>]) {
+        console.log(`Creating Table "${Table[0]}"`);
+
+        let query = TableLayoutQueries.get(Table[0]);
+        if (query == null)
+            throw new Error("TableLayouts and TableLayoutQueries have mismatching entries");
+
+        connection.query(query, function (err, result, fields) {
+            if (err)
+                throw err;
+        });
+    }
+
+    function archiveAndReplaceTable(Table: [string, Map<string, DataType>]) {
+        console.log(`The table "${Table[0]}" is deferent from the config: Archiving Table`);
+
+        connection.query(`RENAME TABLE ${Table[0]} TO ${Table[0]}_archive_${getUTCDateTime().replaceAll(" ", "")
+            .replaceAll("-", "").replaceAll(":", "")}`, function (err, result, fields) {
+                if (err)
+                    throw err;
+
+                createTable(Table);
+            });
+    }
+}
+
+connection.connect((err) => {
+    if (err) throw err;
+    console.log("Connected to DB");
+
+    validateTables();
+
+    http.createServer(app).listen(4173, () => {
+        console.log("Server started on port 4173");
+    });
 });

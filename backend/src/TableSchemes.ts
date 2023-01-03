@@ -28,4 +28,16 @@ const matchesMap: Map<string, DataType> = new Map([
 ]);
 TableLayouts.set("matches", matchesMap);
 
-export { TableLayouts }
+const TableLayoutQueries: Map<string, string> = new Map();
+for (const table of TableLayouts) {
+    let query = `CREATE TABLE ${table[0]} (`
+    for (const column of table[1]) {
+        query += `${column[0]} ${column[1].valueOf()} NOT NULL, `
+    }
+    query = query.replace(/, $/, "");
+    query += ")"
+
+    TableLayoutQueries.set(table[0], query);
+}
+
+export { TableLayouts, TableLayoutQueries }

@@ -1,16 +1,44 @@
 enum DataType {
-    TinyInt = "TinyInt",
-    SmallInt = "SmallInt",
-    TinyIntUnsigned = "TinyInt",
-    SmallIntUnsigned = "SmallInt",
-    Float = "Float",
-    TinyText = "TinyText",
-    Text = "Text",
-    Bool = "Bool",
-    DateTime = "DateTime",
-    Points = "Points",
-    IntArray = "IntArray",
-    FloatArray = "FloatArray"
+    TinyInt = "TINYINT",
+    SmallInt = "SMALLINT",
+    TinyIntUnsigned = "TINYINT UNSIGNED",
+    SmallIntUnsigned = "SMALLINT UNSIGNED",
+    Float = "FLOAT",
+    TinyText = "TINYTEXT",
+    Text = "TEXT",
+    Bool = "BOOL",
+    DateTime = "DATETIME",
+    Points = "MULTIPOINT",
+    IntArray = "TEXT",
+    FloatArray = "TEXT",
+}
+
+function stringToDataType(string: string): DataType | null {
+    switch (string.toLowerCase()) {
+        case "tinyint(1)":
+            return DataType.Bool;
+        case "datetime":
+            return DataType.DateTime;
+        case "float":
+            return DataType.Float;
+        case "multipoint":
+            return DataType.Points;
+        case "smallint":
+            return DataType.SmallInt;
+        case "smallint unsigned":
+            return DataType.SmallIntUnsigned;
+        case "text":
+            return DataType.Text;
+        case "tinyint":
+            return DataType.TinyInt;
+        case "tinyint unsigned":
+            return DataType.TinyIntUnsigned;
+        case "tinytext":
+            return DataType.TinyText;
+        default:
+            return null;
+    }
+
 }
 
 const Filters = {
@@ -91,7 +119,7 @@ const Filters = {
         let preliminaryFilter = input.match(/[0-9]{4}-[01][0-9]-[0-3][0-9] [0-6][0-9]:[0-6][0-9]:[0-6][0-9]/)?.[0];
         if (preliminaryFilter == null) {
             let time = new Date();
-            preliminaryFilter = `${time.getUTCFullYear().toString().padStart(4, "0")}-${(time.getUTCMonth()+1).toString().padStart(2, "0")}-${time.getUTCDate().toString().padStart(2, "0")} ${time.getUTCHours().toString().padStart(2, "0")}:${time.getUTCMinutes().toString().padStart(2, "0")}:${time.getUTCSeconds().toString().padStart(2, "0")}`;
+            preliminaryFilter = getUTCDateTime();
         }
         return preliminaryFilter;
     },
@@ -103,6 +131,7 @@ const Filters = {
         preliminaryPoints.forEach((value) => {
             points += value.replace(",", " ") + ", ";
         });
+        points = points.replace(/, $/, "");
         points += ")";
         return points;
     },
@@ -125,7 +154,7 @@ const Filters = {
 
             case DataType.SmallInt:
                 return this.filterSmallInt(input);
-                
+
             case DataType.TinyIntUnsigned:
                 return this.filterTinyIntUnsigned(input);
 
@@ -162,4 +191,10 @@ const Filters = {
     }
 };
 
-export {DataType, Filters}
+function getUTCDateTime(): string {
+    let time = new Date();
+    return `${time.getUTCFullYear().toString().padStart(4, "0")}-${(time.getUTCMonth() + 1).toString().padStart(2, "0")}-${time.getUTCDate().toString().padStart(2, "0")} ${time.getUTCHours().toString().padStart(2, "0")}:${time.getUTCMinutes().toString().padStart(2, "0")}:${time.getUTCSeconds().toString().padStart(2, "0")}`;
+}
+
+
+export { DataType, Filters, stringToDataType, getUTCDateTime}
