@@ -26,7 +26,7 @@ const connection = mysql.createConnection(mysqlConfig);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-let app:http.RequestListener = (req, res) => {
+let app: http.RequestListener = (req, res) => {
     try {
         if (req.method === "GET") {
             let url = path.normalize(`${__dirname}/static${req.url}`)
@@ -162,9 +162,9 @@ let app:http.RequestListener = (req, res) => {
                     headers += `${header}, `
                     for (let i = 0; i < stringValues.length; i++) {
                         if (table.get(header) == DataType.Points) {
-                            stringValues[i] += `ST_MPointFromText("${cleanValues[i]?.get(header)}"), `
+                            stringValues[i] += `ST_MPointFromText('${cleanValues[i]?.get(header)}'), `
                         } else {
-                            stringValues[i] += `"${cleanValues[i]?.get(header)}", `
+                            stringValues[i] += `'${cleanValues[i]?.get(header)}', `
                         }
                     }
                 }
@@ -180,20 +180,20 @@ let app:http.RequestListener = (req, res) => {
                 // console.log(query);
 
                 connection.query(query, function (err, result) {
-                    if (err) throw err;
+                    if (err) {
+                        res.setHeader("content-type", "plaintext");
+                        res.writeHead(500);
+                        res.end("Database Error");
+                        throw err;
+                    }
 
-                    res.statusCode = 200;
+                    res.setHeader("content-type", "plaintext");
+                    res.writeHead(200);
                     res.end("Data Submitted");
 
                     console.log("Data Added");
                     return;
                 });
-
-                res.setHeader("content-type", "plaintext");
-                res.writeHead(200);
-                res.end("Data Submitted");
-                return;
-
             });
         }
     } catch (error) {
@@ -224,8 +224,7 @@ function validateTables() {
                     let keyTypes: Map<string, DataType> = new Map();
                     for (const column of result) {
                         let type = stringToDataType(column.Type);
-                        if (type == null)
-                            throw Error("Datatype Undetermined");
+                        if (type == null) throw Error(`The datatype "${column.Type}" is undetermined`);
                         keyTypes.set(column.Field, type);
                     }
 

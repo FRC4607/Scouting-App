@@ -97,11 +97,11 @@ const Filters = {
         return preliminaryFilter;
     },
     filterTinyText(input: string): string {
-        input.replace(/\"/g, "'");
+        input.replace(/\'/g, '"');
         return input.substring(0, 255);
     },
     filterText(input: string): string {
-        input.replace(/\"/g, "'");
+        input.replace(/\'/g, '"');
         return input.substring(0, 65535);
     },
     filterBool(input: string): string {
