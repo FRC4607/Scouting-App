@@ -21,7 +21,12 @@ interface SavedData {
 }
 */
 const mysqlConfig: mysql.ConnectionConfig = JSON.parse(fs.readFileSync("mysql-config.json").toString());
-const connection = mysql.createConnection(mysqlConfig);
+// add in ssl
+// mysqlConfig.ssl = {
+//   ca: fs.readFileSync("../ca-certificate.crt")
+// };
+const connectionPool = mysql.createPool(mysqlConfig);
+let connection: mysql.Connection; // gets set in the pool getConnection() call on startup down below
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -274,13 +279,23 @@ function validateTables() {
     }
 }
 
-connection.connect((err) => {
-    if (err) throw err;
-    console.log("Connected to DB");
-
-    validateTables();
-
-    http.createServer(app).listen(4173, () => {
-        console.log("Server started on port 4173");
-    });
+// open the MySQL connection, assign event handlers, and start the server
+connectionPool.getConnection(function (err) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+});
+connectionPool.on("connection", (newConnection) => {
+  connection = newConnection;
+  console.log("Connected to DB");
+  http.createServer(app).listen(4173, () => {
+    console.log("Server started on port 4173");
+  });
+  newConnection.on("error", (err: any) => {
+    console.error(err);
+  });
+  newConnection.on("close", function (err: any) {
+    console.error(new Date(), "DB connection closed", err);
+  });
 });
