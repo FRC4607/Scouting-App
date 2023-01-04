@@ -34,6 +34,14 @@ export const useWidgetsStore = defineStore("widgets", () => {
   const lastWidgetRowEnd = $ref(1);
   const config = useConfigStore();
 
+  const teamSelectionConfig = $ref(useStorage("teamSelectionConfig", {
+    scouterName: "",
+    eventKey: "",
+    matchLevel: 0,
+    matchNumber: 0,
+    selectedTeam: 0
+  }));
+
   // Download link for the current configuration
   const downloadLink = $computed(() => {
     const data = savedData.get(config.name);
@@ -96,6 +104,22 @@ export const useWidgetsStore = defineStore("widgets", () => {
       entry.header = header;
       entry.values.push(record);
     }
+
+    const newScouterNameHeaderIndex = header.findIndex((value) => value == "scouter_name");
+    teamSelectionConfig.scouterName = newScouterNameHeaderIndex > -1 ? record[newScouterNameHeaderIndex] : teamSelectionConfig.scouterName;
+    const newEventKeyHeaderIndex  = header.findIndex((value) => value == "event_key");
+    teamSelectionConfig.eventKey = newEventKeyHeaderIndex > -1 ? record[newEventKeyHeaderIndex] : teamSelectionConfig.eventKey;
+    const newMatchLevelHeaderIndex  = header.findIndex((value) => value == "match_level");
+    teamSelectionConfig.matchLevel = newMatchLevelHeaderIndex > -1 ? parseInt(record[newMatchLevelHeaderIndex ]): teamSelectionConfig.matchLevel;
+    const newMatchNumberHeaderIndex  = header.findIndex((value) => value == "match_number");
+    teamSelectionConfig.matchNumber = newMatchNumberHeaderIndex > -1 ? parseInt(record[newMatchNumberHeaderIndex]) : teamSelectionConfig.matchNumber;
+    const newSelectedTeamHeaderIndex = header.findIndex((value) => value == "team_station");
+    if (newSelectedTeamHeaderIndex > -1) {
+      const parts = record[newSelectedTeamHeaderIndex].split("_");
+      const newSelectedTeam = ((parts[0]=="BLUE") ? 3 : 0) + Number.parseInt(parts[1]) - 1;
+      teamSelectionConfig.selectedTeam = newSelectedTeam ? newSelectedTeam : teamSelectionConfig.selectedTeam;
+    }
+
   }
 
   function uploadData(data: SavedData): Promise<string> {
@@ -126,7 +150,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
     });
   }
 
-  return $$({ values, savedData, lastWidgetRowEnd, downloadLink, makeDownloadLink, uploadData, addWidgetValue, save });
+  return $$({ values, savedData, teamSelectionConfig, lastWidgetRowEnd, downloadLink, makeDownloadLink, uploadData, addWidgetValue, save });
 });
 
 // Store to contain data fetched from The Blue Alliance

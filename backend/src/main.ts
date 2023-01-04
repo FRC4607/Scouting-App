@@ -184,7 +184,7 @@ let app: http.RequestListener = (req, res) => {
                         res.setHeader("content-type", "plaintext");
                         res.writeHead(500);
                         res.end("Database Error");
-                        throw err;
+                        console.error(err);
                     }
 
                     res.setHeader("content-type", "plaintext");
