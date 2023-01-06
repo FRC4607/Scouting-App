@@ -1,6 +1,9 @@
 <template>
-  <canvas ref="canvas" @click="click">No canvas support</canvas>
-  <button style="margin-left: 6px;" @click="selections.pop">Undo Last</button>
+  <div>
+    <p>{{ data.name }}</p>
+    <canvas ref="canvas" @click="click">No canvas support</canvas>
+    <button style="margin-left: 6px;" @click="selections.pop">Undo Last</button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -78,3 +81,10 @@ function click(event: MouseEvent) {
   selections.push(point);
 }
 </script>
+
+<style scoped>
+  div {
+    white-space: normal;
+    text-align: center;
+  }
+</style>

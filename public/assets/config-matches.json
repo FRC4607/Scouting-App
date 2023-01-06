@@ -7,11 +7,6 @@
       "widgets": [
         {
           "name": "Starting Position",
-          "type": "label",
-          "colspan": 2
-        },
-        {
-          "name": "Starting Position",
           "noLabel": true,
           "type": "positions",
           "file": "field.png",

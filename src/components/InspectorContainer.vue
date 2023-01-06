@@ -284,8 +284,8 @@ async function uploadData() {
 
 #uploadInfo {
   background-color: rgb(10, 52, 131);
-  border-radius: 5px;
-  padding: 4px;
+  border-radius: 10px;
+  padding: 6px;
   font-weight: bold;
 }
 

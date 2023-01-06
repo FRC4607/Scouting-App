@@ -26,7 +26,7 @@ const label = $computed(() => (props.errors.length === 1) ? "Error" : "Errors");
 #opener {
   background-color: #dd1e1e;
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
 }
 
