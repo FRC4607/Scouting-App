@@ -44,6 +44,16 @@ button {
   background-color: var(--button-color);
   user-select: none;
   cursor: pointer;
+  min-width: 40px;
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
+}
+
+input+button {
+  border-radius: 0 15px 15px 0;
+}
+.widget button:first-child:nth-last-of-type(2) {
+  border-radius: 15px 0 0 15px;
 }
 
 input, select, textarea {
@@ -53,6 +63,7 @@ input, select, textarea {
 button, input, select, textarea {
   font-size: 100%;
   border: none;
+  padding: 10px;
 }
 
 table {

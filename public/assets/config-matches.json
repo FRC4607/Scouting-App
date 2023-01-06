@@ -7,10 +7,16 @@
       "widgets": [
         {
           "name": "Starting Position",
+          "type": "label",
+          "colspan": 2
+        },
+        {
+          "name": "Starting Position",
+          "noLabel": true,
           "type": "positions",
           "file": "field.png",
           "height": 160,
-          "colspan": 1
+          "colspan": 2
         },
         {
           "name": "Taxi",
