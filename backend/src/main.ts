@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import mysql from 'mysql';
 import { TableLayouts, TableLayoutQueries } from './TableSchemes.js'
-import { DataType, Filters, getUTCDateTime, stringToDataType } from "./DataType.js";
+import { DataType, Parsers, getUTCDateTime } from "./DataType.js";
 interface SavedData {
     title: string;
     header: string[]; // Each element is a value in the CSV header
@@ -154,7 +154,7 @@ let app: http.RequestListener = (req, res) => {
                             console.warn(`The header "${rawHeader}" was not found in ${table}`);
                             return;
                         }
-                        rowMap.set(rawHeader, Filters.filter(rawEntry, dataType));
+                        rowMap.set(rawHeader, Parsers.parse(rawEntry, dataType));
                     }
                     cleanValues.push(rowMap);
                 }
@@ -166,8 +166,8 @@ let app: http.RequestListener = (req, res) => {
                 for (const header of table.keys()) {
                     headers += `${header}, `
                     for (let i = 0; i < stringValues.length; i++) {
-                        if (table.get(header) == DataType.Points) {
-                            stringValues[i] += `ST_MPointFromText('${cleanValues[i]?.get(header)}'), `
+                        if (table.get(header) == DataType.Points || table.get(header) == DataType.Point) {
+                            stringValues[i] += `${cleanValues[i]?.get(header)}, `
                         } else {
                             stringValues[i] += `'${cleanValues[i]?.get(header)}', `
                         }
@@ -228,7 +228,7 @@ function validateTables() {
 
                     let keyTypes: Map<string, DataType> = new Map();
                     for (const column of result) {
-                        let type = stringToDataType(column.Type);
+                        let type = Parsers.parseDataType(column.Type);
                         if (type == null) throw Error(`The datatype "${column.Type}" is undetermined`);
                         keyTypes.set(column.Field, type);
                     }

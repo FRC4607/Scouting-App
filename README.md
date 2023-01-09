@@ -1,64 +1,45 @@
-# Black Hawks Scouting
+# CIS Scouting App
+
 
 ## Overview
 
-Black Hawks Scouting is an advanced, web-based, and open source scouting app made by FRC Team 2834 (The Bionic Black Hawks).
+This app is a modified version of the [Black Hawks Scouting](https://github.com/FRC2834/blackhawks-scouting) app. The app is run in either a docker container or some other NodeJS compatible environment. It has integration with a MySQL database for external management and analysis along with a CSV export.
 
 Powered by [Vue.js](https://vuejs.org) and [The Blue Alliance](https://thebluealliance.com).
 
-[Live Demo](https://frc2834.github.io/blackhawks-scouting/#/) | [Introductory Videos](https://www.youtube.com/playlist?list=PLBRtye3iMZkFWZWo_e2GbrHIJkexl5A20) (More coming soon)
 
 ## Features
+ - Offline app
+ - Works with most web browsers
+ - Data transfer between devices: Data can be transferred between devises via QR codes. (Requires a HTTPS connection)
+ - MySQL database integration
+ - Configurable
 
-Black Hawks Scouting was created with the following goals in mind:
 
-### Versatility
+## Setup
+1. Obtain a Blue Alliance read key from the [account page](https://www.thebluealliance.com/account).
+2. Create a file named `.env.local` and inside of it put: `VITE_TBA_API_KEY=`***```your_api_key```***
+3. Setup a MySQL database 
+4. crate a file named `backend/mysql-config.json` and add the login information in this format:
+```json
+{
+    "host": "host.com",
+    "port": "3306",
+    "user": "username",
+    "password": "password",
+    "database": "scouting"
+}
+```
 
-Black Hawks Scouting is based around configuration files, which allow you to quickly create forms including, but not limited to:
 
-- Match Scouting
-- Pit Scouting
-- Forms for various seasons
-- Something else... (Surveys, Checklists, etc.)
+## Configuration 
 
-You can have multiple configurations side-by-side - they'll show up as separate links on the main menu and won't interfere with each other.
+### Frontend
+Refer to [config.md](docs/config.md) in docs.
 
-Black Hawks Scouting comes with stock match/pit forms for each season, so even if you can't create your own configuration files, you can still take advantage of them. Simply fork, deploy, and go!
+### Backend
+The data types and fields can be configured in `backend/src/TableSchemes.ts` the naming scheme must be consistent with what in configured in the [config files](docs/config.md). The name field is parsed as all lowercase and underscores replace spaces.
 
-### Flexibility
-
-Black Hawks Scouting works in your browser and runs anywhere, no matter if you're scouting on a tablet or testing on a computer.
-
-**No download is required on any of your scouting devices!** Once you visit the app on a device, you can bookmark it or save it to your home screen. It'll continue to work, even offline.
-
-There are no restrictions on what you can use to analyze your data - Black Hawks Scouting exports in a standard format called Comma-Separated Values (CSV). Your team has the option to use anything from custom Python scripts to professional-grade tools like Tableau and Excel.
-
-### Ease of Use
-
-Even with its advanced features, Black Hawks Scouting is designed to be approachable by your team's scouters. You can easily navigate within scouting forms with a navigation menu at the bottom of each form.
-
-Black Hawks Scouting also provides a built-in Data Inspector allowing you to view and manage your scouted data, before you download them.
-
-### Offline Usage
-
-With internet often being unreliable at competitions, Black Hawks Scouting has the capability to work fully offline by making use of special browser features. Once you load it with an internet connection, it remains available on your device with the same URL, even without an internet connection or download.
-
-*Tip: You can use The Blue Alliance data offline too!* Once you load match information online from a form's Team Selection page, Black Hawks Scouting caches it in local storage. On subsequent scouting sessions, you can leave the Event Key field blank and press the Load button to use the cached data. This is faster than an online load and doesn't require internet.
-
-### Security
-
-Black Hawks Scouting uses standard obfuscation techniques to make your TBA key more difficult to find by others.
-
-The app also supports the security features of your browser, working even with HTTPS, tracking protection, and cookie blocking.
-
-## System Requirements
-
-Black Hawks Scouting can work on Windows, macOS, and Linux. In addition, mobile devices with Android and iOS are also supported. The following browser versions are recommended:
-
-- Google Chrome 100+
-- Microsoft Edge 100+
-- Mozilla Firefox 100+
-- Apple Safari 15.5+
 
 ## Open Source
 

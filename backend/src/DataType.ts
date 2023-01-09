@@ -1,3 +1,7 @@
+/**
+ * Data types that are supported by CIS scouting. Refer to the [MySQL docs](https://dev.mysql.com/doc/refman/8.0/en/data-types.html)
+ * for more information on the different data types
+ */
 enum DataType {
     TinyInt = "TINYINT",
     SmallInt = "SMALLINT",
@@ -9,40 +13,23 @@ enum DataType {
     Bool = "BOOL",
     DateTime = "DATETIME",
     Points = "MULTIPOINT",
+    Point = "POINT",
+    /** A string that is formatted like an array with Ints in it*/
     IntArray = "TEXT",
+    /** A string that is formatted like an array with Floats in it*/
     FloatArray = "TEXT",
 }
 
-function stringToDataType(string: string): DataType | null {
-    switch (string.toLowerCase()) {
-        case "tinyint(1)":
-            return DataType.Bool;
-        case "datetime":
-            return DataType.DateTime;
-        case "float":
-            return DataType.Float;
-        case "multipoint":
-            return DataType.Points;
-        case "smallint":
-            return DataType.SmallInt;
-        case "smallint unsigned":
-            return DataType.SmallIntUnsigned;
-        case "text":
-            return DataType.Text;
-        case "tinyint":
-            return DataType.TinyInt;
-        case "tinyint unsigned":
-            return DataType.TinyIntUnsigned;
-        case "tinytext":
-            return DataType.TinyText;
-        default:
-            return null;
-    }
-
-}
-
-const Filters = {
-    filterTinyInt(input: string): string {
+/**
+ * An object that holds all the functions that parse a raw string and convert it into the desired type. 
+ */
+const Parsers = {
+    /**
+     * A function that converts a string into a valid format that the MySQL database can handel
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Tiny Int.
+     */
+    parseTinyInt(input: string): string {
         let preliminaryFilter = input.match(/[0-9]+/)?.[0];
         if (preliminaryFilter == null)
             return "0";
@@ -54,7 +41,12 @@ const Filters = {
 
         return number.toString();
     },
-    filterSmallInt(input: string): string {
+    /**
+     * A function that converts a string into a valid SMALLINT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Small Int.
+     */
+    parseSmallInt(input: string): string {
         let preliminaryFilter = input.match(/[0-9]+/)?.[0];
         if (preliminaryFilter == null)
             return "0";
@@ -66,7 +58,12 @@ const Filters = {
 
         return number.toString();
     },
-    filterTinyIntUnsigned(input: string): string {
+    /**
+     * A function that converts a string into a valid UNSIGNED TINYINT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Unsigned Tiny Int.
+     */
+    parseTinyIntUnsigned(input: string): string {
         let preliminaryFilter = input.match(/[0-9]+/)?.[0];
         if (preliminaryFilter == null)
             return "0";
@@ -78,7 +75,12 @@ const Filters = {
 
         return number.toString();
     },
-    filterSmallIntUnsigned(input: string): string {
+    /**
+     * A function that converts a string into a valid UNSIGNED SMALLINT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Unsigned Small Int.
+     */
+    parseSmallIntUnsigned(input: string): string {
         let preliminaryFilter = input.match(/[0-9]+/)?.[0];
         if (preliminaryFilter == null)
             return "0";
@@ -90,19 +92,39 @@ const Filters = {
 
         return number.toString();
     },
-    filterFloat(input: string): string {
+    /**
+     * A function that converts a string into a valid FLOAT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Float.
+     */
+    parseFloat(input: string): string {
         let preliminaryFilter = input.match(/[0-9]*(\.[0-9]+)?/)?.[0];
         if (preliminaryFilter == null)
             return "0";
         return preliminaryFilter;
     },
-    filterTinyText(input: string): string {
+    /**
+     * A function that converts a string into a valid TINYTEXT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Tiny Text.
+     */
+    parseTinyText(input: string): string {
         return input.replace(/\'/g, "''").substring(0, 255);
     },
-    filterText(input: string): string {
+    /**
+     * A function that converts a string into a valid TEXT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Text.
+     */
+    parseText(input: string): string {
         return input.replace(/\'/g, "''").substring(0, 65535);
     },
-    filterBool(input: string): string {
+    /**
+     * A function that converts a string into a valid BOOLEAN format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Boolean.
+     */
+    parseBool(input: string): string {
         let preliminaryFilter = input.match(/true|false/i)?.[0];
         if (preliminaryFilter == null)
             preliminaryFilter = "false";
@@ -113,7 +135,12 @@ const Filters = {
         else
             return "0";
     },
-    filterDateTime(input: string): string {
+    /**
+     * A function that converts a string into a valid DATATIME format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Data Time.
+     */
+    parseDateTime(input: string): string {
         let preliminaryFilter = input.match(/[0-9]{4}-[01][0-9]-[0-3][0-9] [0-6][0-9]:[0-6][0-9]:[0-6][0-9]/)?.[0];
         if (preliminaryFilter == null) {
             let time = new Date();
@@ -121,78 +148,152 @@ const Filters = {
         }
         return preliminaryFilter;
     },
-    filterPoints(input: string): string {
+    /**
+     * A function that converts a string into a valid MULTIPOINT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Multi-Point.
+     */
+    parsePoints(input: string): string {
         let preliminaryPoints = input.match(/([0-9]*(\.[0-9]+)|[0-9]),([0-9]*(\.[0-9]+)|[0-9])/g);
         if (preliminaryPoints == null)
-            return "MULTIPOINT(0 0)";
-        let points: string = "MULTIPOINT(";
+            return "ST_MPointFromText('MULTIPOINT(0 0))";
+        let points: string = "ST_MPointFromText(MULTIPOINT(";
         preliminaryPoints.forEach((value) => {
             points += value.replace(",", " ") + ", ";
         });
         points = points.replace(/, $/, "");
-        points += ")";
+        points += ")')";
         return points;
     },
-    filterIntArray(input: string): string {
+    /**
+     * A function that converts a string into a valid POINT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Point.
+     */
+    parsePoint(input: string): string {
+        let preliminaryPoint = input.match(/([0-9]*(\.[0-9]+)|[0-9]),([0-9]*(\.[0-9]+)|[0-9])/)?.[0];
+        if (preliminaryPoint == null)
+            return "ST_PointFromText('POINT(0 0)')";
+        return `ST_PointFromText('POINT(${preliminaryPoint.replace(",", " ")})')`
+    },
+    /**
+     * A function that converts a string into a valid IntArray format that can be parsed.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Int Array.
+     */
+    parseIntArray(input: string): string {
         let preliminaryInts = input.match(/[0-9]/g);
         if (preliminaryInts == null)
             return "[]";
         return `[${preliminaryInts.join(", ")}]`;
     },
-    filterFloatArray(input: string): string {
+    /**
+     * A function that converts a string into a valid Float Array format that can be parsed.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Float Array.
+     */
+    parseFloatArray(input: string): string {
         let preliminaryInts = input.match(/[0-9]*(\.[0-9]+)?/g);
         if (preliminaryInts == null)
             return "[]";
         return `[${preliminaryInts.join(", ")}]`;
     },
-    filter(input: string, type: DataType) {
+    /**
+     * A function that converts a string into a valid format that the MySQL database can handel.
+     * @param input A raw string.
+     * @param type The data type that the string should be formatted to.
+     * @returns A formatted string that the database can convert.
+     */
+    parse(input: string, type: DataType) {
         switch (type) {
             case DataType.TinyInt:
-                return this.filterTinyInt(input);
+                return this.parseTinyInt(input);
 
             case DataType.SmallInt:
-                return this.filterSmallInt(input);
+                return this.parseSmallInt(input);
 
             case DataType.TinyIntUnsigned:
-                return this.filterTinyIntUnsigned(input);
+                return this.parseTinyIntUnsigned(input);
 
             case DataType.SmallIntUnsigned:
-                return this.filterSmallIntUnsigned(input);
+                return this.parseSmallIntUnsigned(input);
 
             case DataType.Float:
-                return this.filterFloat(input);
+                return this.parseFloat(input);
 
             case DataType.TinyText:
-                return this.filterTinyText(input);
+                return this.parseTinyText(input);
 
             case DataType.Text:
-                return this.filterText(input);
+                return this.parseText(input);
 
             case DataType.Bool:
-                return this.filterBool(input);
+                return this.parseBool(input);
 
             case DataType.DateTime:
-                return this.filterDateTime(input);
+                return this.parseDateTime(input);
 
             case DataType.Points:
-                return this.filterPoints(input);
+                return this.parsePoints(input);
+
+            case DataType.Point:
+                return this.parsePoint(input);
 
             case DataType.IntArray:
-                return this.filterIntArray(input);
+                return this.parseIntArray(input);
 
             case DataType.FloatArray:
-                return this.filterFloatArray(input);
+                return this.parseFloatArray(input);
 
             default:
-                return this.filterText(input);
+                return this.parseText(input);
         }
+    },
+
+    /**
+     * A helper function that takes in a type as a string as the database presents it and converts it to a {@link DataType}.
+     * @param string A data type string as the MySQL database puts out.
+     * @returns The matching data type if found.
+     */
+    parseDataType(string: string): DataType | null {
+        switch (string.toLowerCase()) {
+            case "tinyint(1)":
+                return DataType.Bool;
+            case "datetime":
+                return DataType.DateTime;
+            case "float":
+                return DataType.Float;
+            case "multipoint":
+                return DataType.Points;
+            case "point":
+                return DataType.Point;
+            case "smallint":
+                return DataType.SmallInt;
+            case "smallint unsigned":
+                return DataType.SmallIntUnsigned;
+            case "text":
+                return DataType.Text;
+            case "tinyint":
+                return DataType.TinyInt;
+            case "tinyint unsigned":
+                return DataType.TinyIntUnsigned;
+            case "tinytext":
+                return DataType.TinyText;
+            default:
+                return null;
+        }
+
     }
 };
 
+/**
+ * A function that takes the current Coordinated Universal Time (UTC) and converts it to the MySQL DATETIME format.
+ * @returns A string with the current date time in UTC.
+ */
 function getUTCDateTime(): string {
     let time = new Date();
     return `${time.getUTCFullYear().toString().padStart(4, "0")}-${(time.getUTCMonth() + 1).toString().padStart(2, "0")}-${time.getUTCDate().toString().padStart(2, "0")} ${time.getUTCHours().toString().padStart(2, "0")}:${time.getUTCMinutes().toString().padStart(2, "0")}:${time.getUTCSeconds().toString().padStart(2, "0")}`;
 }
 
 
-export { DataType, Filters, stringToDataType, getUTCDateTime}
+export { DataType, Parsers, getUTCDateTime }
