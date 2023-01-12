@@ -17,6 +17,12 @@ onErrorCaptured(e => {
 </script>
 
 <style>
+
+@font-face {
+  font-family: Toxigenesis;
+  src: url("/public/assets/fonts/toxigenesis.ttf");
+}
+
 :root {
   --text-color: #ddd;
   --bg-color: #292929;
@@ -74,4 +80,25 @@ td, th {
   border: 1px solid var(--text-color);
   padding: 2px;
 }
+
+h1, h2 {
+  font-family: Toxigenesis;
+}
+
+h1 {
+  font-size: 45px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+.widget, .label, nav, input, td, th, button, select, a {
+  font-size: 20px
+}
+
+input, button, select {
+  font-family: inherit;
+}
+
 </style>

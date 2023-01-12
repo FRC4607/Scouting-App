@@ -1,9 +1,8 @@
 {
-  "heading": "Rapid React - 2022",
-  "logo": "logo.png",
+  "logo": "CHARGED_UP_Logo_Horiz_RGB_FullColorReverse.png",
   "pages": [
     {
-      "name": "Setup+Autonomous",
+      "name": "Setup and Autonomous",
       "widgets": [
         {
           "name": "Starting Position",
@@ -12,6 +11,10 @@
           "file": "field.png",
           "height": 160,
           "colspan": 2
+        },
+        {
+          "type": "spacer",
+          "height": 20
         },
         {
           "name": "Taxi",
@@ -116,8 +119,15 @@
           "type": "text"
         },
         {
+          "name": "Comments:",
+          "type": "label",
+          "colspan": 2
+        },
+        {
           "name": "Comments",
-          "type": "textarea"
+          "type": "textarea", 
+          "noLabel": true,
+          "colspan": 2
         }
       ]
     }

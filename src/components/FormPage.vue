@@ -1,6 +1,6 @@
 <template>
   <div v-show="show">
-    <h1 class="page-heading">{{ config.data.heading ?? "Scouting" }}</h1>
+    <h1 v-if="config.data.heading" class="page-heading">{{ config.data.heading }}</h1>
     <img v-if="config.data.logo" :src="absoluteLogoPath" alt="Cannot load logo file" class="center" />
     <h2 class="page-heading">{{ title }}</h2>
     <div class="grid">
@@ -40,9 +40,18 @@ defineExpose({ title: props.title, setShown: (value: boolean) => show = value })
 .center {
   margin-left: auto;
   margin-right: auto;
+  max-width: 360px;
 }
 
 .page-heading {
   text-align: center;
+}
+
+input {
+  max-width: 175px;
+}
+
+textarea {
+  max-width: 360px;
 }
 </style>

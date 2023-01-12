@@ -1,9 +1,13 @@
 <template>
   <h1>CIS Scouting</h1>
+  <img :src="logoPath" />
   <h2>Form Selection</h2>
   <ul v-if="list.length > 0" class="link-list">
     <li v-for="[i, name] of list.entries()" :key="i">
-      <RouterLink :to="{ name: 'form', query: { name } }">{{ name }}</RouterLink>
+      <RouterLink :to="{ name: 'form', query: { name } }">{{
+        name.split(' ').map((s) => s.charAt(0).toUpperCase() +
+          s.substring(1)).join(' ')
+      }}</RouterLink>
     </li>
   </ul>
   <p v-else>No configurations specified.</p>
@@ -16,6 +20,9 @@
 </template>
 
 <script setup lang="ts">
+// Logo
+const logoPath = import.meta.env.BASE_URL + 'assets/logo.png';
+
 // Fetch configurations list
 const fetchResult = await fetch(`${import.meta.env.BASE_URL}assets/configurations.txt`);
 
@@ -33,6 +40,11 @@ const list = $ref(textData.split("\n").map(value => value.trim()).filter(value =
 
   li {
     margin: 6px 0;
+    list-style: none;
   }
+}
+
+img {
+  margin: auto;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>{{ data.name }}</p>
-    <canvas ref="canvas" @click="click">No canvas support</canvas>
+    <canvas ref="canvas" @click="click">No canvas support</canvas><br/>
     <button style="margin-left: 6px;" @click="selections.pop">Undo Last</button>
   </div>
 </template>
