@@ -4,3 +4,4 @@ backend/node_modules
 backend/build
 build
 npm-debug.log
+.env.local

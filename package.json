@@ -14,11 +14,19 @@
     "build-backend": "npm run build --prefix backend",
     "build": "npm run build-static && npm run build-backend && mkdir -p build/static && cp -r backend/build/* backend/mysql-config.json backend/node_modules build && cp -r dist/* build/static/ && echo full build complete! && echo",
     "build-windows": "npm run build-static && npm run build-backend && echo backend build complete! && powershell -Executionpolicy RemoteSigned -noprofile -noninteractive \"new-item -Path build/ -Name static -ItemType directory -Force | Out-Null\" && powershell copy-item backend/build/*,backend/mysql-config.json,backend/node_modules -Destination build -recurse -Force && powershell copy-item -Path dist/* -Destination build/static/ -recurse -Force && echo full build complete! && echo:",
-    "run": "cd build && node main.js",
+    "runBackend": "npm run run --prefix backend",
     "docker-build": "docker build -t beckerrobotics/scouting-app .",
     "docker-run": "docker run -p 4173:4173 -d beckerrobotics/scouting-app",
     "docker-push": "docker push beckerrobotics/scouting-app",
-    "docker-deploy": "echo HEADS UP! && echo This requires that you are logged into the robotics DockerHub account within the terminal && echo Run 'docker login' to login && npm run docker-build && npm run docker-push"
+    "docker-deploy": "echo HEADS UP! && echo This requires that you are logged into the robotics DockerHub account within the terminal && echo Run 'docker login' to login && npm run docker-build && npm run docker-push",
+    "docker-build-backend": "docker build -t beckerrobotics/scouting-app-backend backend/",
+    "docker-run-backend": "docker run -p 5173:5173 -d beckerrobotics/scouting-app-backend",
+    "docker-push-bckend": "docker push beckerrobotics/scouting-app-backend",
+    "docker-deploy-backend": "echo HEADS UP! && echo This requires that you are logged into the robotics DockerHub account within the terminal && echo Run 'docker login' to login && npm run docker-build && npm run docker-push",
+    "docker-build-all": "npm run docker-build && npm run docker-build-backend",
+    "docker-run-all": "npm run docker-run-backend && npm run docker-run",
+    "docker-push-all": "npm run docker-push && npm run docker-push-backend",
+    "docker-deploy-all": "echo HEADS UP! && echo This requires that you are logged into the robotics DockerHub account within the terminal && echo Run 'docker login' to login && npm run docker-build-all && npm run docker-push-all"
   },
   "dependencies": {
     "@types/lodash": "^4.14.184",

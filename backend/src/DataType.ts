@@ -156,8 +156,8 @@ const Parsers = {
     parsePoints(input: string): string {
         let preliminaryPoints = input.match(/([0-9]*(\.[0-9]+)|[0-9]),([0-9]*(\.[0-9]+)|[0-9])/g);
         if (preliminaryPoints == null)
-            return "ST_MPointFromText('MULTIPOINT(0 0))";
-        let points: string = "ST_MPointFromText(MULTIPOINT(";
+            return "ST_MPointFromText('MULTIPOINT(0 0)')";
+        let points: string = "ST_MPointFromText('MULTIPOINT(";
         preliminaryPoints.forEach((value) => {
             points += value.replace(",", " ") + ", ";
         });

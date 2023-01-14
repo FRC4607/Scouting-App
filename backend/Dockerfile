@@ -14,13 +14,13 @@ RUN npm run installModules
 COPY . .
 
 # Build the app for production
-RUN npm run build-static
+RUN npm run build
 
-# Expose port 4173 (webapp)
-EXPOSE 4173
+# Expose port 5173 (api)
+EXPOSE 5173
 
 # Set the node environment to production
 ENV NODE_ENV production
 
 # Define the app run command
-CMD [ "npm", "run", "serve" ]
+CMD [ "npm", "run", "run" ]

@@ -75,6 +75,13 @@ let app: http.RequestListener = (req, res) => {
         }
 
         if (req.method === "OPTIONS") {
+            if (req.url === "/api" && req.headers['access-control-request-method'] === "POST" && req.headers.origin) {
+                res.setHeader("Connection", "keep-alive");
+                res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+                res.setHeader("Access-Control-Allow-Methods", "POST");
+                res.setHeader("Access-Control-Allow-Headers", "*");
+                res.setHeader("Access-Control-Max-Age", 3600);
+            }
             res.writeHead(204);
             res.end();
             return;
@@ -190,8 +197,11 @@ let app: http.RequestListener = (req, res) => {
                         res.writeHead(500);
                         res.end("Database Error");
                         console.error(err);
+                        return;
                     }
-
+                    if (req.headers.origin) {
+                        res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+                    }
                     res.setHeader("content-type", "plaintext");
                     res.writeHead(200);
                     res.end("Data Submitted");

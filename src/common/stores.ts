@@ -125,7 +125,8 @@ export const useWidgetsStore = defineStore("widgets", () => {
   function uploadData(data: SavedData): Promise<string> {
     return new Promise(function (resolve, reject) {
       const upload = new XMLHttpRequest();
-      upload.open("POST", `/api`);
+      // This URL will need to be changed to wherever the API is located
+      upload.open("POST", `http://172.46.7.3:4173/api`);
       upload.setRequestHeader("Content-Type", "application/json");
 
       upload.onloadend = function () {
