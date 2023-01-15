@@ -11,22 +11,41 @@
     <FormGroup :label-type="LabelType.PlainText" name="Matches Loaded">{{ matchesLoadStatus }}</FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="match-level-input" name="Match Level">
       <select id="match-level-input" v-model.number="matchLevel" :disabled="config.data.forceQualifiers">
+        <option value="4">Practice</option>
         <option value="0">Qualifications</option>
         <option value="1">Quarterfinals</option>
         <option value="2">Semifinals</option>
         <option value="3">Finals</option>
       </select>
     </FormGroup>
-    <FormGroup :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
+    <FormGroup v-if="matchLevel !== 4" :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
       <input id="match-input" type="number" v-model.lazy="matchNumber" :min="1" />
     </FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="team-input" name="Team">
-      <span v-if="currentMatch === null">&lt;No Data&gt;</span>
+      <div v-if="matchLevel === 4">
+        <input list="teams" id="team-input" v-model="selectedTeam" />
+        <datalist v-if="matchLevel === 4" id="teams">
+          <option v-for="[i, team] of teams?.entries()" :key="get(team,'key')" :value="get(team,'team_number')">
+            {{ get(team,'team_number') }} {{ get(team,'nickname') }}
+          </option>
+        </datalist>
+      </div>
+      <span v-else-if="currentMatch === null">&lt;No Data&gt;</span>
       <select v-else id="team-input" v-model="selectedTeam">
         <option v-for="[i, { color, index, number, name }] of teamsList.entries()" :key="i" :value="i">
           {{ color }} {{ index }}: {{ number }} ({{ name }})
         </option>
       </select>
+    </FormGroup>
+    <FormGroup v-if="matchLevel === 4" :label-type="LabelType.LabelTag" id="station-input" name="Alliance">
+      <select id="station-input" v-model="allianceColorManual">
+          <option value="RED_1">Red 1</option>
+          <option value="RED_2">Red 2</option>
+          <option value="RED_3">Red 3</option>
+          <option value="BLUE_1">Blue 1</option>
+          <option value="BLUE_2">Blue 2</option>
+          <option value="BLUE_3">Blue 3</option>
+        </select>
     </FormGroup>
   </FormPage>
 </template>
@@ -56,6 +75,7 @@ const widgets = useWidgetsStore();
 
 const savedData = widgets.savedData.get("matches");
 
+const allianceColorManual = $ref("RED_1")
 const scouterName = $ref(widgets.teamSelectionConfig.scouterName);
 let eventKey = $ref(widgets.teamSelectionConfig.eventKey);
 const matchLevel = $ref(widgets.teamSelectionConfig.matchLevel);
@@ -124,15 +144,15 @@ const teamsList = $computed(() => {
 // The exported team information
 const teamData = $computed(() => teamsList[selectedTeam]);
 
-const teamStation = $computed(() => teamData.color !== null && teamData.index !== null ? `${teamData.color.toUpperCase()}_${teamData.index}` : "");
-const teamNumber = $computed(() => teamData.number !== null ? teamData.number : 0);
+const teamStation = $computed(() => teamData?.color !== null && teamData?.index !== null ? `${teamData?.color.toUpperCase()}_${teamData?.index}` : "");
+const teamNumber = $computed(() => teamData?.number !== null ? teamData?.number : 0);
 
 // Add values to export
 widgets.addWidgetValue("event_key", $$(eventKey));
 widgets.addWidgetValue("match_level", $$(matchLevel));
-widgets.addWidgetValue("match_number", $$(matchNumber));
-widgets.addWidgetValue("team_station", $$(teamStation));
-widgets.addWidgetValue("team_number", $$(teamNumber));
+widgets.addWidgetValue("match_number", matchLevel !== 4 ? $$(matchNumber) : ref(-1));
+widgets.addWidgetValue("team_station", teamStation !== "undefined_undefined" ? $$(teamStation) : $$(allianceColorManual));
+widgets.addWidgetValue("team_number", teamNumber !== undefined ? $$(teamNumber) : $$(selectedTeam));
 widgets.addWidgetValue("scouter_name", $$(scouterName));
 
 // Updates the loaded status message for a variable.
