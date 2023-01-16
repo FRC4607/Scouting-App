@@ -18,8 +18,10 @@
         <option value="3">Finals</option>
       </select>
     </FormGroup>
-    <FormGroup v-if="matchLevel !== 4" :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
-      <input id="match-input" type="number" v-model.lazy="matchNumber" :min="1" />
+    <FormGroup :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
+      <div v-if="matchLevel !== 4">
+        <input id="match-input" type="number" v-model.lazy="matchNumber" :min="1" />
+      </div>
     </FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="team-input" name="Team">
       <div v-if="matchLevel === 4">
@@ -37,8 +39,9 @@
         </option>
       </select>
     </FormGroup>
-    <FormGroup v-if="matchLevel === 4" :label-type="LabelType.LabelTag" id="station-input" name="Alliance">
-      <select id="station-input" v-model="allianceColorManual">
+    <FormGroup :label-type="LabelType.LabelTag" id="station-input" name="Alliance">
+      <div v-if="matchLevel === 4">
+        <select id="station-input" v-model="allianceColorManual">
           <option value="RED_1">Red 1</option>
           <option value="RED_2">Red 2</option>
           <option value="RED_3">Red 3</option>
@@ -46,6 +49,7 @@
           <option value="BLUE_2">Blue 2</option>
           <option value="BLUE_3">Blue 3</option>
         </select>
+      </div>
     </FormGroup>
   </FormPage>
 </template>
@@ -147,12 +151,16 @@ const teamData = $computed(() => teamsList[selectedTeam]);
 const teamStation = $computed(() => teamData?.color !== null && teamData?.index !== null ? `${teamData?.color.toUpperCase()}_${teamData?.index}` : "");
 const teamNumber = $computed(() => teamData?.number !== null ? teamData?.number : 0);
 
+const computedMatchNumber = $computed(() =>  matchLevel.valueOf() !== 4 ? matchNumber.valueOf() : -1 );
+const computedTeamStation = $computed(() =>  matchLevel.valueOf() !== 4 ? teamStation.valueOf() : allianceColorManual.valueOf() );
+const computedTeamNumber = $computed(() =>  matchLevel.valueOf() !== 4 ? teamNumber.valueOf() : selectedTeam.valueOf() );
+
 // Add values to export
 widgets.addWidgetValue("event_key", $$(eventKey));
 widgets.addWidgetValue("match_level", $$(matchLevel));
-widgets.addWidgetValue("match_number", matchLevel !== 4 ? $$(matchNumber) : ref(-1));
-widgets.addWidgetValue("team_station", teamStation !== "undefined_undefined" ? $$(teamStation) : $$(allianceColorManual));
-widgets.addWidgetValue("team_number", teamNumber !== undefined ? $$(teamNumber) : $$(selectedTeam));
+widgets.addWidgetValue("match_number", $$(computedMatchNumber));
+widgets.addWidgetValue("team_station", $$(computedTeamStation));
+widgets.addWidgetValue("team_number", $$(computedTeamNumber));
 widgets.addWidgetValue("scouter_name", $$(scouterName));
 
 // Updates the loaded status message for a variable.
