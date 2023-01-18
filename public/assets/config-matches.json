@@ -17,16 +17,16 @@
           "height": 20
         },
         {
-          "name": "Taxi",
+          "name": "Mobility",
           "type": "checkbox"
         },
         {
-          "name": "Upper Cargo Scored",
+          "name": "Cones Scored",
           "type": "spinbox",
           "prefix": "Auto"
         },
         {
-          "name": "Upper Cargo Missed",
+          "name": "Cones Missed",
           "type": "spinbox",
           "prefix": "Auto"
         },
@@ -35,14 +35,46 @@
           "height": 20
         },
         {
-          "name": "Lower Cargo Scored",
+          "name": "Cubes Scored",
           "type": "spinbox",
           "prefix": "Auto"
         },
         {
-          "name": "Lower Cargo Missed",
+          "name": "Cubes Missed",
           "type": "spinbox",
           "prefix": "Auto"
+        },
+        {
+          "type": "spacer",
+          "height": 20
+        },
+        {
+          "name": "Top Node Scored",
+          "type": "spinbox",
+          "prefix": "Auto"
+        },
+        {
+          "name": "Middle Node Scored",
+          "type": "spinbox",
+          "prefix": "Auto"
+        },
+        {
+          "name": "Low Node Scored",
+          "type": "spinbox",
+          "prefix": "Auto"
+        },
+        {
+          "type": "spacer",
+          "height": 20
+        },
+        {
+          "name": "Charging Station",
+          "type": "dropdown",
+          "options" : [
+            "--",
+            "Docked",
+            "Engaged"
+          ]
         }
       ]
     },
@@ -50,42 +82,60 @@
       "name": "Teleop",
       "widgets": [
         {
-          "name": "Upper Cargo Scored",
-          "row": 1,
+          "name": "Cones Scored",
           "type": "spinbox",
-          "prefix": "teleop"
+          "prefix": "Teleop"
         },
         {
-          "name": "Upper Cargo Missed",
+          "name": "Cones Missed",
           "type": "spinbox",
-          "prefix": "teleop"
+          "prefix": "Teleop"
         },
         {
           "type": "spacer",
           "height": 20
         },
         {
-          "name": "Lower Cargo Scored",
+          "name": "Cubes Scored",
           "type": "spinbox",
-          "prefix": "teleop"
+          "prefix": "Teleop"
         },
         {
-          "name": "Lower Cargo Missed",
+          "name": "Cubes Missed",
           "type": "spinbox",
-          "prefix": "teleop"
+          "prefix": "Teleop"
+        },
+        {
+          "type": "spacer",
+          "height": 20
+        },
+        {
+          "name": "Top Node Scored",
+          "type": "spinbox",
+          "prefix": "Teleop"
+        },
+        {
+          "name": "Middle Node Scored",
+          "type": "spinbox",
+          "prefix": "Teleop"
+        },
+        {
+          "name": "Low Node Scored",
+          "type": "spinbox",
+          "prefix": "Teleop"
         },
         {
           "type": "spacer",
           "height": 40
         },
         {
-          "name": "Defense Rating",
+          "name": "Playstyle",
           "type": "dropdown",
           "options": [
-            "Not Played",
-            "Not Effective",
-            "Average",
-            "Very Effective"
+            "Offense",
+            "Defense",
+            "Runner",
+            "Defense-Runner Hybrid"
           ]
         }
       ]
@@ -94,28 +144,17 @@
       "name": "Endgame",
       "widgets": [
         {
-          "name": "Hanger Level",
-          "type": "radio",
-          "options": [
-            "Low",
-            "Mid",
-            "High",
-            "Traversal",
-            "None"
-          ],
-          "default": 4
+          "name": "Endgame state",
+          "type": "dropdown",
+          "options" : [
+            "--",
+            "Parked",
+            "Docked",
+            "Engaged"
+          ]
         },
         {
-          "name": "Failed Climb",
-          "type": "checkbox"
-        },
-        {
-          "name": "Robots Climbed",
-          "type": "spinbox",
-          "max": 3
-        },
-        {
-          "name": "Mechanical Failures",
+          "name": "Major Failures",
           "type": "text"
         },
         {

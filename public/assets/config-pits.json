@@ -1,83 +1,123 @@
 {
-  "heading": "Rapid React - 2022 (Pit Scouting)",
-  "logo": "logo.png",
+  "heading": "Pit Scouting",
+  "logo": "CHARGED_UP_Logo_Horiz_RGB_FullColorReverse.png",
   "skipTeamSelection": true,
   "pages": [
     {
-      "name": "Team",
+      "name": "Robot",
       "widgets": [
         {
           "name": "Team Number",
           "type": "number"
         },
         {
-          "name": "Drive Coach",
+          "name": "Scouter Name",
           "type": "text"
-        },
-        {
-          "name": "Driver Names",
-          "type": "text"
-        }
-      ]
-    },
-    {
-      "name": "Robot",
-      "widgets": [
-        {
-          "name": "Height",
-          "type": "number"
-        },
-        {
-          "name": "Weight",
-          "type": "number"
         },
         {
           "name": "Drivetrain",
           "type": "dropdown",
           "options": [
-            "West Coast",
-            "Swerve",
-            "Butterfly",
+            "Tank Drive",
             "Mecanum",
+            "Swerve",
             "Other"
           ]
         },
         {
-          "name": "Has Driver Camera",
+          "name": "Frame Width",
+          "type": "number",
+          "min": 20,
+          "max": 40
+        },
+        {
+          "name": "Frame Length",
+          "type": "number",
+          "min": 20,
+          "max": 40
+        },
+        {
+          "name": "Weight",
+          "type": "number",
+          "min": 50,
+          "max": 150
+        }
+      ]
+    },
+    {
+      "name": "Gameplay and Programing",
+      "widgets": [
+        {
+          "name": "Programing Language",
+          "type": "dropdown",
+          "options": [
+            "Java",
+            "C++",
+            "Python",
+            "Labview"
+          ]
+        },
+        {
+          "name": "Mobility Capable",
+          "type": "checkbox"
+        },
+        {
+          "name": "Preferred Play Style",
+          "type": "dropdown",
+          "options": [
+            "Defense",
+            "Offense",
+            "Runner"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Processes",
+      "widgets": [
+        {
+          "name": "Number of Batteries",
+          "type": "number"
+        },
+        {
+          "name": "Battery Maintenance",
+          "type": "checkbox"
+        },
+        {
+          "name": "Battery Maintenance-text",
+          "noLabel": "true",
+          "type": "text",
+          "col": 2
+        },
+        {
+          "name": "Pit Checklist",
+          "type": "checkbox"
+        },
+        {
+          "name": "Scouting",
           "type": "checkbox"
         }
       ]
     },
     {
-      "name": "Match Play",
+      "name": "Comments and Pictures",
       "widgets": [
         {
-          "name": "Climb Time",
-          "type": "number"
+          "name": "Battery Area",
+          "type": "pictureUpload"
         },
         {
-          "name": "Climb",
-          "type": "radio",
-          "options": [
-            "None",
-            "Low",
-            "Mid",
-            "High",
-            "Traversal"
-          ]
-        },
-        {
-          "name": "Aiming Method",
-          "type": "radio",
-          "options": [
-            "Manual Targeting",
-            "Automatic"
-          ]
+          "name": "Robot close up",
+          "type": "pictureUpload"
         },
         {
           "name": "Comments",
-          "type": "textarea",
-          "colspan": 3
+          "type": "label"
+        },
+        {
+          "name": "Comments",
+          "noLabel": true,
+          "type": "textarea"
         }
       ]
     }

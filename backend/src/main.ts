@@ -80,7 +80,7 @@ let app: http.RequestListener = (req, res) => {
             return;
         }
 
-        if (req.method === 'POST' && req.url === "/api") {
+        if (req.method === 'POST' && req.url === "/api" && false) {
             let body = '';
             req.on('data', chunk => {
                 body += chunk.toString(); // convert Buffer to string
@@ -290,7 +290,7 @@ connectionPool.getConnection(function (err) {
 connectionPool.on("connection", (newConnection) => {
   connection = newConnection;
   console.log("Connected to DB");
-  validateTables();
+//   validateTables();
   http.createServer(app).listen(4173, () => {
     console.log("Server started on port 4173");
   });
