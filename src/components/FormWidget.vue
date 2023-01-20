@@ -20,6 +20,7 @@ import WidgetSpacer from "@/components/WidgetSpacer.vue";
 import WidgetSpinbox from "@/components/WidgetSpinbox.vue";
 import WidgetStopwatch from "@/components/WidgetStopwatch.vue";
 import WidgetTextarea from "@/components/WidgetTextarea.vue";
+import WidgetCheckboxGrid from "./WidgetCheckboxGrid.vue";
 
 const props = defineProps<{
   id: string,
@@ -44,7 +45,8 @@ const info = {
   spacer:        { class: WidgetSpacer,        label: LabelType.None,      required: [] },
   spinbox:       { class: WidgetSpinbox,       label: LabelType.LabelTag,  required: ["name"] },
   stopwatch:     { class: WidgetStopwatch,     label: LabelType.PlainText, required: ["name"] },
-  textarea:      { class: WidgetTextarea,      label: LabelType.LabelTag,  required: ["name"] }
+  textarea:      { class: WidgetTextarea,      label: LabelType.LabelTag,  required: ["name"] },
+  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.LabelTag,  required: ["name", "rows", "columns", "file"] }
 }[props.data.type];
 
 if (info === undefined)

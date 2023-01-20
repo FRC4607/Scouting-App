@@ -20,7 +20,7 @@ onErrorCaptured(e => {
 
 @font-face {
   font-family: Toxigenesis;
-  src: url("/public/assets/fonts/toxigenesis.ttf");
+  src: url("/assets/fonts/toxigenesis.ttf");
 }
 
 :root {

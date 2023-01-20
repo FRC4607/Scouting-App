@@ -7,12 +7,12 @@
       "name": "Robot",
       "widgets": [
         {
-          "name": "Team Number",
-          "type": "number"
-        },
-        {
           "name": "Scouter Name",
           "type": "text"
+        },
+        {
+          "name": "Team Number",
+          "type": "number"
         },
         {
           "name": "Drivetrain",
@@ -41,6 +41,22 @@
           "type": "number",
           "min": 50,
           "max": 150
+        },
+        {
+          "type": "spacer",
+          "height": 20
+        },
+        {
+          "name": "Bumper Height",
+          "type": "number"
+        },
+        {
+          "name": "Bumper Depth",
+          "type": "number"
+        },
+        {
+          "name": "Bumper Mounting Configuration",
+          "type": "text"
         }
       ]
     },

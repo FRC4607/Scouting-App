@@ -21,21 +21,7 @@
           "type": "checkbox"
         },
         {
-          "name": "Cones Scored",
-          "type": "spinbox",
-          "prefix": "Auto"
-        },
-        {
           "name": "Cones Missed",
-          "type": "spinbox",
-          "prefix": "Auto"
-        },
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Cubes Scored",
           "type": "spinbox",
           "prefix": "Auto"
         },
@@ -49,20 +35,21 @@
           "height": 20
         },
         {
-          "name": "Top Node Scored",
-          "type": "spinbox",
-          "prefix": "Auto"
+          "name": "Grid",
+          "type": "heading",
+          "colspan": 2
         },
         {
-          "name": "Middle Node Scored",
-          "type": "spinbox",
-          "prefix": "Auto"
+          "name": "Grid",
+          "type": "checkboxgrid",
+          "prefix": "Auto",
+          "rows": 9,
+          "columns": 3,
+          "file": "grids.png",
+          "noLabel": true,
+          "colspan": 2
         },
-        {
-          "name": "Low Node Scored",
-          "type": "spinbox",
-          "prefix": "Auto"
-        },
+        
         {
           "type": "spacer",
           "height": 20
@@ -82,21 +69,7 @@
       "name": "Teleop",
       "widgets": [
         {
-          "name": "Cones Scored",
-          "type": "spinbox",
-          "prefix": "Teleop"
-        },
-        {
           "name": "Cones Missed",
-          "type": "spinbox",
-          "prefix": "Teleop"
-        },
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Cubes Scored",
           "type": "spinbox",
           "prefix": "Teleop"
         },
@@ -110,19 +83,19 @@
           "height": 20
         },
         {
-          "name": "Top Node Scored",
-          "type": "spinbox",
-          "prefix": "Teleop"
+          "name": "Grid",
+          "type": "heading",
+          "colspan": 2
         },
         {
-          "name": "Middle Node Scored",
-          "type": "spinbox",
-          "prefix": "Teleop"
-        },
-        {
-          "name": "Low Node Scored",
-          "type": "spinbox",
-          "prefix": "Teleop"
+          "name": "Grid",
+          "type": "checkboxgrid",
+          "prefix": "Teleop",
+          "rows": 9,
+          "columns": 3,
+          "file": "grids.png",
+          "noLabel": true,
+          "colspan": 2
         },
         {
           "type": "spacer",

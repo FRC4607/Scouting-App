@@ -46,6 +46,10 @@ export interface WidgetData {
   lapLabel?: string;
   stopLabel?: string;
   maxLaps?: number;
+
+  // Grid Checkbox
+  rows?: number;
+  columns?: number;
 }
 
 export enum LabelType {
