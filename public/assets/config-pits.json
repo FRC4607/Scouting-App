@@ -15,7 +15,7 @@
           "type": "number"
         },
         {
-          "name": "Drivetrain",
+          "name": "Drivetrain Type",
           "type": "dropdown",
           "options": [
             "Tank Drive",
@@ -100,7 +100,7 @@
           "type": "checkbox"
         },
         {
-          "name": "Battery Maintenance-text",
+          "name": "Battery Maintenance_text",
           "noLabel": "true",
           "type": "text",
           "col": 2
