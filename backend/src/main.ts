@@ -1,16 +1,19 @@
 import fs from 'fs';
 import http from "http";
-import path from 'path';
+import path, { resolve } from 'path';
 import { fileURLToPath } from 'url';
 import mysql from 'mysql';
 import { TableLayouts, TableLayoutQueries } from './TableSchemes.js'
 import { DataType, Parsers, getUTCDateTime } from "./DataType.js";
+import { resourceLimits } from 'worker_threads';
 interface SavedData {
     title: string;
     header: string[]; // Each element is a value in the CSV header
     values: string[][]; // Each element is a CSV record, each element in a record is a widget value
 }
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /* ------ FILE: mysql-config.json ------
 {
@@ -20,17 +23,115 @@ interface SavedData {
     "database": "database"
 }
 */
+
 const mysqlConfig: mysql.ConnectionConfig = JSON.parse(fs.readFileSync("mysql-config.json").toString());
-// add in ssl
-// mysqlConfig.ssl = {
-//   ca: fs.readFileSync("../ca-certificate.crt")
-// };
-const connectionPool = mysql.createPool(mysqlConfig);
-let connection: mysql.Connection; // gets set in the pool getConnection() call on startup down below
 
+function queryServer(query: string, connection?: mysql.Connection) {
+    return new Promise<{ results: any, fields: mysql.FieldInfo[] | undefined }>((resolve, reject) => {
+        let currentConnection = connection ?? mysql.createConnection(mysqlConfig);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+        if (currentConnection.listeners("end").length == 0) {
+            currentConnection.on("end", () => {
+                console.log("\x1b[2m%s\x1b[0m", "Database Connection Closed");
+            })
+        }
+
+        if (currentConnection.listeners("connect").length == 0) {
+            currentConnection.on("connect", () => {
+                console.log("\x1b[2m%s\x1b[0m", "Database Connection Opened");
+            })
+        }
+
+        currentConnection.query(query, (err, results, fields) => {
+            if (err) {
+                reject(err);
+            } else {
+                if (connection == null) {
+                    currentConnection.end((err) => {
+                        if (err) {
+                            reject(err)
+                        }
+                    });
+                }
+                resolve({ results, fields });
+            }
+        });
+
+    })
+}
+
+async function validateTables() {
+    const connection = mysql.createConnection(mysqlConfig);
+
+    function createTable(Table: [string, Map<string, DataType>]) {
+        return new Promise(async (resolve, reject) => {
+            console.log(`Creating Table "${Table[0]}"`);
+
+            let query = TableLayoutQueries.get(Table[0]);
+            if (query == null) {
+                reject("TableLayouts and TableLayoutQueries have mismatching entries");
+                return;
+            }
+
+            await queryServer(query, connection);
+
+            resolve(null);
+        });
+    }
+    function archiveAndReplaceTable(Table: [string, Map<string, DataType>]) {
+        return new Promise(async (resolve, reject) => {
+            console.log(`The table "${Table[0]}" is deferent from the config: Archiving Table`);
+
+            await queryServer(`RENAME TABLE ${Table[0]} TO ${Table[0]}_archive_${getUTCDateTime().replaceAll(" ", "")
+                .replaceAll("-", "").replaceAll(":", "")}`, connection);
+
+            await createTable(Table);
+
+            resolve(null);
+        });
+    }
+
+    let { results } = await queryServer("SHOW TABLES", connection)
+
+    let tables: string[] = [];
+    for (const dataPacket of results) {
+        tables.push(dataPacket[`Tables_in_${mysqlConfig.database}`]);
+    }
+
+    for (const Table of TableLayouts) {
+        if (tables.includes(Table[0])) {
+            let { results } = await queryServer(`DESCRIBE ${Table[0]}`, connection)
+
+            let keyTypes: Map<string, DataType> = new Map();
+            for (const column of results) {
+                let type = Parsers.parseDataType(column.Type);
+                if (type == null) throw Error(`The datatype "${column.Type}" is undetermined`);
+                keyTypes.set(column.Field, type);
+            }
+
+            let tablesMatch: boolean = true;
+            for (const column of Table[1]) {
+                let databaseType = keyTypes.get(column[0]);
+                if (databaseType == null)
+                    tablesMatch = false;
+                else {
+                    if (databaseType.valueOf() !== column[1].valueOf())
+                        tablesMatch = false;
+                }
+            }
+
+            if (!tablesMatch) await archiveAndReplaceTable(Table);
+
+        } else {
+            await createTable(Table);
+        }
+    }
+
+    connection.end((err) => {
+        if (err) throw console.error(err);
+    });
+    console.log("DB Tables Validated");
+}
 let app: http.RequestListener = (req, res) => {
     try {
         if (req.method === "GET") {
@@ -74,25 +175,19 @@ let app: http.RequestListener = (req, res) => {
             return;
         }
 
-        if (req.method === "OPTIONS") {
-            res.writeHead(204);
-            res.end();
-            return;
-        }
-
-        if (req.method === 'POST' && req.url === "/api") {
-            let body = '';
-            req.on('data', chunk => {
+        if (req.method === "POST" && req.url === "/api") {
+            let body = "";
+            req.on("data", chunk => {
                 body += chunk.toString(); // convert Buffer to string
             });
-            req.on('end', () => {
+            req.on("end", () => {
                 let data: SavedData;
                 try {
                     data = JSON.parse(body);
 
-                    if (typeof data.title != "string") throw new Error("Bad Title")
-                    if (!Array.isArray(data.header)) throw new Error("Bad Header")
-                    if (!Array.isArray(data.values[0])) throw new Error("Bad Values")
+                    if (typeof data.title != "string") throw new Error("Bad Title");
+                    if (!Array.isArray(data.header)) throw new Error("Bad Header");
+                    if (!Array.isArray(data.values[0])) throw new Error("Bad Values");
                 } catch (error: any) {
                     res.writeHead(400);
                     res.end("Bad data");
@@ -169,7 +264,7 @@ let app: http.RequestListener = (req, res) => {
                         if (table.get(header) == DataType.Points || table.get(header) == DataType.Point) {
                             stringValues[i] += `${cleanValues[i]?.get(header)}, `
                         } else {
-                            stringValues[i] += `'${cleanValues[i]?.get(header)}', `
+                            stringValues[i] += `"${cleanValues[i]?.get(header)}", `
                         }
                     }
                 }
@@ -184,19 +279,17 @@ let app: http.RequestListener = (req, res) => {
 
                 // console.log(query);
 
-                connection.query(query, function (err, result) {
-                    if (err) {
-                        res.setHeader("content-type", "plaintext");
-                        res.writeHead(500);
-                        res.end("Database Error");
-                        console.error(err);
-                    }
-
+                queryServer(query).catch((err) => {
+                    res.setHeader("content-type", "plaintext");
+                    res.writeHead(500);
+                    res.end("Database Error");
+                    console.error(err);
+                }).then((result) => {
                     res.setHeader("content-type", "plaintext");
                     res.writeHead(200);
                     res.end("Data Submitted");
 
-                    console.log("Data Added");
+                    console.log("\x1b[2m%s\x1b[0m", "Data Added");
                     return;
                 });
             });
@@ -210,94 +303,8 @@ let app: http.RequestListener = (req, res) => {
 }
 
 
-function validateTables() {
-    connection.query("SHOW TABLES", function (err, result, fields) {
-        if (err)
-            throw err;
-        let tables: string[] = [];
-        for (const dataPacket of result) {
-            tables.push(dataPacket[`Tables_in_${mysqlConfig.database}`]);
-        }
 
-
-        for (const Table of TableLayouts) {
-            if (tables.includes(Table[0])) {
-                connection.query(`DESCRIBE ${Table[0]}`, function (err, result, fields) {
-                    if (err)
-                        throw err;
-
-                    let keyTypes: Map<string, DataType> = new Map();
-                    for (const column of result) {
-                        let type = Parsers.parseDataType(column.Type);
-                        if (type == null) throw Error(`The datatype "${column.Type}" is undetermined`);
-                        keyTypes.set(column.Field, type);
-                    }
-
-                    let tablesMatch: boolean = true;
-                    for (const column of Table[1]) {
-                        let databaseType = keyTypes.get(column[0]);
-                        if (databaseType == null)
-                            tablesMatch = false;
-                        else {
-                            if (databaseType.valueOf() !== column[1].valueOf())
-                                tablesMatch = false;
-                        }
-                    }
-                    if (!tablesMatch)
-                        archiveAndReplaceTable(Table);
-
-                });
-            } else {
-                createTable(Table);
-            }
-        }
-    });
-
-    function createTable(Table: [string, Map<string, DataType>]) {
-        console.log(`Creating Table "${Table[0]}"`);
-
-        let query = TableLayoutQueries.get(Table[0]);
-        if (query == null)
-            throw new Error("TableLayouts and TableLayoutQueries have mismatching entries");
-
-        connection.query(query, function (err, result, fields) {
-            if (err)
-                throw err;
-        });
-    }
-
-    function archiveAndReplaceTable(Table: [string, Map<string, DataType>]) {
-        console.log(`The table "${Table[0]}" is deferent from the config: Archiving Table`);
-
-        connection.query(`RENAME TABLE ${Table[0]} TO ${Table[0]}_archive_${getUTCDateTime().replaceAll(" ", "")
-            .replaceAll("-", "").replaceAll(":", "")}`, function (err, result, fields) {
-                if (err)
-                    throw err;
-
-                createTable(Table);
-            });
-    }
-    console.log("DB Tables Validated");
-}
-
-// open the MySQL connection, assign event handlers, and start the server
-connectionPool.getConnection(function (err) {
-  if (err) {
-    console.error(err);
-    return;
-  }
-});
-connectionPool.on("connection", (newConnection) => {
-  connection = newConnection;
-  console.log("Connected to DB");
-  validateTables();
-  http.createServer(app).listen(4173, () => {
+await validateTables();
+http.createServer(app).listen(4173, () => {
     console.log("Server started on port 4173");
-  });
-  newConnection.on("error", (err: any) => {
-    console.error(err);
-  });
-  newConnection.on("close", function (err: any) {
-    console.error(new Date(), "DB connection closed", err);
-  });
 });

@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && echo Build Successful\n",
     "run": "node ./build/main.js",
-    "buildAndRun": "npm compile && npm run",
+    "buildAndRun": "npm run build && npm run run",
     "installModules": "npm install"
   },
   "type": "module",
