@@ -10,7 +10,7 @@
     <FormGroup :label-type="LabelType.PlainText" name="Teams Loaded">{{ teamsLoadStatus }}</FormGroup>
     <FormGroup :label-type="LabelType.PlainText" name="Matches Loaded">{{ matchesLoadStatus }}</FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="match-level-input" name="Match Level">
-      <select id="match-level-input" v-model.number="matchLevel" :disabled="config.data.forceQualifiers">
+      <select id="match-level-input" v-model.number="matchLevel" :disabled="config.data.forceQualifiers" @change=onLevelChange>
         <option value="4">Practice</option>
         <option value="0">Qualifications</option>
         <option value="1">Quarterfinals</option>
@@ -19,15 +19,13 @@
       </select>
     </FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
-      <div v-if="matchLevel !== 4">
-        <input id="match-input" type="number" v-model.lazy="matchNumber" :min="1" />
-      </div>
+      <input id="match-input" type="number" v-model.lazy="matchNumber" :min="1" />
     </FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="team-input" name="Team">
       <div v-if="matchLevel === 4">
         <input list="teams" id="team-input" v-model="selectedTeam" />
         <datalist v-if="matchLevel === 4" id="teams">
-          <option v-for="[i, team] of teams?.entries()" :key="get(team,'key')" :value="get(team,'team_number')">
+          <option v-for="team of teams?.values()" :key="get(team,'key')" :value="get(team,'team_number')">
             {{ get(team,'team_number') }} {{ get(team,'nickname') }}
           </option>
         </datalist>
@@ -42,13 +40,16 @@
     <FormGroup :label-type="LabelType.LabelTag" id="station-input" name="Alliance">
       <div v-if="matchLevel === 4">
         <select id="station-input" v-model="allianceColorManual">
-          <option value="RED_1">Red 1</option>
-          <option value="RED_2">Red 2</option>
-          <option value="RED_3">Red 3</option>
-          <option value="BLUE_1">Blue 1</option>
-          <option value="BLUE_2">Blue 2</option>
-          <option value="BLUE_3">Blue 3</option>
+          <option value="0">Red 1</option>
+          <option value="1">Red 2</option>
+          <option value="2">Red 3</option>
+          <option value="3">Blue 1</option>
+          <option value="4">Blue 2</option>
+          <option value="5">Blue 3</option>
         </select>
+      </div>
+      <div v-else>
+        <p>{{ computedTeamStation }}</p>
       </div>
     </FormGroup>
   </FormPage>
@@ -77,14 +78,13 @@ const config = useConfigStore();
 const tba = useTBAStore();
 const widgets = useWidgetsStore();
 
-const savedData = widgets.savedData.get("matches");
-
-const allianceColorManual = $ref("RED_1")
+const allianceStations = ["RED_1", "RED_2", "RED_3", "BLUE_1", "BLUE_2", "BLUE_3"];
+const allianceColorManual = $ref(widgets.teamSelectionConfig.selectedTeam);
 const scouterName = $ref(widgets.teamSelectionConfig.scouterName);
 let eventKey = $ref(widgets.teamSelectionConfig.eventKey);
 const matchLevel = $ref(widgets.teamSelectionConfig.matchLevel);
 const matchNumber = $ref(widgets.teamSelectionConfig.matchNumber + 1);
-const selectedTeam = $ref(widgets.teamSelectionConfig.selectedTeam);
+let selectedTeam = $ref(matchLevel !== 4 ? widgets.teamSelectionConfig.selectedTeam : null);
 
 if (widgets.teamSelectionConfig.eventKey) loadTBAData();
 
@@ -146,19 +146,18 @@ const teamsList = $computed(() => {
 });
 
 // The exported team information
-const teamData = $computed(() => teamsList[selectedTeam]);
+const teamData = $computed(() => teamsList[selectedTeam ?? 0]);
 
 const teamStation = $computed(() => teamData?.color !== null && teamData?.index !== null ? `${teamData?.color.toUpperCase()}_${teamData?.index}` : "");
 const teamNumber = $computed(() => teamData?.number !== null ? teamData?.number : 0);
 
-const computedMatchNumber = $computed(() =>  matchLevel.valueOf() !== 4 ? matchNumber.valueOf() : -1 );
-const computedTeamStation = $computed(() =>  matchLevel.valueOf() !== 4 ? teamStation.valueOf() : allianceColorManual.valueOf() );
-const computedTeamNumber = $computed(() =>  matchLevel.valueOf() !== 4 ? teamNumber.valueOf() : selectedTeam.valueOf() );
+const computedTeamStation = $computed(() =>  matchLevel.valueOf() !== 4 ? teamStation.valueOf() : allianceStations[allianceColorManual.valueOf()] );
+const computedTeamNumber = $computed(() =>  matchLevel.valueOf() !== 4 ? teamNumber.valueOf() : selectedTeam?.valueOf() );
 
 // Add values to export
 widgets.addWidgetValue("event_key", $$(eventKey));
 widgets.addWidgetValue("match_level", $$(matchLevel));
-widgets.addWidgetValue("match_number", $$(computedMatchNumber));
+widgets.addWidgetValue("match_number", $$(matchNumber));
 widgets.addWidgetValue("team_station", $$(computedTeamStation));
 widgets.addWidgetValue("team_number", $$(computedTeamNumber));
 widgets.addWidgetValue("scouter_name", $$(scouterName));
@@ -181,6 +180,11 @@ function loadTBAData() {
   tba.load(eventKey, "teams").then(value => updateStatus($$(teamsLoadStatus), $$(teams), value));
   tba.load(eventKey, "matches").then(value => updateStatus($$(matchesLoadStatus), $$(matches), value));
 }
+
+function onLevelChange() {
+  selectedTeam = matchLevel !== 4 ? widgets.teamSelectionConfig.selectedTeam : null;
+}
+
 </script>
 
 <style>
