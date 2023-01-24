@@ -80,7 +80,7 @@ let app: http.RequestListener = (req, res) => {
             return;
         }
 
-        if (req.method === 'POST' && req.url === "/api" && false) {
+        if (req.method === 'POST' && req.url === "/api") {
             let body = '';
             req.on('data', chunk => {
                 body += chunk.toString(); // convert Buffer to string
@@ -267,7 +267,7 @@ function validateTables() {
     }
 
     function archiveAndReplaceTable(Table: [string, Map<string, DataType>]) {
-        console.log(`The table "${Table[0]}" is deferent from the config: Archiving Table`);
+        console.log(`The table "${Table[0]}" is different from the config: Archiving Table`);
 
         connection.query(`RENAME TABLE ${Table[0]} TO ${Table[0]}_archive_${getUTCDateTime().replaceAll(" ", "")
             .replaceAll("-", "").replaceAll(":", "")}`, function (err, result, fields) {
@@ -290,7 +290,7 @@ connectionPool.getConnection(function (err) {
 connectionPool.on("connection", (newConnection) => {
   connection = newConnection;
   console.log("Connected to DB");
-//   validateTables();
+  validateTables();
   http.createServer(app).listen(4173, () => {
     console.log("Server started on port 4173");
   });

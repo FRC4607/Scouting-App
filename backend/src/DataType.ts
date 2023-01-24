@@ -5,8 +5,12 @@
 enum DataType {
     TinyInt = "TINYINT",
     SmallInt = "SMALLINT",
+    MediumInt = "MEDIUMINT",
+    Int = "INT",
     TinyIntUnsigned = "TINYINT UNSIGNED",
     SmallIntUnsigned = "SMALLINT UNSIGNED",
+    MediumIntUnsigned = "MEDIUMINT Unsigned",
+    IntUnsigned = "INT Unsigned",
     Float = "FLOAT",
     TinyText = "TINYTEXT",
     Text = "TEXT",
@@ -34,10 +38,10 @@ const Parsers = {
         if (preliminaryFilter == null)
             return "0";
         let number = parseInt(preliminaryFilter);
-        if (number >= Math.pow(2, 8))
-            number = Math.pow(2, 8) - 1;
-        if (number < -Math.pow(2, 8))
-            number = -Math.pow(2, 8);
+        if (number >= Math.pow(2, 7))
+            number = Math.pow(2, 7) - 1;
+        if (number < -Math.pow(2, 7))
+            number = -Math.pow(2, 7);
 
         return number.toString();
     },
@@ -51,10 +55,44 @@ const Parsers = {
         if (preliminaryFilter == null)
             return "0";
         let number = parseInt(preliminaryFilter);
-        if (number >= Math.pow(2, 16))
-            number = Math.pow(2, 16) - 1;
-        if (number < -Math.pow(2, 16))
-            number = -Math.pow(2, 16);
+        if (number >= Math.pow(2, 15))
+            number = Math.pow(2, 15) - 1;
+        if (number < -Math.pow(2, 15))
+            number = -Math.pow(2, 15);
+
+        return number.toString();
+    },
+    /**
+     * A function that converts a string into a valid MEDIUMINT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Medium Int.
+     */
+    parseMediumInt(input: string): string {
+        let preliminaryFilter = input.match(/[0-9]+/)?.[0];
+        if (preliminaryFilter == null)
+            return "0";
+        let number = parseInt(preliminaryFilter);
+        if (number >= Math.pow(2, 23))
+            number = Math.pow(2, 23) - 1;
+        if (number < -Math.pow(2, 23))
+            number = -Math.pow(2, 23);
+
+        return number.toString();
+    },
+    /**
+     * A function that converts a string into a valid INT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Int.
+     */
+    parseInt(input: string): string {
+        let preliminaryFilter = input.match(/[0-9]+/)?.[0];
+        if (preliminaryFilter == null)
+            return "0";
+        let number = parseInt(preliminaryFilter);
+        if (number >= Math.pow(2, 31))
+            number = Math.pow(2, 31) - 1;
+        if (number < -Math.pow(2, 31))
+            number = -Math.pow(2, 31);
 
         return number.toString();
     },
@@ -68,8 +106,8 @@ const Parsers = {
         if (preliminaryFilter == null)
             return "0";
         let number = parseInt(preliminaryFilter);
-        if (number >= Math.pow(2, 16))
-            number = Math.pow(2, 16) - 1;
+        if (number >= Math.pow(2, 8))
+            number = Math.pow(2, 8) - 1;
         if (number < 0)
             number = 0
 
@@ -81,6 +119,40 @@ const Parsers = {
      * @returns A formatted string that can be converted into a Unsigned Small Int.
      */
     parseSmallIntUnsigned(input: string): string {
+        let preliminaryFilter = input.match(/[0-9]+/)?.[0];
+        if (preliminaryFilter == null)
+            return "0";
+        let number = parseInt(preliminaryFilter);
+        if (number >= Math.pow(2, 16))
+            number = Math.pow(2, 16) - 1;
+        if (number < 0)
+            number = 0;
+
+        return number.toString();
+    },
+    /**
+     * A function that converts a string into a valid UNSIGNED MEDIUMINT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Unsigned Medium Int.
+     */
+    parseMediumIntUnsigned(input: string): string {
+        let preliminaryFilter = input.match(/[0-9]+/)?.[0];
+        if (preliminaryFilter == null)
+            return "0";
+        let number = parseInt(preliminaryFilter);
+        if (number >= Math.pow(2, 24))
+            number = Math.pow(2, 24) - 1;
+        if (number < 0)
+            number = 0;
+
+        return number.toString();
+    },
+    /**
+     * A function that converts a string into a valid UNSIGNED INT format that the MySQL database can handel.
+     * @param input A raw string.
+     * @returns A formatted string that can be converted into a Unsigned Int.
+     */
+    parseIntUnsigned(input: string): string {
         let preliminaryFilter = input.match(/[0-9]+/)?.[0];
         if (preliminaryFilter == null)
             return "0";
@@ -212,11 +284,23 @@ const Parsers = {
             case DataType.SmallInt:
                 return this.parseSmallInt(input);
 
+            case DataType.MediumInt:
+                return this.parseMediumInt(input);
+
+            case DataType.Int:
+                return this.parseInt(input);
+
             case DataType.TinyIntUnsigned:
                 return this.parseTinyIntUnsigned(input);
 
             case DataType.SmallIntUnsigned:
                 return this.parseSmallIntUnsigned(input);
+
+            case DataType.MediumIntUnsigned:
+                return this.parseMediumIntUnsigned(input);
+
+            case DataType.IntUnsigned:
+                return this.parseIntUnsigned(input);
 
             case DataType.Float:
                 return this.parseFloat(input);
@@ -257,28 +341,36 @@ const Parsers = {
      */
     parseDataType(string: string): DataType | null {
         switch (string.toLowerCase()) {
-            case "tinyint(1)":
-                return DataType.Bool;
-            case "datetime":
-                return DataType.DateTime;
-            case "float":
-                return DataType.Float;
-            case "multipoint":
-                return DataType.Points;
-            case "point":
-                return DataType.Point;
-            case "smallint":
-                return DataType.SmallInt;
-            case "smallint unsigned":
-                return DataType.SmallIntUnsigned;
-            case "text":
-                return DataType.Text;
             case "tinyint":
                 return DataType.TinyInt;
             case "tinyint unsigned":
                 return DataType.TinyIntUnsigned;
+            case "smallint":
+                return DataType.SmallInt;
+            case "smallint unsigned":
+                return DataType.SmallIntUnsigned;
+            case "mediumint":
+                return DataType.MediumInt;
+            case "mediumint unsigned":
+                return DataType.MediumIntUnsigned;
+            case "int":
+                return DataType.Int;
+            case "int unsigned":
+                return DataType.IntUnsigned;
+            case "float":
+                return DataType.Float;
             case "tinytext":
                 return DataType.TinyText;
+            case "text":
+                return DataType.Text;
+            case "tinyint(1)":
+                return DataType.Bool;
+            case "datetime":
+                return DataType.DateTime;
+            case "multipoint":
+                return DataType.Points;
+            case "point":
+                return DataType.Point;
             default:
                 return null;
         }

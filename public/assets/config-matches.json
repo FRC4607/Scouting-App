@@ -117,7 +117,7 @@
       "name": "Endgame",
       "widgets": [
         {
-          "name": "Endgame state",
+          "name": "Endgame State",
           "type": "dropdown",
           "options" : [
             "--",

@@ -19,8 +19,8 @@ onErrorCaptured(e => {
 <style>
 
 @font-face {
-  font-family: Toxigenesis;
-  src: url("/assets/fonts/toxigenesis.ttf");
+  font-family: "Toxigenesis";
+  src: local("Toxigenesis"), url("/assets/fonts/toxigenesis.ttf");
 }
 
 :root {

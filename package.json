@@ -12,7 +12,7 @@
     "installBackendModules": "npm run installModules --prefix backend",
     "installAll": "npm run installModules && npm run installBackendModules",
     "build-backend": "npm run build --prefix backend",
-    "build": "npm run build-static && npm run build-backend && mkdir -p build/static && cp -r backend/build/* backend/mysql-config.json backend/node_modules build && cp -r dist/* build/static/ && echo full build complete! && echo",
+    "build": "npm run build-static && npm run build-backend && rm -rf build/* && mkdir -p build/static && cp -r backend/build/* backend/mysql-config.json backend/node_modules build && cp -r dist/* build/static/ && echo full build complete! && echo",
     "build-windows": "npm run build-static && npm run build-backend && echo backend build complete! && powershell -Executionpolicy RemoteSigned -noprofile -noninteractive \"new-item -Path build/ -Name static -ItemType directory -Force | Out-Null\" && powershell copy-item backend/build/*,backend/mysql-config.json,backend/node_modules -Destination build -recurse -Force && powershell copy-item -Path dist/* -Destination build/static/ -recurse -Force && echo full build complete! && echo:",
     "run": "cd build && node main.js",
     "docker-build": "docker build -t beckerrobotics/scouting-app .",
