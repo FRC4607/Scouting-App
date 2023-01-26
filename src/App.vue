@@ -86,11 +86,12 @@ h1, h2 {
 }
 
 h1 {
-  font-size: 45px;
+  text-align: center;
+  font-size: 50px;
 }
 
 h2 {
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .widget, .label, nav, input, td, th, button, select, a {

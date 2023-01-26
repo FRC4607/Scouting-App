@@ -45,11 +45,11 @@ const client = createClient(
 // called when the user takes/selects a image to upload, then uploads the image to the server
 function uploadImage(e: any) {
   // figure out which button was clicked (battery area or the robot, 3-2 is the first, 3-3 is the second respectively)
-  const pictureContext = (props.currentId === "3-2") ? "batteries" : "robot";
+  const pictureContext = props.data.name?.toLowerCase().replace(" ", "-");
   // grab widget values from the store that correspond to this session
   const instanceWidgetStores: Array<WidgetValue> = useWidgetsStore().values;
-  const scouterName: string = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "scouter_name")?.value.toString()!;
-  const teamNumber: string = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "team_number")?.value.toString()!;
+  const scouterName: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "scouter_name")?.value.toString();
+  const teamNumber: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "team_number")?.value.toString();
   const uuid: string = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   // create file name using scouter name, team number, and a random uuid to make sure the file name is unique when multiple photos are taken
   let fileName = `${scouterName}_${teamNumber}_${pictureContext}_${uuid}`;
@@ -88,7 +88,7 @@ function uploadImage(e: any) {
       // convert to buffer
       imageBinary = Buffer.from(imageCorrectedBase64, "base64");
       const result = await client.putFileContents(fileName, imageBinary, {
-        onUploadProgress: progress => {
+        onUploadProgress: (progress : any) => {
           // get upload progress as percentage and update button text as upload progresses
           const percentage = Math.round((progress.loaded * 100) / progress.total);
           console.log(`Uploaded ${percentage}%`);
