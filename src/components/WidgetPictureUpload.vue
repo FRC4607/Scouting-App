@@ -22,13 +22,16 @@ const props = defineProps<{
   data: WidgetData,
   currentId: string
 }>();
-const value = $ref("");
-useWidgetsStore().addWidgetValue(props.data, $$(value));
 
 let buttonText: string = $ref("Take Picture");
 let imageRawBase64: string;
 let imageCorrectedBase64: string;
 let imageBinary: Buffer;
+let successfulFileNames = $ref("");
+// there could be multiple files uploaded, so we need to keep track of all of them and separate them with a comma
+
+// set widget's value ref to the file name(s) on the server for the database to record when data is submitted
+useWidgetsStore().addWidgetValue(props.data, $$(successfulFileNames));
 
 // create a client to connect to the Nextcloud WebDAV server
 const client = createClient(
@@ -52,7 +55,7 @@ function uploadImage(e: any) {
   let fileName = `${scouterName}_${teamNumber}_${pictureContext}_${uuid}`;
   if (!scouterName) {
     console.log("Scouter name not found in stores, probably wasn't entered yet");
-    buttonText = "Failure.. Scouter name not entered";
+    buttonText = "Failure: no scouter name";
     // change text back to normal after 4 seconds
     setTimeout(() => {
       buttonText = "Take Picture";
@@ -61,7 +64,7 @@ function uploadImage(e: any) {
   }
   if (!teamNumber || teamNumber === "0") {
     console.log("Team number not found in stores, probably wasn't entered yet");
-    buttonText = "Failure.. Team number not entered";
+    buttonText = "Failure: no team number";
     // change text back to normal after 4 seconds
     setTimeout(() => {
       buttonText = "Take Picture";
@@ -93,7 +96,7 @@ function uploadImage(e: any) {
           if (percentage === 100) {
             buttonText = `Uploading... ${percentage}%`;
             setTimeout(() => {
-              buttonText = "Processing on Server...";
+              buttonText = "Processing on server...";
             }, 1000);
           }
           else {
@@ -102,16 +105,27 @@ function uploadImage(e: any) {
         },
         overwrite: true
       });
+
+      // if the upload was successful, add the file name to the list of successful file names
+      if (result) {
+        if (successfulFileNames.length > 0) {
+          successfulFileNames += "," + fileName;
+        }
+        else {
+          successfulFileNames += fileName;
+        }
+      }
+
       console.log(`Upload result ${result ? "success!\nFile name on server is: " + fileName : "failure"}`);
       buttonText = result ? "Success!" : "Failure.. Try again";
       setTimeout(() => {
-        if(result){
+        if (result) {
           buttonText = "Take Another";
         }
-        else{
+        else {
           buttonText = "Take Picture";
         }
-      }, 4000);
+      }, 3000);
     };
   }
   catch (e) {

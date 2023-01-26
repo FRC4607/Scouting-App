@@ -48,7 +48,9 @@ const pitsMap: Map<string, DataType> = new Map([
     ["pit_checklist", DataType.Bool],
     ["scouting", DataType.Bool],
     ["comments", DataType.Text],
-    ["scouted_time", DataType.DateTime]
+    ["scouted_time", DataType.DateTime],
+    ["battery_area", DataType.Text],
+    ["robot_close_ups", DataType.Text]
 ]);
 
 // Add layouts to Map of table layouts
