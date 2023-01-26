@@ -116,15 +116,29 @@
       ]
     },
     {
-      "name": "Comments and Pictures",
+      "name": "Pictures and Comments",
       "widgets": [
         {
-          "name": "Battery Area",
-          "type": "pictureUpload"
+          "name": "Note: You can take multiple pictures!",
+          "type": "label",
+          "colspan": 2,
+          "labelColspan": 2
         },
         {
-          "name": "Robot close up",
-          "type": "pictureUpload"
+          "name": "space",
+          "type": "spacer"
+        },
+        {
+          "name": "Battery Area",
+          "type": "pictureupload"
+        },
+        {
+          "name": "Robot Close Ups",
+          "type": "pictureupload"
+        },
+        {
+          "name": "space",
+          "type": "spacer"
         },
         {
           "name": "Comments",
@@ -133,7 +147,8 @@
         {
           "name": "Comments",
           "noLabel": true,
-          "type": "textarea"
+          "type": "textarea",
+          "colspan": 2
         }
       ]
     }

@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 import { isFailed, TBAData } from "./tba";
 import { useStorage } from "@vueuse/core";
 
-interface WidgetValue {
+export interface WidgetValue {
   readonly name: string;
   readonly value: Ref;
 }

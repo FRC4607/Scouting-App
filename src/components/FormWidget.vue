@@ -21,6 +21,7 @@ import WidgetSpinbox from "@/components/WidgetSpinbox.vue";
 import WidgetStopwatch from "@/components/WidgetStopwatch.vue";
 import WidgetTextarea from "@/components/WidgetTextarea.vue";
 import WidgetCheckboxGrid from "./WidgetCheckboxGrid.vue";
+import WidgetPictureUpload from "./WidgetPictureUpload.vue";
 
 const props = defineProps<{
   id: string,
@@ -46,7 +47,8 @@ const info = {
   spinbox:       { class: WidgetSpinbox,       label: LabelType.LabelTag,  required: ["name"] },
   stopwatch:     { class: WidgetStopwatch,     label: LabelType.PlainText, required: ["name"] },
   textarea:      { class: WidgetTextarea,      label: LabelType.LabelTag,  required: ["name"] },
-  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.LabelTag,  required: ["name", "rows", "columns", "file"] }
+  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.LabelTag,  required: ["name", "rows", "columns", "file"] },
+  pictureupload: { class: WidgetPictureUpload, label: LabelType.LabelTag,  required: ["name"] }
 }[props.data.type];
 
 if (info === undefined)
