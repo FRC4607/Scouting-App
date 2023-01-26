@@ -4,7 +4,7 @@
   <label :for="currentId" class="custom-file-upload">
     <i></i><font-awesome-icon icon="fa-solid fa-camera" /> {{ buttonText }}
   </label>
-  <input :id="currentId" type="file" accept="image/*" ref="upload" @change="uploadImage" capture="user" />
+  <input :id="currentId" type="file" accept="image/*" ref="upload" @change="uploadImage" capture="environment" />
 
 </template>
 
