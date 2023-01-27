@@ -130,6 +130,16 @@ points = [[float(j) for j in i.split(",")] for i in data_string.split(" ")]
 # => [[0.725, 0.669], [0.224, 0.769], [0.99, 0.362]]
 ```
 
+### Picture Upload
+
+A image/video upload widget. The user can upload an image or video from their device or directly take a picture/video with their device camera.
+
+**Type String:** `pictureupload`
+
+**Exports:** The name of the file(s) uploaded. The file name contains the scouter name, team number, and a unique ID to make up the file name. The scouter name and team number come from other widgets in the same configuration JSON file where the pictureupload widget is used. Make sure to at least have input widgets named "Scouter Name" and "Team Number" somewhere within the same file (this is configured this way by default).
+
+If multiple images/videos are uploaded through the same widget instance, they are delimited by commas in the exported value.
+
 ### Stopwatch
 
 A stopwatch widget. Can be used to record elapsed time and laps.

@@ -171,7 +171,7 @@ Each object in a Page's `widgets` array requires the following field:
 
 `type`: string
 
-The type of the widget. This lets the app know what the widget should display as, and how its data should be exported (if applicable). See [Widgets](widgets.md) for more information.
+The type of the widget. This lets the app know what the widget should display as, and how its data should be exported (if applicable). See [Widgets](widgets.md) for more information on what widgets are available and their usage details.
 
 ### Global Optional Fields
 
