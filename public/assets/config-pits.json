@@ -119,7 +119,7 @@
       "name": "Pictures and Comments",
       "widgets": [
         {
-          "name": "Note: You can take multiple pictures!",
+          "name": "Note: You can take multiple pictures/videos!",
           "type": "label",
           "colspan": 2,
           "labelColspan": 2

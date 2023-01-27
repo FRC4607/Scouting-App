@@ -1,10 +1,9 @@
-<!-- eslint-disable @typescript-eslint/no-non-null-assertion -->
 <template>
 
   <label :for="currentId" class="custom-file-upload">
     <i></i><font-awesome-icon icon="fa-solid fa-camera" /> {{ buttonText }}
   </label>
-  <input :id="currentId" type="file" accept="image/*" ref="upload" @change="uploadImage" capture="environment" />
+  <input :id="currentId" type="file" accept="image/*,video/*" ref="upload" @change="uploadImage" />
 
 </template>
 
@@ -33,7 +32,7 @@ let successfulFileNames = $ref("");
 // set widget's value ref to the file name(s) on the server for the database to record when data is submitted
 useWidgetsStore().addWidgetValue(props.data, $$(successfulFileNames));
 
-// create a client to connect to the Nextcloud WebDAV server
+// create a client to connect to a WebDAV server (in our case, Nextcloud)
 const client = createClient(
   imageServerConfig.server,
   {
@@ -44,7 +43,7 @@ const client = createClient(
 
 // called when the user takes/selects a image to upload, then uploads the image to the server
 function uploadImage(e: any) {
-  // figure out which button was clicked (battery area or the robot, 3-2 is the first, 3-3 is the second respectively)
+  // get the widget name of the one that was clicked if there are multiple on the page
   const pictureContext = props.data.name?.toLowerCase().replace(" ", "-");
   // grab widget values from the store that correspond to this session
   const instanceWidgetStores: Array<WidgetValue> = useWidgetsStore().values;
@@ -71,11 +70,14 @@ function uploadImage(e: any) {
     }, 4000);
     return;
   }
-
+  const buttonTextPrev = buttonText;
   buttonText = "Uploading...";
   try {
     const image = e.target.files[0];
-    if (!image) return; // no image was selected or taken, just a button click (user cancelled probably)
+    if (!image){
+      buttonText = buttonTextPrev;
+      return; // no image was selected or taken, just a button click (user cancelled probably)
+    }
     console.log(`File collected from user: ${image.name}`);
     // add file extension to file name (e.g: .png, .jpg, etc.)
     fileName += `.${image.name.split(".").pop()}`;
@@ -123,7 +125,7 @@ function uploadImage(e: any) {
           buttonText = "Take Another";
         }
         else {
-          buttonText = "Take Picture";
+          buttonText = buttonTextPrev;
         }
       }, 3000);
     };
@@ -132,7 +134,7 @@ function uploadImage(e: any) {
     console.error(e);
     buttonText = "Failure.. Try again";
     setTimeout(() => {
-      buttonText = "Take Picture";
+      buttonText = buttonTextPrev;
     }, 4000);
   }
 }
