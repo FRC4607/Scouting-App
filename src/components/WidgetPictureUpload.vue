@@ -24,7 +24,7 @@ const props = defineProps<{
 
 let buttonText: string = $ref("Take Picture");
 let imageRawBase64: string;
-let imageCorrectedBase64: string;
+let imageCorrectedBase64: string | undefined;
 let imageBinary: Buffer;
 let successfulFileNames = $ref("");
 // there could be multiple files uploaded, so we need to keep track of all of them and separate them with a comma
@@ -85,8 +85,17 @@ function uploadImage(e: any) {
     reader.readAsDataURL(image);
     reader.onload = async (e: any) => {
       imageRawBase64 = e.target.result;
-      // remove everything before the comma and the comma itself
-      imageCorrectedBase64 = imageRawBase64.replace(/^data:image\/[a-z]+;base64,/, "");
+      // remove the metadata from the beginning of the base64 string, ex: data:image/png;base64,
+      imageCorrectedBase64 = imageRawBase64.split(",").pop();
+      if(!imageCorrectedBase64) {
+        console.log("Issue with base64 encoding, raw base64 below:");
+        console.log(imageRawBase64);
+        buttonText = "Failure.. try again";
+        setTimeout(() => {
+          buttonText = buttonTextPrev;
+        }, 4000);
+        return;
+      }
       // convert to buffer
       imageBinary = Buffer.from(imageCorrectedBase64, "base64");
       const result = await client.putFileContents(fileName, imageBinary, {
