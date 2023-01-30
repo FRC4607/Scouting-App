@@ -1,5 +1,5 @@
 <template>
-  <h1>CIS Scouting</h1>
+  <h1>C.I.S Scouting</h1>
   <img :src="logoPath" />
   <h2>Form Selection</h2>
   <ul v-if="list.length > 0" class="link-list">

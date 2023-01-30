@@ -1,5 +1,5 @@
 <template>
-  <h4>{{ data.name }}</h4>
+  <p style="text-align: center">{{ data.name }}</p>
 </template>
 
 <script setup lang="ts">

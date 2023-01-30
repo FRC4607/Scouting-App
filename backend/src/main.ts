@@ -80,7 +80,7 @@ async function validateTables() {
     }
     function archiveAndReplaceTable(Table: [string, Map<string, DataType>]) {
         return new Promise(async (resolve, reject) => {
-            console.log(`The table "${Table[0]}" is deferent from the config: Archiving Table`);
+            console.log(`The table "${Table[0]}" is different from the config: Archiving Table`);
 
             await queryServer(`RENAME TABLE ${Table[0]} TO ${Table[0]}_archive_${getUTCDateTime().replaceAll(" ", "")
                 .replaceAll("-", "").replaceAll(":", "")}`, connection);

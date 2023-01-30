@@ -13,28 +13,50 @@ const matchesMap: Map<string, DataType> = new Map([
     ["team_station", DataType.TinyText],
     ["team_number", DataType.SmallIntUnsigned],
     ["scouter_name", DataType.TinyText],
-    ["starting_position", DataType.Points],
-    ["taxi", DataType.Bool],
-    ["auto_upper_cargo_scored", DataType.TinyIntUnsigned],
-    ["auto_upper_cargo_missed", DataType.TinyIntUnsigned],
-    ["auto_lower_cargo_scored", DataType.TinyIntUnsigned],
-    ["auto_lower_cargo_missed", DataType.TinyIntUnsigned],
-    ["teleop_upper_cargo_scored", DataType.TinyIntUnsigned],
-    ["teleop_upper_cargo_missed", DataType.TinyIntUnsigned],
-    ["teleop_lower_cargo_scored", DataType.TinyIntUnsigned],
-    ["teleop_lower_cargo_missed", DataType.TinyIntUnsigned],
-    ["defense_rating", DataType.TinyIntUnsigned],
-    ["hanger_level", DataType.TinyIntUnsigned],
-    ["failed_climb", DataType.Bool],
-    ["robots_climbed", DataType.SmallIntUnsigned],
-    ["mechanical_failures", DataType.Text],
+    ["starting_position", DataType.Point],
+    ["mobility", DataType.Bool],
+    ["auto_cones_missed", DataType.TinyIntUnsigned],
+    ["auto_cubes_missed", DataType.TinyIntUnsigned],
+    ["auto_grid", DataType.Int],
+    ["charging_station", DataType.TinyIntUnsigned],
+    ["teleop_cones_missed", DataType.TinyIntUnsigned],
+    ["teleop_cubes_missed", DataType.TinyIntUnsigned],
+    ["teleop_grid", DataType.Int],
+    ["playstyle", DataType.TinyIntUnsigned],
+    ["endgame_state", DataType.TinyIntUnsigned],
+    ["major_failures", DataType.Text],
     ["comments", DataType.Text],
     ["scouted_time", DataType.DateTime]
+]);
+
+const pitsMap: Map<string, DataType> = new Map([
+    ["scouter_name", DataType.TinyText],
+    ["team_number", DataType.SmallIntUnsigned],
+    ["drivetrain_type", DataType.TinyIntUnsigned],
+    ["frame_width", DataType.Float],
+    ["frame_length", DataType.Float],
+    ["weight", DataType.Float],
+    ["bumper_height", DataType.Float],
+    ["bumper_depth", DataType.Float],
+    ["bumper_mounting_configuration", DataType.TinyText],
+    ["programing_language", DataType.TinyIntUnsigned],
+    ["mobility_capable", DataType.Bool],
+    ["preferred_play_style", DataType.TinyIntUnsigned],
+    ["number_of_batteries", DataType.TinyIntUnsigned],
+    ["battery_maintenance", DataType.Bool],
+    ["battery_maintenance_text", DataType.TinyText],
+    ["pit_checklist", DataType.Bool],
+    ["scouting", DataType.Bool],
+    ["comments", DataType.Text],
+    ["scouted_time", DataType.DateTime],
+    ["battery_area", DataType.Text],
+    ["robot_close_ups", DataType.Text]
 ]);
 
 // Add layouts to Map of table layouts
 // Note: The name that this is mapped to must be the same as the config on the front end.
 TableLayouts.set("matches", matchesMap);
+TableLayouts.set("pits", pitsMap);
 
 /** 
  * A Map of the query used to crate the table. It is used when the table does not exist or needs to be recrated.

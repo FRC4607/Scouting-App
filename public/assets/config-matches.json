@@ -1,12 +1,11 @@
 {
-  "logo": "CHARGED_UP_Logo_Horiz_RGB_FullColorReverse.png",
+  "logo": "Charged_Up_Logo.png",
   "pages": [
     {
       "name": "Setup and Autonomous",
       "widgets": [
         {
           "name": "Starting Position",
-          "noLabel": true,
           "type": "positions",
           "file": "field.png",
           "height": 160,
@@ -17,16 +16,16 @@
           "height": 20
         },
         {
-          "name": "Taxi",
+          "name": "Mobility",
           "type": "checkbox"
         },
         {
-          "name": "Upper Cargo Scored",
+          "name": "Cones Missed",
           "type": "spinbox",
           "prefix": "Auto"
         },
         {
-          "name": "Upper Cargo Missed",
+          "name": "Cubes Missed",
           "type": "spinbox",
           "prefix": "Auto"
         },
@@ -35,14 +34,34 @@
           "height": 20
         },
         {
-          "name": "Lower Cargo Scored",
-          "type": "spinbox",
-          "prefix": "Auto"
+          "name": "Grid",
+          "type": "heading",
+          "colspan": 2
         },
         {
-          "name": "Lower Cargo Missed",
-          "type": "spinbox",
-          "prefix": "Auto"
+          "name": "Grid",
+          "type": "checkboxgrid",
+          "prefix": "Auto",
+          "rows": 9,
+          "columns": 3,
+          "file": "grids.png",
+          "colspan": 2,
+          "leftOffset": 50
+
+        },
+        
+        {
+          "type": "spacer",
+          "height": 20
+        },
+        {
+          "name": "Charging Station",
+          "type": "dropdown",
+          "options" : [
+            "--",
+            "Docked",
+            "Engaged"
+          ]
         }
       ]
     },
@@ -50,42 +69,46 @@
       "name": "Teleop",
       "widgets": [
         {
-          "name": "Upper Cargo Scored",
-          "row": 1,
+          "name": "Cones Missed",
           "type": "spinbox",
-          "prefix": "teleop"
+          "prefix": "Teleop"
         },
         {
-          "name": "Upper Cargo Missed",
+          "name": "Cubes Missed",
           "type": "spinbox",
-          "prefix": "teleop"
+          "prefix": "Teleop"
         },
         {
           "type": "spacer",
           "height": 20
         },
         {
-          "name": "Lower Cargo Scored",
-          "type": "spinbox",
-          "prefix": "teleop"
+          "name": "Grid",
+          "type": "heading",
+          "colspan": 2
         },
         {
-          "name": "Lower Cargo Missed",
-          "type": "spinbox",
-          "prefix": "teleop"
+          "name": "Grid",
+          "type": "checkboxgrid",
+          "prefix": "Teleop",
+          "rows": 9,
+          "columns": 3,
+          "file": "grids.png",
+          "colspan": 2, 
+          "leftOffset": 50
         },
         {
           "type": "spacer",
           "height": 40
         },
         {
-          "name": "Defense Rating",
+          "name": "Playstyle",
           "type": "dropdown",
           "options": [
-            "Not Played",
-            "Not Effective",
-            "Average",
-            "Very Effective"
+            "Offense",
+            "Defense",
+            "Runner",
+            "Defense-Runner Hybrid"
           ]
         }
       ]
@@ -94,28 +117,17 @@
       "name": "Endgame",
       "widgets": [
         {
-          "name": "Hanger Level",
-          "type": "radio",
-          "options": [
-            "Low",
-            "Mid",
-            "High",
-            "Traversal",
-            "None"
-          ],
-          "default": 4
+          "name": "Endgame State",
+          "type": "dropdown",
+          "options" : [
+            "--",
+            "Parked",
+            "Docked",
+            "Engaged"
+          ]
         },
         {
-          "name": "Failed Climb",
-          "type": "checkbox"
-        },
-        {
-          "name": "Robots Climbed",
-          "type": "spinbox",
-          "max": 3
-        },
-        {
-          "name": "Mechanical Failures",
+          "name": "Major Failures",
           "type": "text"
         },
         {
@@ -125,8 +137,7 @@
         },
         {
           "name": "Comments",
-          "type": "textarea", 
-          "noLabel": true,
+          "type": "textarea",
           "colspan": 2
         }
       ]

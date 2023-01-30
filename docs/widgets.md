@@ -130,6 +130,16 @@ points = [[float(j) for j in i.split(",")] for i in data_string.split(" ")]
 # => [[0.725, 0.669], [0.224, 0.769], [0.99, 0.362]]
 ```
 
+### Picture Upload
+
+A image/video upload widget. The user can upload an image or video from their device or directly take a picture/video with their device camera.
+
+**Type String:** `pictureupload`
+
+**Exports:** The name of the file(s) uploaded. The file name contains the scouter name, team number, and a unique ID to make up the file name. The scouter name and team number come from other widgets in the same configuration JSON file where the pictureupload widget is used. Make sure to at least have input widgets named "Scouter Name" and "Team Number" somewhere within the same file (this is configured this way by default).
+
+If multiple images/videos are uploaded through the same widget instance, they are delimited by commas in the exported value.
+
 ### Stopwatch
 
 A stopwatch widget. Can be used to record elapsed time and laps.
@@ -156,3 +166,17 @@ Allows selection of a match and team. If `skipTeamSelection` is `false`, this pa
   - Index within alliance (`1` to `3`)
   - Team number
   - Team name
+
+### CheckboxGrid
+
+A grid of checkboxes overladed onto a image.
+
+**Type String:** `checkboxgrid`
+
+**Exports:** The data as a number where each bit represents a check box columns then rows. The first checkbox in both the row and column is the first bit (ones place in binary) and the last checkbox is in the last row and column and it is in the rows*columns bit. i.e.
+
+````java
+[true,  false, true ]
+[true,  true,  true ] -> 011010111 -> 215
+[true,  false, false]
+````
