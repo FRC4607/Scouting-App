@@ -41,13 +41,13 @@ const info = {
   checkbox:      { class: WidgetInput,         label: LabelType.LabelTag,  required: ["name"] },
   multicheckbox: { class: WidgetMultiCheckbox, label: LabelType.PlainText, required: ["name", "options"] },
   picture:       { class: WidgetPicture,       label: LabelType.None,      required: ["file"] },
-  positions:     { class: WidgetPositions,     label: LabelType.PlainText, required: ["name", "file"] },
+  positions:     { class: WidgetPositions,     label: LabelType.None,      required: ["name", "file"] },
   radio:         { class: WidgetRadio,         label: LabelType.PlainText, required: ["name", "options"] },
   spacer:        { class: WidgetSpacer,        label: LabelType.None,      required: [] },
   spinbox:       { class: WidgetSpinbox,       label: LabelType.LabelTag,  required: ["name"] },
   stopwatch:     { class: WidgetStopwatch,     label: LabelType.PlainText, required: ["name"] },
-  textarea:      { class: WidgetTextarea,      label: LabelType.LabelTag,  required: ["name"] },
-  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.LabelTag,  required: ["name", "rows", "columns", "file"] },
+  textarea:      { class: WidgetTextarea,      label: LabelType.None,      required: ["name"] },
+  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.None,      required: ["name", "rows", "columns", "file"] },
   pictureupload: { class: WidgetPictureUpload, label: LabelType.LabelTag,  required: ["name"] }
 }[props.data.type];
 

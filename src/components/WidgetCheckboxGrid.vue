@@ -1,5 +1,5 @@
 <template>
-  <div id="selectGrid" :style="{backgroundImage: `url(${imagePath}`}">
+  <div id="selectGrid" :style="{ backgroundImage: `url(${imagePath}`, aspectRatio: aspectRatio, padding: offsets }">
     <div v-for="i in width * height" :key="i">
       <input type="checkbox" v-model="grid[i % 3][Math.floor(i / 3)]" />
     </div>
@@ -48,6 +48,28 @@ function exportData() {
 
 const imagePath = $computed(() => `${import.meta.env.BASE_URL}assets/${props.data.file}`);
 
+function getImgSize(): Promise<{ width: number, height: number }> {
+  return new Promise((resolve, reject) => {
+    const newImg = new Image();
+
+    newImg.onload = function () {
+      const height = newImg.height;
+      const width = newImg.width;
+      resolve({ width, height });
+    };
+
+    newImg.src = imagePath; // this must be done AFTER setting onload
+  });
+}
+
+const dimensions = await getImgSize();
+const aspectRatio = dimensions.width / dimensions.height
+
+const offsets = (props.data.topOffset ?? 0) * (200 / dimensions.height) + "px " + 
+                (props.data.rightOffset ?? 0) * (200 / dimensions.width) + "px " +
+                (props.data.bottomOffset ?? 0) * (200 / dimensions.height) + "px " + 
+                (props.data.leftOffset ?? 0) * (200 / dimensions.width) + "px";
+
 </script>
 
 <style scoped>
@@ -59,7 +81,6 @@ const imagePath = $computed(() => `${import.meta.env.BASE_URL}assets/${props.dat
   background-repeat: no-repeat;
   background-size: cover;
   width: 200px;
-  aspect-ratio: 255 / 990;
   margin: 0 calc(50% - 100px);
 }
 

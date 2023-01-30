@@ -146,7 +146,6 @@
         },
         {
           "name": "Comments",
-          "noLabel": true,
           "type": "textarea",
           "colspan": 2
         }

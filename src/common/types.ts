@@ -50,6 +50,10 @@ export interface WidgetData {
   // Grid Checkbox
   rows?: number;
   columns?: number;
+  leftOffset?: number;
+  rightOffset?: number;
+  topOffset?: number;
+  bottomOffset?: number;
 }
 
 export enum LabelType {

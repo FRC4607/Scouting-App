@@ -6,7 +6,6 @@
       "widgets": [
         {
           "name": "Starting Position",
-          "noLabel": true,
           "type": "positions",
           "file": "field.png",
           "height": 160,
@@ -46,8 +45,9 @@
           "rows": 9,
           "columns": 3,
           "file": "grids.png",
-          "noLabel": true,
-          "colspan": 2
+          "colspan": 2,
+          "leftOffset": 50
+
         },
         
         {
@@ -94,8 +94,8 @@
           "rows": 9,
           "columns": 3,
           "file": "grids.png",
-          "noLabel": true,
-          "colspan": 2
+          "colspan": 2, 
+          "leftOffset": 50
         },
         {
           "type": "spacer",
@@ -137,8 +137,7 @@
         },
         {
           "name": "Comments",
-          "type": "textarea", 
-          "noLabel": true,
+          "type": "textarea",
           "colspan": 2
         }
       ]
