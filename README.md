@@ -46,7 +46,7 @@ export const imageServerConfig =  {
 Configuring the interface and data fields is easy and codeless! You just need to add widget configurations to a couple JSON files. Refer to [config.md](docs/config.md) in docs for details.
 
 ### Backend
-The backend needs to know what data fields your app is using so it can properly handle and save them. The data types and fields can be configured in `backend/src/TableSchemes.ts`. The naming scheme must be consistent with what in configured in the [config files](docs/config.md). The name field is all lowercase and spaces replaced with underscores. Make sure there is a table scheme entry for each of the items in the config files or the database will not save all of the data. To help you out in case you miss any, fields you forget to add to the table scheme will be logged to the console of the app when you try to upload data to the database.
+The backend needs to know what data fields your app is using so it can properly handle and save them. The data types and fields can be configured in `backend/src/TableSchemes.ts`. The naming scheme must be consistent with what is configured in the [config files](docs/config.md). The name field must be all lowercase and any spaces should be replaced with underscores (eg. "Hello There" becomes "hello_there"). Make sure there is a table scheme entry for each of the items in the config files or the database will not save all of the data. To help you out in case you miss some, any fields that you forget to add to the table scheme will be logged to the console of the app when you try to upload data to the database. Keep an eye out for these messages while you are testing things out.
 
 
 ## Open Source
