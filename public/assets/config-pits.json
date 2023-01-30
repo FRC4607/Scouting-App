@@ -1,6 +1,6 @@
 {
   "heading": "Pit Scouting",
-  "logo": "CHARGED_UP_Logo_Horiz_RGB_FullColorReverse.png",
+  "logo": "Charged_Up_Logo.png",
   "skipTeamSelection": true,
   "pages": [
     {
@@ -12,7 +12,9 @@
         },
         {
           "name": "Team Number",
-          "type": "number"
+          "type": "spinbox",
+          "allowKeyboardInput": true,
+          "min": 1
         },
         {
           "name": "Drivetrain Type",
@@ -26,19 +28,22 @@
         },
         {
           "name": "Frame Width",
-          "type": "number",
+          "type": "spinbox",
+          "allowKeyboardInput": true,
           "min": 20,
           "max": 40
         },
         {
           "name": "Frame Length",
-          "type": "number",
+          "type": "spinbox",
+          "allowKeyboardInput": true,
           "min": 20,
           "max": 40
         },
         {
           "name": "Weight",
-          "type": "number",
+          "type": "spinbox",
+          "allowKeyboardInput": true,
           "min": 50,
           "max": 150
         },
@@ -48,11 +53,17 @@
         },
         {
           "name": "Bumper Height",
-          "type": "number"
+          "type": "spinbox",
+          "allowKeyboardInput": true,
+          "min": 0,
+          "max": 20
         },
         {
           "name": "Bumper Depth",
-          "type": "number"
+          "type": "spinbox",
+          "allowKeyboardInput": true,
+          "min": 0,
+          "max": 20
         },
         {
           "name": "Bumper Mounting Configuration",
@@ -93,7 +104,8 @@
       "widgets": [
         {
           "name": "Number of Batteries",
-          "type": "number"
+          "type": "number",
+          "min": 1
         },
         {
           "name": "Battery Maintenance",
