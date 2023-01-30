@@ -166,3 +166,17 @@ Allows selection of a match and team. If `skipTeamSelection` is `false`, this pa
   - Index within alliance (`1` to `3`)
   - Team number
   - Team name
+
+### CheckboxGrid
+
+A grid of checkboxes overladed onto a image.
+
+**Type String:** `checkboxgrid`
+
+**Exports:** The data as a number where each bit represents a check box columns then rows. The first checkbox in both the row and column is the first bit (ones place in binary) and the last checkbox is in the last row and column and it is in the rows*columns bit. i.e.
+
+````java
+[true,  false, true ]
+[true,  true,  true ] -> 011010111 -> 215
+[true,  false, false]
+````

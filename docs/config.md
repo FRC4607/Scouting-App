@@ -169,124 +169,136 @@ An array of [Widget](#widget-objects) objects specifying the widgets on the page
 
 Each object in a Page's `widgets` array requires the following field:
 
-`type`: string
+- `type`: string
 
-The type of the widget. This lets the app know what the widget should display as, and how its data should be exported (if applicable). See [Widgets](widgets.md) for more information on what widgets are available and their usage details.
+  The type of the widget. This lets the app know what the widget should display as, and how its data should be exported (if applicable). See [Widgets](widgets.md) for more information on what widgets are available and their usage details.
 
 ### Global Optional Fields
 
 The following fields may be applied to widgets of any type:
 
-`prefix`: string
+- `prefix`: string
 
-A string prepended to the widget's name in the exported data, separated from the name with a dash.
+  A string prepended to the widget's name in the exported data, separated from the name with a dash.
 
-This option may be used when multiple widgets have the same name and must be uniquely identified in the exported data.
+  This option may be used when multiple widgets have the same name and must be uniquely identified in the exported data.
 
-`align`: string
+- `align`: string
 
-How the widget is aligned in its grid cell. Can be any of `left`, `center`, or `right`; by default `left`.
+  How the widget is aligned in its grid cell. Can be any of `left`, `center`, or `right`; by default `left`.
 
-This option only has an effect when the column the widget is in is wider than the widget itself.
+  This option only has an effect when the column the widget is in is wider than the widget itself.
 
-`noLabel`: boolean
+- `noLabel`: boolean
 
-If the widget's label is hidden. By default `false`.
+  If the widget's label is hidden. By default `false`.
 
-`row`, `col`: number
+- `row`, `col`: number
 
-The position of the widget. See [Grid Layout](grid.md) for more information.
+  The position of the widget. See [Grid Layout](grid.md) for more information.
 
-`rowspan`, `colspan`, `labelColspan`: number
+- `rowspan`, `colspan`, `labelColspan`: number
 
-The number of rows and columns the widget takes up. See [Grid Layout](grid.md) for more information.
+  The number of rows and columns the widget takes up. See [Grid Layout](grid.md) for more information.
 
 ### Type-Specific Required Fields
 
 Certain widget types may also require additional fields:
 
-`name`: string
+- `name`: string
 
-The name of the widget, which displays as a label next to it and identifies it in the exported data.
+  The name of the widget, which displays as a label next to it and identifies it in the exported data.
 
-Required by all widgets except Picture and Spacer.
+  Required by all widgets except Picture and Spacer.
 
-`file`: filepath
+- `file`: filepath
 
-The path of an asset file. Currently, this option is only used by Picture and Positions which expect an image file to display.
+  The path of an asset file. This option is only used by Picture, Positions, and CheckboxGrid which expect an image file to display.
 
-Required by Picture and Positions.
+  Required by Picture, Positions and CheckboxGrid.
 
-`options`: array[string]
+- `options`: array[string]
 
-Different options to present to the user in widgets with predefined selections. Depending on the widget type, the user may be able to select one or multiple options.
+  Different options to present to the user in widgets with predefined selections. Depending on the widget type, the user may be able to select one or multiple options.
 
-Required by Dropdown, Radio, and MultiCheckbox.
+  Required by Dropdown, Radio, and MultiCheckbox.
+
+- `rows`, `columns`: number
+
+  This is the number of rows columns in the CheckboxGrid.
+
+  Required by CheckboxGrid
 
 ### Type-Specific Optional Fields
 
 Some widget types allow additional configuration options:
 
-#### Picture, Positions
+#### **Picture, Positions**
 
-`width`, `height`: number
+- `width`, `height`: number
 
-The dimensions to display the widget's image at, in pixels.
+  The dimensions to display the widget's image at, in pixels.
 
-- **If none are specified:** The image is displayed at actual size.
-- **If one is specified:** The image is resized to respect the dimension given, while preserving its aspect ratio.
-- **If both are specified:** The image is resized to respect both dimensions. Its aspect ratio is ignored.
+  - **If none are specified:** The image is displayed at actual size.
+  - **If one is specified:** The image is resized to respect the dimension given, while preserving its aspect ratio.
+  - **If both are specified:** The image is resized to respect both dimensions. Its aspect ratio is ignored.
 
-#### Positions
+#### **Positions**
 
-`allowMultiple`: boolean
+- `allowMultiple`: boolean
 
-If multiple selections are allowed. If `true`, each click on the image creates a new point to export; otherwise, only the last selected point is kept.
+  If multiple selections are allowed. If `true`, each click on the image creates a new point to export; otherwise, only the last selected point is kept.
 
-By default `false`.
+  By default `false`.
 
-`selectRadius`: number
+- `selectRadius`: number
 
-The radius of the circle displayed on each selected point, in pixels.
+  The radius of the circle displayed on each selected point, in pixels.
 
-`selectColor`: string
+- `selectColor`: string
 
-The color of the circle displayed on each selected point. Any CSS color value (hex, RGB, color name) may be used.
+  The color of the circle displayed on each selected point. Any CSS color value (hex, RGB, color name) may be used.
 
-#### Radio
+#### **Radio**
 
-`default`: number
+- `default`: number
 
-The index of the option in the `options` array to be selected by default. By default `0`.
+  The index of the option in the `options` array to be selected by default. By default `0`.
 
-**Note:** Array indices start at 0. The first string in the array is index 0, the second is index 1, etc.
+  **Note:** Array indices start at 0. The first string in the array is index 0, the second is index 1, etc.
 
-#### Spacer
+#### **Spacer**
 
-`width`, `height`: number
+- `width`, `height`: number
 
-The dimensions of the spacer in pixels. The default value for each option is `0`, i.e. not occupying space in that dimension.
+  The dimensions of the spacer in pixels. The default value for each option is `0`, i.e. not occupying space in that dimension.
 
-#### Spinbox
+#### **Spinbox**
 
-`min`: number
+- `min`: number
 
-The minimum value that can be entered. By default `0`.
+  The minimum value that can be entered. By default `0`.
 
-`max`: number
+- `max`: number
 
-The maximum value that can be entered. By default `Number.MAX_SAFE_INTEGER`, or `9007199254740991`.
+  The maximum value that can be entered. By default `Number.MAX_SAFE_INTEGER`, or `9007199254740991`.
 
-`allowKeyboardInput`: boolean
+- `allowKeyboardInput`: boolean
 
-If the value of the widget can be modified using the keyboard. By default `false`.
+  If the value of the widget can be modified using the keyboard. By default `false`.
 
-#### Stopwatch
+#### **Stopwatch**
 
-`startLabel`, `lapLabel`, `stopLabel`: string
+- `startLabel`, `lapLabel`, `stopLabel`: string
 
-The text to display in the Start, Lap, and Stop buttons, respectively. These will override the default labels and can be used to give a stopwatch a more intuitive interface.
+  The text to display in the Start, Lap, and Stop buttons, respectively. These will override the default labels and can be used to give a stopwatch a more intuitive interface.
 
-`maxLaps`: number
+- `maxLaps`: number
 
-The maximum number of laps that can be recorded; use 0 to disable lapping. By default `Number.MAX_SAFE_INTEGER`.
+  The maximum number of laps that can be recorded; use 0 to disable lapping. By default `Number.MAX_SAFE_INTEGER`.
+
+#### **CheckboxGrid**
+
+- `topOffset`, `bottomOffset`, `leftOffset`, `rightOffset`: number
+  
+  This adjusts how the grid is positioned on the image. The numbers to be set are based on the number of pixels on the image, not the distance in the browser. By default `0`

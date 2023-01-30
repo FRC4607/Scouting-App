@@ -41,6 +41,10 @@ The `rowspan` and `colspan` fields control how many rows and columns a widget ta
 
 The `labelColspan` field controls how many columns a widget's label takes up. This field is ignored if it is applied to a widget with no label.
 
+## Mobile Compatibility
+
+In order to have everything fit nicely onto a mobile screen it is recommended to have only 2 columns and minimal custom layouts.
+
 ## Full Demo Configuration
 
 ```json
