@@ -176,6 +176,18 @@ let app: http.RequestListener = (req, res) => {
             return;
         }
 
+        if (req.method === "POST" && req.url === "/error") {
+            let body = "";
+            req.on("data", chunk => {
+                body += chunk.toString(); // convert Buffer to string
+            });
+            req.on("end", () => {
+                console.error("Error Reported:\n" + body);
+                res.writeHead(200);
+                res.end();
+            });
+        }
+
         if (req.method === "POST" && req.url === "/api") {
             let body = "";
             req.on("data", chunk => {

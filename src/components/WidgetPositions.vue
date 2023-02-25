@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>{{ data.name }}</p>
-    <canvas ref="canvas" @click="click">No canvas support</canvas><br/>
+    <canvas ref="canvas" @click="click">No canvas support</canvas><br />
     <button style="margin-left: 6px;" @click="selections.pop">Undo Last</button>
   </div>
 </template>
@@ -37,9 +37,11 @@ useWidgetsStore().addWidgetValue(props.data, $$(value));
 const image = new Image();
 image.src = `${import.meta.env.BASE_URL}assets/${props.data.file}`;
 image.addEventListener("load", () => {
-  setDimensions("width", "height");
-  setDimensions("height", "width");
-  draw();
+  window.setTimeout(() => {
+    setDimensions("width", "height");
+    setDimensions("height", "width");
+    draw();
+  }, 200);
 });
 
 // Redraw the canvas when the selections change
@@ -71,10 +73,12 @@ function setDimensions(a: DimensionName, b: DimensionName) {
   if (dims[a] > 0) canvas[a] = dims[a];
   else if (dims[b] > 0) canvas[a] = (image[a] * dims[b]) / image[b];
   else canvas[a] = image[a];
+
 }
 
 // Adds a new selection to the array.
 function click(event: MouseEvent) {
+
   const point = { x: event.offsetX, y: event.offsetY };
 
   if (!props.data.allowMultiple) selections.pop(); // Only allow one value in the array if specified
@@ -83,8 +87,8 @@ function click(event: MouseEvent) {
 </script>
 
 <style scoped>
-  div {
-    white-space: normal;
-    text-align: center;
-  }
+div {
+  white-space: normal;
+  text-align: center;
+}
 </style>

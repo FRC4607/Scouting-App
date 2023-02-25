@@ -6,12 +6,15 @@
 <script setup lang="ts">
 import ErrorList from "@/components/ErrorList.vue";
 import { onErrorCaptured } from "vue";
+import { reportError } from "@/common/stores"
 
 const errors = $ref(new Array<string>());
 
 // Set handler to capture errors and push them to an array
 onErrorCaptured(e => {
-  errors.push(`${e.name}: ${e.message}`);
+  reportError(e).catch();
+  errors.push(`Name: ${e.name}; Message: ${e.message};`);
+
   return false;
 });
 </script>

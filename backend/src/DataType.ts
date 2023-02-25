@@ -172,7 +172,7 @@ const Parsers = {
     parseFloat(input: string): string {
         let preliminaryFilter = input.match(/[0-9]*(\.[0-9]+)?/)?.[0];
         if (preliminaryFilter == null)
-            return "0";
+            return "0.0";
         return preliminaryFilter;
     },
     /**
@@ -181,7 +181,7 @@ const Parsers = {
      * @returns A formatted string that can be converted into a Tiny Text.
      */
     parseTinyText(input: string): string {
-        return input.replace(/\'/g, "''").substring(0, 255);
+        return input.replaceAll("\'", "\\'").replaceAll("\\", "\\\\'").substring(0, 255);
     },
     /**
      * A function that converts a string into a valid TEXT format that the MySQL database can handel.
@@ -189,7 +189,7 @@ const Parsers = {
      * @returns A formatted string that can be converted into a Text.
      */
     parseText(input: string): string {
-        return input.replace(/\'/g, "''").substring(0, 65535);
+        return input.replaceAll("\'", "\\'").replaceAll("\\", "\\\\'").substring(0, 65535);
     },
     /**
      * A function that converts a string into a valid BOOLEAN format that the MySQL database can handel.

@@ -150,8 +150,37 @@ export const useWidgetsStore = defineStore("widgets", () => {
     });
   }
 
-  return $$({ values, savedData, teamSelectionConfig, lastWidgetRowEnd, downloadLink, makeDownloadLink, uploadData, addWidgetValue, save });
+  
+  return $$({ values, savedData, teamSelectionConfig, lastWidgetRowEnd, downloadLink, makeDownloadLink, uploadData, reportError, addWidgetValue, save });
 });
+
+export function reportError(error: Error): Promise<string> {
+  return new Promise(function (resolve, reject) {
+    const upload = new XMLHttpRequest();
+    upload.open("POST", `/error`);
+    upload.setRequestHeader("Content-Type", "application/json");
+
+    upload.onloadend = function () {
+      if (this.status >= 200 && this.status < 300) {
+        resolve(upload.response);
+      } else {
+        reject({
+          status: this.status,
+          statusText: upload.statusText
+        });
+      }
+    };
+    upload.onerror = function (event) {
+    console.log(event);
+      reject({
+        status: this.status,
+        statusText: upload.statusText
+      });
+    };
+
+    upload.send(JSON.stringify(error));
+  });
+}
 
 // Store to contain data fetched from The Blue Alliance
 export const useTBAStore = defineStore("tba", () => {
