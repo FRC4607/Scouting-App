@@ -27,7 +27,8 @@ Powered by [Vue.js](https://vuejs.org) and [The Blue Alliance](https://theblueal
     "port": "3306",
     "user": "your username",
     "password": "your password",
-    "database": "scouting"
+    "database": "scouting",
+    "charset" : "utf8mb4"
 }
 ```
 5. If you plan to use the pictureupload widget, you will need to add a configuration file named `imageServerConfig.ts` in the root folder that contains the code below with your information added. This is used to connect to a file storage server (like Nextcloud or a network share) using a WebDAV connection. If you do not plan to use the pictureupload widget, you can skip this step.
