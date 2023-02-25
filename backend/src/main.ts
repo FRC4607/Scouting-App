@@ -20,7 +20,8 @@ const __dirname = path.dirname(__filename);
     "host": "localhost",
     "user": "username",
     "password": "password",
-    "database": "database"
+    "database": "database",
+    "charset" : "utf8mb4"
 }
 */
 
