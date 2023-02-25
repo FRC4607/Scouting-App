@@ -279,18 +279,18 @@ let app: http.RequestListener = (req, res) => {
 
                 // console.log(query);
 
-                queryServer(query).catch((err) => {
-                    res.setHeader("content-type", "plaintext");
-                    res.writeHead(500);
-                    res.end("Database Error");
-                    console.error(err);
-                }).then((result) => {
+                queryServer(query).then((result) => {
                     res.setHeader("content-type", "plaintext");
                     res.writeHead(200);
                     res.end("Data Submitted");
 
                     console.log("\x1b[2m%s\x1b[0m", "Data Added");
                     return;
+                }).catch((err) => {
+                  res.setHeader("content-type", "plaintext");
+                  res.writeHead(500);
+                  res.end("Database Error");
+                  console.error(err);
                 });
             });
         }
