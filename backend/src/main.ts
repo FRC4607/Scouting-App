@@ -220,7 +220,9 @@ let app: http.RequestListener = (req, res) => {
 
                 let copyOfHeaders = [...rawHeaders];
                 for (const key of table.keys()) {
-                    let index = copyOfHeaders.findIndex((value) => value === key);
+                    // trim potential whitespace
+                    const trimmedKey = key.trim();
+                    const index = copyOfHeaders.findIndex((value) => value === trimmedKey);
                     if (index == -1) {
                         res.writeHead(400);
                         res.end("Bad data");
