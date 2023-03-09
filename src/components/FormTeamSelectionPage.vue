@@ -1,7 +1,7 @@
 <template>
   <FormPage title="Team Selection" ref="page">
     <FormGroup :label-type="LabelType.LabelTag" id="scouter-name" name="Scouter Name">
-      <input id="scouter-name" type="text" v-model="scouterName"/>
+      <input id="scouter-name" type="text" v-model="scouterName" />
     </FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="event-key-input" name="Event Key">
       <input id="event-key-input" type="text" v-model="eventKey" @keyup.enter="loadTBAData" />
@@ -10,7 +10,8 @@
     <FormGroup :label-type="LabelType.PlainText" name="Teams Loaded">{{ teamsLoadStatus }}</FormGroup>
     <FormGroup :label-type="LabelType.PlainText" name="Matches Loaded">{{ matchesLoadStatus }}</FormGroup>
     <FormGroup :label-type="LabelType.LabelTag" id="match-level-input" name="Match Level">
-      <select id="match-level-input" v-model.number="matchLevel" :disabled="config.data.forceQualifiers" @change=onLevelChange>
+      <select id="match-level-input" v-model.number="matchLevel" :disabled="config.data.forceQualifiers"
+        @change=onLevelChange>
         <option value="4">Practice</option>
         <option value="0">Qualifications</option>
         <option value="1">Quarterfinals</option>
@@ -25,7 +26,7 @@
       <div v-if="matchLevel === 4">
         <input list="teams" id="team-input" v-model="selectedTeam" />
         <datalist v-if="matchLevel === 4" id="teams">
-          <option v-for="team of teams?.values()" :key="get(team,'key')" :value="get(team,'team_number')">
+          <option v-for="team of teams?.values()" :key="get(team, 'key')" :value="get(team, 'team_number')">
             {{ get(team,'team_number') }} {{ get(team,'nickname') }}
           </option>
         </datalist>
@@ -86,7 +87,7 @@ const matchLevel = $ref(widgets.teamSelectionConfig.matchLevel);
 const matchNumber = $ref(widgets.teamSelectionConfig.matchNumber + 1);
 let selectedTeam = $ref(matchLevel !== 4 ? widgets.teamSelectionConfig.selectedTeam : null);
 
-if (widgets.teamSelectionConfig.eventKey) loadTBAData();
+if (eventKey != "" && eventKey != null) loadTBAData();
 
 const teamsLoadStatus = $ref("");
 const matchesLoadStatus = $ref("");
@@ -151,8 +152,8 @@ const teamData = $computed(() => teamsList[selectedTeam ?? 0]);
 const teamStation = $computed(() => teamData?.color !== null && teamData?.index !== null ? `${teamData?.color.toUpperCase()}_${teamData?.index}` : "");
 const teamNumber = $computed(() => teamData?.number !== null ? teamData?.number : 0);
 
-const computedTeamStation = $computed(() =>  matchLevel.valueOf() !== 4 ? teamStation.valueOf() : allianceStations[allianceColorManual.valueOf()] );
-const computedTeamNumber = $computed(() =>  matchLevel.valueOf() !== 4 ? teamNumber.valueOf() : selectedTeam?.valueOf() );
+const computedTeamStation = $computed(() => matchLevel.valueOf() !== 4 ? teamStation.valueOf() : allianceStations[allianceColorManual.valueOf()]);
+const computedTeamNumber = $computed(() => matchLevel.valueOf() !== 4 ? teamNumber.valueOf() : selectedTeam?.valueOf());
 
 // Add values to export
 widgets.addWidgetValue("event_key", $$(eventKey));
@@ -167,12 +168,18 @@ widgets.addWidgetValue("scouter_name", $$(scouterName));
 function updateStatus(msg: Ref<string>, saveVar: Ref<unknown>, { code, data }: TBAData) {
   // Update variables
   eventKey = code;
-  saveVar.value = data;
 
   // Update status message
-  if (isFailed(data)) msg.value = "\u274C " + getError(data);
-  else if (isEmpty(data)) msg.value = "\u26A0\uFE0F No data available";
-  else msg.value = "\u2705 Loaded successfully";
+  if (isFailed(data)) {
+    msg.value = "\u274C " + getError(data);
+    saveVar.value = [];
+  } else if (isEmpty(data)) {
+    msg.value = "\u26A0\uFE0F No data available";
+    saveVar.value = [];
+  } else {
+    msg.value = "\u2705 Loaded successfully";
+    saveVar.value = data;
+  }
 }
 
 // Loads team and match data from the event key the user entered.

@@ -58,7 +58,7 @@
           "name": "Charging Station",
           "type": "dropdown",
           "options" : [
-            "--",
+            "Not on Charging Station",
             "Docked",
             "Engaged"
           ]
@@ -120,7 +120,7 @@
           "name": "Endgame State",
           "type": "dropdown",
           "options" : [
-            "--",
+            "Not in Community",
             "Parked",
             "Docked",
             "Engaged"

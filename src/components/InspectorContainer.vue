@@ -39,8 +39,8 @@ Portions from https://vuejs.org/examples/#modal
       <button @click="showCameraModal">Import from QR Codes</button>
       <button @click="uploadData">Upload Data</button>
       <button @click="clearData">Clear All</button>
-    <span v-text="uploadInfo" v-show="uploadInfo" id="uploadInfo"></span>
     </template>
+    <span v-text="uploadInfo" v-show="uploadInfo" id="uploadInfo"></span>
   </div>
   <Teleport to="body">
     <Modal :show="qrModal" @close="qrModal = false">
@@ -258,7 +258,19 @@ function clearData() {
 
 async function uploadData() {
   if (selectedEntry == undefined) return;
-  uploadInfo = await widgets.uploadData({title: selectedEntry.title,  header: selectedEntry.header, values: filterRecords(true) });
+  widgets.uploadData({title: selectedEntry.title,  header: selectedEntry.header, values: filterRecords(true) }).then((value) => {
+    uploadInfo = value;
+    if (!confirm("Uploaded Successfully! Do you want to clear your entries?")) return;
+    widgets.savedData.clear();
+    selectedIdx = 0; // Reset selected index
+  }).catch((value) => {
+
+    if (value.statusText) {
+      uploadInfo = value.statusText;
+    } else {
+      uploadInfo = value;
+    }
+  })
 }
 
 </script>

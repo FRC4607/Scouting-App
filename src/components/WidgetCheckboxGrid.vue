@@ -1,14 +1,15 @@
 <template>
   <div id="selectGrid" :style="{ backgroundImage: `url(${imagePath}`, aspectRatio: aspectRatio, padding: offsets }">
     <div v-for="i in width * height" :key="i">
-      <input type="checkbox" v-model="grid[i % 3][Math.floor(i / 3)]" />
+      <input type="checkbox" v-model="grid[(i - 1) % width][Math.floor((i -1) / width)]" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useWidgetsStore } from "@/common/stores";
+import { useWidgetsStore, WidgetValue } from "@/common/stores";
 import { WidgetData } from "@/common/types";
+import { computed } from "@vue/runtime-core";
 
 const props = defineProps<{
   data: WidgetData,
@@ -33,20 +34,28 @@ const grid = $ref(gridConstruct);
 const value = $computed(() => exportData());
 useWidgetsStore().addWidgetValue(props.data, $$(value));
 
+
+const instanceWidgetStores: Array<WidgetValue> = useWidgetsStore().values;
+const stationColor = computed(() => {return instanceWidgetStores.find((widget: WidgetValue) => widget.name === "team_station")?.value.toString().match(/(BLUE)|(RED)/)?.[0] ?? "BLUE";})
+
+console.log(stationColor);
+
 function exportData() {
   let scored = 0;
   for (let column = 0; column < grid.length; column++) {
+    // console.log(column);
     for (let row = 0; row < grid[column].length; row++) {
-      const cell = grid[column][row]
+      const cell = grid[stationColor.value == "BLUE" ? column : (grid.length - column - 1)][row]
       if (cell) {
         scored |= Math.pow(2, (column * 9 + row));
       }
     }
   }
+  console.log(scored)
   return scored;
 }
 
-const imagePath = $computed(() => `${import.meta.env.BASE_URL}assets/${props.data.file}`);
+const imagePath = $computed(() => `${import.meta.env.BASE_URL}assets/${stationColor.value}-${props.data.file}`);
 
 function getImgSize(): Promise<{ width: number, height: number }> {
   return new Promise((resolve, reject) => {
@@ -65,10 +74,10 @@ function getImgSize(): Promise<{ width: number, height: number }> {
 const dimensions = await getImgSize();
 const aspectRatio = dimensions.width / dimensions.height
 
-const offsets = (props.data.topOffset ?? 0) * (200 / dimensions.height) + "px " + 
-                (props.data.rightOffset ?? 0) * (200 / dimensions.width) + "px " +
-                (props.data.bottomOffset ?? 0) * (200 / dimensions.height) + "px " + 
-                (props.data.leftOffset ?? 0) * (200 / dimensions.width) + "px";
+const offsets = computed(() => { return (props.data.topOffset ?? 0) * (200 / dimensions.height) + "px " +
+  ((stationColor.value == "RED" ? props.data.leftOffset : props.data.rightOffset) ?? 0) * (200 / dimensions.width) + "px " +
+  (props.data.bottomOffset ?? 0) * (200 / dimensions.height) + "px " +
+  ((stationColor.value == "RED" ? props.data.rightOffset : props.data.leftOffset) ?? 0) * (200 / dimensions.width) + "px"});
 
 </script>
 

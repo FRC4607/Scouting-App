@@ -20,7 +20,8 @@ const __dirname = path.dirname(__filename);
     "host": "localhost",
     "user": "username",
     "password": "password",
-    "database": "database"
+    "database": "database",
+    "charset" : "utf8mb4"
 }
 */
 
@@ -175,6 +176,18 @@ let app: http.RequestListener = (req, res) => {
             return;
         }
 
+        if (req.method === "POST" && req.url === "/error") {
+            let body = "";
+            req.on("data", chunk => {
+                body += chunk.toString(); // convert Buffer to string
+            });
+            req.on("end", () => {
+                console.error("Error Reported:\n" + body);
+                res.writeHead(200);
+                res.end();
+            });
+        }
+
         if (req.method === "POST" && req.url === "/api") {
             let body = "";
             req.on("data", chunk => {
@@ -279,18 +292,18 @@ let app: http.RequestListener = (req, res) => {
 
                 // console.log(query);
 
-                queryServer(query).catch((err) => {
-                    res.setHeader("content-type", "plaintext");
-                    res.writeHead(500);
-                    res.end("Database Error");
-                    console.error(err);
-                }).then((result) => {
+                queryServer(query).then((result) => {
                     res.setHeader("content-type", "plaintext");
                     res.writeHead(200);
                     res.end("Data Submitted");
 
                     console.log("\x1b[2m%s\x1b[0m", "Data Added");
                     return;
+                }).catch((err) => {
+                  res.setHeader("content-type", "plaintext");
+                  res.writeHead(500);
+                  res.end("Database Error");
+                  console.error(err);
                 });
             });
         }
