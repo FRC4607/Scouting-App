@@ -68,14 +68,41 @@
         {
           "name": "Bumper Mounting Configuration",
           "type": "text"
+        },
+        {
+          "name": "Using break mode on drivetrain",
+          "type": "checkbox"
+        },
+        {
+          "name": "If swerve what kind of modules",
+          "type": "dropdown",
+          "options": [
+            "SDS L1-L4",
+            "SDS MK3",
+            "SDS MK4",
+            "SDS MK4i",
+            "REV MAXSwerve",
+            "Swerve X",
+            "Other COTS",
+            "Custom",
+            "Other (comments)"
+          ]
+        },
+        {
+          "name": "Frequency of replacing wheels",
+          "type": "text"
+        },
+        {
+          "name": "Pneumatics in use",
+          "type": "checkbox"
         }
       ]
     },
     {
-      "name": "Gameplay and Programing",
+      "name": "Gameplay and Programming",
       "widgets": [
         {
-          "name": "Programing Language",
+          "name": "Programming Language",
           "type": "dropdown",
           "options": [
             "Java",
@@ -118,11 +145,34 @@
           "col": 2
         },
         {
+          "name": "Batteries Get Tested",
+          "type": "checkbox"
+        },
+        {
+          "name": "Main Battery Brand",
+          "type": "dropdown",
+          "options": [
+            "MK",
+            "Interstate",
+            "Duracell",
+            "Mighty Max",
+            "Other (comments)"
+          ]
+        },
+        {
+          "name": "Our batteries needed during playoffs",
+          "type": "checkbox"
+        },
+        {
           "name": "Pit Checklist",
           "type": "checkbox"
         },
         {
-          "name": "Scouting",
+          "name": "Does Scouting",
+          "type": "checkbox"
+        },
+        {
+          "name": "Willing to trade scouting data",
           "type": "checkbox"
         }
       ]
@@ -131,7 +181,7 @@
       "name": "Pictures and Comments",
       "widgets": [
         {
-          "name": "Note: You can take multiple pictures/videos!",
+          "name": "Note: You can upload multiple pictures/videos for each section!",
           "type": "label",
           "colspan": 2,
           "labelColspan": 2
@@ -141,11 +191,23 @@
           "type": "spacer"
         },
         {
-          "name": "Battery Area",
+          "name": "Battery Storage and Charging Area",
           "type": "pictureupload"
         },
         {
-          "name": "Robot Close Ups",
+          "name": "Battery Location On Robot",
+          "type": "pictureupload"
+        },
+        {
+          "name": "Battery Connector Close Up",
+          "type": "pictureupload"
+        },
+        {
+          "name": "Main Power Switch Location",
+          "type": "pictureupload"
+        },
+        {
+          "name": "Robot Close Ups and Features",
           "type": "pictureupload"
         },
         {

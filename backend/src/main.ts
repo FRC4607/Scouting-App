@@ -1,11 +1,11 @@
-import fs from 'fs';
+/* eslint-disable no-console */
+import fs from "fs";
 import http from "http";
-import path, { resolve } from 'path';
-import { fileURLToPath } from 'url';
-import mysql from 'mysql';
-import { TableLayouts, TableLayoutQueries } from './TableSchemes.js'
+import path from "path";
+import { fileURLToPath } from "url";
+import mysql from "mysql";
+import { TableLayouts, TableLayoutQueries } from "./TableSchemes.js"
 import { DataType, Parsers, getUTCDateTime } from "./DataType.js";
-import { resourceLimits } from 'worker_threads';
 interface SavedData {
     title: string;
     header: string[]; // Each element is a value in the CSV header
@@ -29,7 +29,7 @@ const mysqlConfig: mysql.ConnectionConfig = JSON.parse(fs.readFileSync("mysql-co
 
 function queryServer(query: string, connection?: mysql.Connection) {
     return new Promise<{ results: any, fields: mysql.FieldInfo[] | undefined }>((resolve, reject) => {
-        let currentConnection = connection ?? mysql.createConnection(mysqlConfig);
+        const currentConnection = connection ?? mysql.createConnection(mysqlConfig);
 
         if (currentConnection.listeners("end").length == 0) {
             currentConnection.on("end", () => {
@@ -68,7 +68,7 @@ async function validateTables() {
         return new Promise(async (resolve, reject) => {
             console.log(`Creating Table "${Table[0]}"`);
 
-            let query = TableLayoutQueries.get(Table[0]);
+            const query = TableLayoutQueries.get(Table[0]);
             if (query == null) {
                 reject("TableLayouts and TableLayoutQueries have mismatching entries");
                 return;
@@ -80,7 +80,7 @@ async function validateTables() {
         });
     }
     function archiveAndReplaceTable(Table: [string, Map<string, DataType>]) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
             console.log(`The table "${Table[0]}" is different from the config: Archiving Table`);
 
             await queryServer(`RENAME TABLE ${Table[0]} TO ${Table[0]}_archive_${getUTCDateTime().replaceAll(" ", "")
@@ -92,27 +92,27 @@ async function validateTables() {
         });
     }
 
-    let { results } = await queryServer("SHOW TABLES", connection)
+    const { results } = await queryServer("SHOW TABLES", connection)
 
-    let tables: string[] = [];
+    const tables: string[] = [];
     for (const dataPacket of results) {
         tables.push(dataPacket[`Tables_in_${mysqlConfig.database}`]);
     }
 
     for (const Table of TableLayouts) {
         if (tables.includes(Table[0])) {
-            let { results } = await queryServer(`DESCRIBE ${Table[0]}`, connection)
+            const { results } = await queryServer(`DESCRIBE ${Table[0]}`, connection)
 
-            let keyTypes: Map<string, DataType> = new Map();
+            const keyTypes: Map<string, DataType> = new Map();
             for (const column of results) {
-                let type = Parsers.parseDataType(column.Type);
+                const type = Parsers.parseDataType(column.Type);
                 if (type == null) throw Error(`The datatype "${column.Type}" is undetermined`);
                 keyTypes.set(column.Field, type);
             }
 
-            let tablesMatch: boolean = true;
+            let tablesMatch = true;
             for (const column of Table[1]) {
-                let databaseType = keyTypes.get(column[0]);
+                const databaseType = keyTypes.get(column[0]);
                 if (databaseType == null)
                     tablesMatch = false;
                 else {
@@ -133,7 +133,7 @@ async function validateTables() {
     });
     console.log("DB Tables Validated");
 }
-let app: http.RequestListener = (req, res) => {
+const app: http.RequestListener = (req, res) => {
     try {
         if (req.method === "GET") {
             let url = path.normalize(`${__dirname}/static${req.url}`)
@@ -201,16 +201,17 @@ let app: http.RequestListener = (req, res) => {
                     if (typeof data.title != "string") throw new Error("Bad Title");
                     if (!Array.isArray(data.header)) throw new Error("Bad Header");
                     if (!Array.isArray(data.values[0])) throw new Error("Bad Values");
-                } catch (error: any) {
+                } catch (error) {
                     res.writeHead(400);
                     res.end("Bad data");
                     return;
                 }
 
-                let rawHeaders: string[] = data.header;
-                let rawValues: string[][] = data.values;
+                const rawHeaders: string[] = data.header;
+                const rawValues: string[][] = data.values;
 
-                let table = TableLayouts.get(data.title);
+                const table = TableLayouts.get(data.title);
+
                 if (table == null) {
                     res.writeHead(400);
                     res.end("Bad data");
@@ -218,13 +219,15 @@ let app: http.RequestListener = (req, res) => {
                     return;
                 }
 
-                let copyOfHeaders = [...rawHeaders];
+                const copyOfHeaders = [...rawHeaders];
                 for (const key of table.keys()) {
-                    let index = copyOfHeaders.findIndex((value) => value === key);
+                    // trim potential whitespace
+                    const trimmedKey = key.trim();
+                    const index = copyOfHeaders.findIndex((value) => value === trimmedKey);
                     if (index == -1) {
                         res.writeHead(400);
                         res.end("Bad data");
-                        console.warn(`The key "${key}" was not found in the submitted data.`);
+                        console.warn(`The key "${trimmedKey}" was not found in the submitted data.`);
                         return;
                     }
                     copyOfHeaders.splice(index, 1);
@@ -236,13 +239,13 @@ let app: http.RequestListener = (req, res) => {
                     return;
                 }
 
-                let cleanValues: Map<string, string>[] = []
+                const cleanValues: Map<string, string>[] = []
 
                 for (const row of rawValues) {
-                    let rowMap: Map<string, string> = new Map();
+                    const rowMap: Map<string, string> = new Map();
                     for (let i = 0; i < row.length; i++) {
-                        let rawEntry = row[i];
-                        let rawHeader = rawHeaders[i];
+                        const rawEntry = row[i];
+                        const rawHeader = rawHeaders[i];
                         if (rawEntry == null) {
                             res.writeHead(400);
                             res.end("Bad data");
@@ -255,7 +258,7 @@ let app: http.RequestListener = (req, res) => {
                             console.warn(`Index "${i}" was not found in ${rawHeaders}`);
                             return;
                         }
-                        let dataType = table.get(rawHeader);
+                        const dataType = table.get(rawHeader);
                         if (dataType == null) {
                             res.writeHead(400);
                             res.end("Bad data");
@@ -268,7 +271,7 @@ let app: http.RequestListener = (req, res) => {
                 }
 
                 let headers = ""
-                let stringValues: string[] = new Array(cleanValues.length);
+                const stringValues: string[] = new Array(cleanValues.length);
                 stringValues.fill("");
 
                 for (const header of table.keys()) {
@@ -284,19 +287,18 @@ let app: http.RequestListener = (req, res) => {
 
                 headers = headers.replace(/, $/, "");
                 for (let i = 0; i < stringValues.length; i++) {
-                    let row = stringValues[i];
+                    const row = stringValues[i];
                     if (row) stringValues[i] = row.replace(/, $/, "");
                 }
 
-                let query = `INSERT INTO ${data.title} (${headers}) VALUES (${stringValues.join("), (")})`
+                const query = `INSERT INTO ${data.title} (${headers}) VALUES (${stringValues.join("), (")})`
 
                 // console.log(query);
 
-                queryServer(query).then((result) => {
+                queryServer(query).then(() => {
                     res.setHeader("content-type", "plaintext");
                     res.writeHead(200);
                     res.end("Data Submitted");
-
                     console.log("\x1b[2m%s\x1b[0m", "Data Added");
                     return;
                 }).catch((err) => {
