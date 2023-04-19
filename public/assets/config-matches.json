@@ -99,6 +99,24 @@
         },
         {
           "type": "spacer",
+          "height": 20
+        },
+        {
+          "name": "Super Charged Grid",
+          "type": "heading",
+          "colspan": 2
+        },
+        {
+          "name": "Super Charged Grid",
+          "type": "checkboxgrid",
+          "rows": 9,
+          "columns": 3,
+          "file": "grids.png",
+          "colspan": 2, 
+          "leftOffset": 50
+        },
+        {
+          "type": "spacer",
           "height": 40
         },
         {

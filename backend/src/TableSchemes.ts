@@ -22,6 +22,7 @@ const matchesMap: Map<string, DataType> = new Map([
     ["teleop_cones_missed", DataType.TinyIntUnsigned],
     ["teleop_cubes_missed", DataType.TinyIntUnsigned],
     ["teleop_grid", DataType.Int],
+    ["super_charged_grid", DataType.Int],
     ["playstyle", DataType.TinyIntUnsigned],
     ["endgame_state", DataType.TinyIntUnsigned],
     ["major_failures", DataType.Text],
