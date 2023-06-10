@@ -24,4 +24,4 @@ EXPOSE 4173
 ENV NODE_ENV production
 
 # Define the app run command
-CMD [ "npm", "run", "run" ]
+CMD [ "npm", "run", "run-pm2" ]

@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 }
 */
 
-const mysqlConfig: mysql.ConnectionConfig = JSON.parse(fs.readFileSync("mysql-config.json").toString());
+const mysqlConfig: mysql.ConnectionConfig = JSON.parse(fs.readFileSync("/usr/src/app/backend/mysql-config.json").toString());
 
 function queryServer(query: string, connection?: mysql.Connection) {
     return new Promise<{ results: any, fields: mysql.FieldInfo[] | undefined }>((resolve, reject) => {
