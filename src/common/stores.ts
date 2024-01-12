@@ -1,8 +1,10 @@
-import { Ref } from "vue";
-import { ConfigData, WidgetData } from "./types";
+import Ajv from "ajv";
+import { ConfigSchema, Widget } from "@/config";
 import { defineStore } from "pinia";
 import { isFailed, TBAData } from "./tba";
+import { Ref } from "vue";
 import { useStorage } from "@vueuse/core";
+import validate from "./validate";
 
 export interface WidgetValue {
   readonly name: string;
@@ -18,9 +20,13 @@ export interface SavedData {
 // Store to contain configuration data for the scouting form
 export const useConfigStore = defineStore("config", () => {
   const name = $ref("");
-  const data = $ref({} as ConfigData);
+  const data = $ref({} as ConfigSchema);
 
-  return $$({ name, data });
+  const ajv = new Ajv({ allErrors: true });
+
+  const validateSchema = () => validate(ajv, data);
+
+  return $$({ name, data, validateSchema });
 });
 
 // Store to contain widget information and saved records
@@ -48,8 +54,20 @@ export const useWidgetsStore = defineStore("widgets", () => {
     return (data === undefined) ? null : makeDownloadLink(data);
   });
 
-  // Creates a download link for a given data object.
-  function makeDownloadLink(data: SavedData): string {
+  // Returns the current form's widget data.
+  function getWidgetsAsCSV(): SavedData {
+    // Turns a value into a string. Arrays are space-delimited to minimize collision with the CSV format.
+    const stringify = (value: unknown) => Array.isArray(value) ? value.join(" ") : String(value);
+
+    // Get header and record from the data (`name` is already a string so it does not need stringification)
+    // Then add the current timestamp as the last field in the record
+    const header = values.map(i => i.name).concat("ScoutedTime");
+    const record = values.map(i => stringify(i.value)).concat(new Date().toString());
+    return { header, values: [record] };
+  }
+
+  // Turns to given data object into a CSV string.
+  function toCSVString(data: SavedData, excludeHeaders?: boolean): string {
     // Transforms an array of strings into valid CSV by escaping quotes, then joining each value.
     // https://en.wikipedia.org/wiki/Comma-separated_values
     const escape = (s: string[]) => s.map(i => `"${i.replaceAll('"', '""')}"`).join();
@@ -57,11 +75,16 @@ export const useWidgetsStore = defineStore("widgets", () => {
     // Escape the header and list of records, then put them together into a blob for downloading
     const header = escape(data.header);
     const records = data.values.map(escape);
-    return URL.createObjectURL(new Blob([[header, ...records].join("\n")], { type: "text/csv" }));
+    return (excludeHeaders ? records : [header, ...records]).join("\n");
+  }
+
+  // Creates a download link for a given data object.
+  function makeDownloadLink(data: SavedData): string {
+    return URL.createObjectURL(new Blob([toCSVString(data)], { type: "text/csv" }));
   }
 
   // Adds a widget and its reactive value to a temporary array.
-  function addWidgetValue(key: string | WidgetData, value: Ref) {
+  function addWidgetValue(key: string | Widget, value: Ref) {
     let name = null;
 
     if (typeof key === "string") {
@@ -69,28 +92,25 @@ export const useWidgetsStore = defineStore("widgets", () => {
       name = key.replaceAll(/\s/g, "_").toLowerCase();
     } else if (key.name !== undefined) {
       // Data object key provided, use its name field if it's defined
-      name = key.prefix ? `${key.prefix}_${key.name}`.replaceAll(/\s/g, "_").toLowerCase() : key.name.replaceAll(/\s/g, "_").toLowerCase();
+      name = key.prefix ? `${key.prefix}-${key.name}`.replaceAll(/\s/g, "") : key.name;
     } else {
       // Invalid argument
-      return;
+      return -1;
     }
 
-    values.push({ name, value });
+    return values.push({ name, value }) - 1;
   }
 
   // Saves the temporary array of widget data to a record in local storage.
-  function save(header?: string[], record?: string[], table?: string) {
-    if (!header || !record) {
-      // Turns a value into a string. Arrays are space-delimited to minimize collision with the CSV format.
-      const stringify = (value: unknown) => Array.isArray(value) ? value.join(" ") : String(value);
+  function save() {
+    // Turns a value into a string. Arrays are space-delimited to minimize collision with the CSV format.
+    const stringify = (value: unknown) => Array.isArray(value) ? value.join(" ") : String(value);
 
-      // Get header and record from the data (`name` is already a string so it does not need stringification)
-      // Then add the current timestamp as the last field in the record
-      header = values.map(i => i.name).concat("scouted_time");
-      let time = new Date()
-      let timeString = `${time.getUTCFullYear().toString().padStart(4, "0")}-${(time.getUTCMonth()+1).toString().padStart(2, "0")}-${time.getUTCDate().toString().padStart(2, "0")} ${time.getUTCHours().toString().padStart(2, "0")}:${time.getUTCMinutes().toString().padStart(2, "0")}:${time.getUTCSeconds().toString().padStart(2, "0")}`;
-      record = values.map(i => stringify(i.value)).concat(timeString);
-    }
+    // Get header and record from the data (`name` is already a string so it does not need stringification)
+    // Then add the current timestamp as the last field in the record
+    const header = values.map(i => i.name).concat("ScoutedTime");
+    const record = values.map(i => stringify(i.value)).concat(new Date().toString());
+
     // Add to saved local storage
     if (!table) {
       table = config.name;
@@ -98,60 +118,15 @@ export const useWidgetsStore = defineStore("widgets", () => {
     const entry: SavedData | undefined = savedData.get(table);
     if (entry === undefined) {
       // The entry for the current configuration name does not exist, create it
-      savedData.set(table, { title: table, header, values: [record] });
+      savedData.set(config.name, { header, values: [record] });
     } else {
       // The entry exists, overwrite the header and append the record
-      entry.header = header;
-      entry.values.push(record);
+      entry.header = csv.header;
+      entry.values.push(csv.values[0]);
     }
-
-    const newScouterNameHeaderIndex = header.findIndex((value) => value == "scouter_name");
-    teamSelectionConfig.scouterName = newScouterNameHeaderIndex > -1 ? record[newScouterNameHeaderIndex] : teamSelectionConfig.scouterName;
-    const newEventKeyHeaderIndex  = header.findIndex((value) => value == "event_key");
-    teamSelectionConfig.eventKey = newEventKeyHeaderIndex > -1 ? record[newEventKeyHeaderIndex] : teamSelectionConfig.eventKey;
-    const newMatchLevelHeaderIndex  = header.findIndex((value) => value == "match_level");
-    teamSelectionConfig.matchLevel = newMatchLevelHeaderIndex > -1 ? parseInt(record[newMatchLevelHeaderIndex ]): teamSelectionConfig.matchLevel;
-    const newMatchNumberHeaderIndex  = header.findIndex((value) => value == "match_number");
-    teamSelectionConfig.matchNumber = newMatchNumberHeaderIndex > -1 ? parseInt(record[newMatchNumberHeaderIndex]) : teamSelectionConfig.matchNumber;
-    const newSelectedTeamHeaderIndex = header.findIndex((value) => value == "team_station");
-    if (newSelectedTeamHeaderIndex > -1) {
-      const parts = record[newSelectedTeamHeaderIndex].split("_");
-      const newSelectedTeam = ((parts[0]=="BLUE") ? 3 : 0) + Number.parseInt(parts[1]) - 1;
-      teamSelectionConfig.selectedTeam = newSelectedTeam ? newSelectedTeam : teamSelectionConfig.selectedTeam;
-    }
-
   }
 
-  function uploadData(data: SavedData): Promise<string> {
-    return new Promise(function (resolve, reject) {
-      const upload = new XMLHttpRequest();
-      upload.open("POST", `/api`);
-      upload.setRequestHeader("Content-Type", "application/json");
-
-      upload.onloadend = function () {
-        if (this.status >= 200 && this.status < 300) {
-          resolve(upload.response);
-        } else {
-          reject({
-            status: this.status,
-            statusText: upload.statusText
-          });
-        }
-      };
-      upload.onerror = function (event) {
-      console.log(event);
-        reject({
-          status: this.status,
-          statusText: upload.statusText
-        });
-      };
-
-      upload.send(JSON.stringify(data));
-    });
-  }
-
-  
-  return $$({ values, savedData, teamSelectionConfig, lastWidgetRowEnd, downloadLink, makeDownloadLink, uploadData, reportError, addWidgetValue, save });
+  return $$({ values, savedData, lastWidgetRowEnd, downloadLink, makeDownloadLink, addWidgetValue, save });
 });
 
 export function reportError(error: Error): Promise<string> {

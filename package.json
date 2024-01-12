@@ -1,6 +1,6 @@
 {
   "name": "cis-scouting",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "serve": "vite preview --host",
@@ -19,7 +19,8 @@
     "docker-build": "docker build -t beckerrobotics/scouting-app .",
     "docker-run": "docker run -p 4173:4173 -d beckerrobotics/scouting-app",
     "docker-push": "docker push beckerrobotics/scouting-app",
-    "docker-deploy": "echo HEADS UP! && echo This requires that you are logged into the robotics DockerHub account within the terminal && echo Run 'docker login' to login && npm run docker-build && npm run docker-push"
+    "docker-deploy": "echo HEADS UP! && echo This requires that you are logged into the robotics DockerHub account within the terminal && echo Run 'docker login' to login && npm run docker-build && npm run docker-push",
+    "generateSchema": "json2ts src/common/config.schema.json src/config.d.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -70,7 +71,8 @@
       "$customRef": "readonly",
       "$ref": "readonly",
       "$shallowRef": "readonly",
-      "$toRef": "readonly"
+      "$toRef": "readonly",
+      "APP_VERSION": "readonly"
     },
     "parserOptions": {
       "ecmaVersion": "latest"

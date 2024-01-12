@@ -1,18 +1,18 @@
 <template>
-  <label v-for="[i, name] of data.options?.entries()" :key="i">
+  <label v-for="[i, name] of data.options.entries()" :key="i">
     <input type="checkbox" v-model="value" :value="i" />{{ name }}<br />
   </label>
 </template>
 
 <script setup lang="ts">
 import { useWidgetsStore } from "@/common/stores";
-import { WidgetData } from "@/common/types";
+import { Widget, WidgetMultiCheckbox } from "@/config";
 
 const props = defineProps<{
-  data: WidgetData,
+  data: Widget & WidgetMultiCheckbox,
   currentId: string
 }>();
 
 const value = $ref([]);
-useWidgetsStore().addWidgetValue(props.data, $$(value));
+defineExpose({ index: useWidgetsStore().addWidgetValue(props.data, $$(value)) });
 </script>

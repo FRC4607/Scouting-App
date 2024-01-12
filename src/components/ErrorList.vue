@@ -1,9 +1,9 @@
 <template>
-  <button id="opener" v-if="errors.length > 0" @click="errorList.showModal()">{{ errors.length }} {{ label }}</button>
+  <button id="opener" v-if="errors.length > 0" @click="errorList?.showModal">{{ errors.length }} {{ label }}</button>
   <dialog ref="errorList" id="dialog">
     <div id="dialog-header">
       <h4 id="dialog-title">Error List</h4>
-      <button id="dialog-close" @click="errorList.close()">
+      <button id="dialog-close" @click="errorList?.close">
         <img src="@/assets/close.svg" alt="Close" />
       </button>
     </div>
@@ -40,39 +40,41 @@ const label = $computed(() => (props.errors.length === 1) ? "Error" : "Errors");
   &::backdrop {
     background-color: #0000006c;
   }
+}
 
-  &-header {
-    padding: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid var(--text-color);
+#dialog-header {
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--text-color);
+}
+
+#dialog-title {
+  margin: 0;
+}
+
+#dialog-close {
+  background-color: inherit;
+  padding: 0;
+  margin-right: 4px;
+
+  img {
+    width: 0.9em;
+    height: 0.9em;
   }
+}
 
-  &-title {
-    margin: 0;
-  }
-
-  &-close {
-    background-color: inherit;
-    padding: 0;
-    margin-right: 4px;
-
-    img {
-      width: 0.9em;
-      height: 0.9em;
-    }
-  }
-
-  &-error-container {
-    overflow: auto;
-    padding: 4px;
-    max-height: 60vh;
-  }
+#dialog-error-container {
+  overflow: auto;
+  padding: 4px;
+  max-height: 60vh;
 }
 
 .error-entry {
   margin: 4px 0;
+  font-family: monospace;
+  white-space: pre;
 
   &::before {
     vertical-align: middle;

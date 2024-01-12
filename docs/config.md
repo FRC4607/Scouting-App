@@ -27,11 +27,30 @@ pits
 
 Notice how the `config-` and `.json` components of each file name are not included in the list.
 
+## Handling Updates
+
+When you update your copy of Black Hawks Scouting, GitHub will pull changes in the stock forms (`config-matches.json` and `config-pits.json`) into your fork. If you have your own changes in these files and don't want this to happen, you may do one of the following:
+
+- Save a copy of these files before updating, then restore them after updating
+- Define your configurations in new files (without modifying the stock configurations), and remove the stock forms from `configurations.txt` if desired
+
 ## Referencing Assets
 
 Some configuration options allow referencing an asset file, such as an image. The file must be in the `assets` directory; subdirectories under `assets` are also allowed.
 
 These configuration options take data of type `string`, which is the path of the file relative to the `assets` directory. Their descriptions in this document will list their data type as "filepath" to differentiate them from other string options.
+
+## Specifying Colors
+
+Some widgets allow customizing colors for visual assistance or improved visibility.
+
+These configuration options take data of type `string`. Any valid CSS color value may be used, such as:
+
+- `red` (Color name)
+- `#3CB043` (Hex value)
+- `rgb(136, 8, 8)` (RGB values)
+
+All color configuration options will have their datatype listed as "color".
 
 ## Syntax
 
@@ -205,35 +224,51 @@ The following fields may be applied to widgets of any type:
 
 Certain widget types may also require additional fields:
 
-- `name`: string
+#### All widgets except Picture, Spacer
+
+`name`: string
 
   The name of the widget, which displays as a label next to it and identifies it in the exported data.
 
-  Required by all widgets except Picture and Spacer.
+#### Picture, Positions
 
 - `file`: filepath
 
-  The path of an asset file. This option is only used by Picture, Positions, and CheckboxGrid which expect an image file to display.
+The path of an image file to display.
 
-  Required by Picture, Positions and CheckboxGrid.
+#### Dropdown, Radio, Multi Checkbox
 
 - `options`: array[string]
 
-  Different options to present to the user in widgets with predefined selections. Depending on the widget type, the user may be able to select one or multiple options.
+The list of options to present to the user. Dropdown and Radio require exactly one selection, while Multi Checkbox allows the user to select any number of options.
 
-  Required by Dropdown, Radio, and MultiCheckbox.
+#### Toggle Grid
 
-- `rows`, `columns`: number
+`width`: number
 
-  This is the number of rows columns in the CheckboxGrid.
+The number of columns in the grid.
 
-  Required by CheckboxGrid
+`height`: number
+
+The number of rows in the grid.
+
+`colors`: array[color]
+
+The list of colors to cycle through in a grid cell when it is clicked.
 
 ### Type-Specific Optional Fields
 
 Some widget types allow additional configuration options:
 
-#### **Picture, Positions**
+#### Dropdown
+
+`defaultOption`: boolean
+
+If the dropdown has a default "Select..." option. This will be displayed by default and can't be re-selected after choosing another option.
+
+The default option exports a value of `-1` and can be used in combination with `validation` to make the dropdown required.
+
+#### Picture, Positions
 
 - `width`, `height`: number
 
@@ -255,9 +290,9 @@ Some widget types allow additional configuration options:
 
   The radius of the circle displayed on each selected point, in pixels.
 
-- `selectColor`: string
+`selectColor`: color
 
-  The color of the circle displayed on each selected point. Any CSS color value (hex, RGB, color name) may be used.
+The color of the circle displayed on each selected point.
 
 #### **Radio**
 
@@ -287,7 +322,11 @@ Some widget types allow additional configuration options:
 
   If the value of the widget can be modified using the keyboard. By default `false`.
 
-#### **Stopwatch**
+`buttonColor`: color
+
+The color of the increment and decrement buttons.
+
+#### Stopwatch
 
 - `startLabel`, `lapLabel`, `stopLabel`: string
 
@@ -295,10 +334,44 @@ Some widget types allow additional configuration options:
 
 - `maxLaps`: number
 
-  The maximum number of laps that can be recorded; use 0 to disable lapping. By default `Number.MAX_SAFE_INTEGER`.
+The maximum number of laps that can be recorded; use 0 to disable lapping. By default `Number.MAX_SAFE_INTEGER`.
 
-#### **CheckboxGrid**
+#### Toggle Grid
 
-- `topOffset`, `bottomOffset`, `leftOffset`, `rightOffset`: number
-  
-  This adjusts how the grid is positioned on the image. The numbers to be set are based on the number of pixels on the image, not the distance in the browser. By default `0`
+`rowColors`, `colColors`: array[color]
+
+The colors of each row/column number cell. The first color in the array corresponds to the fill color of the first row/column cell, and so on.
+
+If there are more cells than entries in the array, the remaining cells will retain their default color.
+
+If there are more array entries than cells, the extra entries are ignored.
+
+### Validation
+
+Certain widgets support value validation. Validation conditions are specified in a widget's optional `validation` field in the form of a [validation object](#validation-object).
+
+See [Validation](validation.md) for more information.
+
+## Validation Object
+
+Each object associated with a widget's `validation` field requires the following fields:
+
+`comparison`: string
+
+How to compare a widget's value with the specified value(s) to determine if it passes validation. Can be any of:
+
+- `less`
+- `lessOrEqual`
+- `greater`
+- `greaterOrEqual`
+- `equal`
+- `inRange`
+- `outOfRange`
+
+`value`: array[number] if `comparison` is any of (`inRange`, `outOfRange`), number otherwise
+
+The value(s) to validate the widget against.
+
+If range validation is specified, this field should be an array of two numbers specifying the range to validate against. The two numbers may be in any order. While more numbers are valid in the array, Black Hawks Scouting will only use the greatest and least values. This range is inclusive for `inRange` and exclusive for `outOfRange`.
+
+Otherwise, this field is a single number specifying the value to validate against.

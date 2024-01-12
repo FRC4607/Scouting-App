@@ -1,7 +1,11 @@
+/* eslint-env node */
+
 import autoprefixer from "autoprefixer";
 import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "url";
-import postcssNested from "postcss-nested";
+import { liveReload } from "vite-plugin-live-reload";
+import postcssPresetEnv from "postcss-preset-env";
+import ReactivityTransform from "@vue-macros/reactivity-transform/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
 
@@ -9,13 +13,15 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   css: {
     postcss: {
-      plugins: [autoprefixer, postcssNested]
+      plugins: [autoprefixer, postcssPresetEnv({ stage: 1 })]
     }
   },
+  define: {
+    APP_VERSION: JSON.stringify(process.env.npm_package_version)
+  },
   plugins: [
-    vue({
-      reactivityTransform: true
-    }),
+    ReactivityTransform(),
+    vue(),
     VitePWA({
       includeAssets: ["assets/*", "icons/*"],
       manifest: {
@@ -38,6 +44,9 @@ export default defineConfig({
         ]
       }
     }),
+    liveReload([
+      "public/"
+    ])
   ],
   resolve: {
     alias: {

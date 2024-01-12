@@ -1,6 +1,9 @@
 <template>
   <FormPage title="Download Data" ref="page">
     <FormGroup :label-type="LabelType.None" :colspan="2" align="center">
+      <button @click="qrContainer?.showModal()">Generate QR Code</button>
+    </FormGroup>
+    <FormGroup :label-type="LabelType.None" :colspan="2" align="center">
       <button @click="clearForm">Save and Clear Form</button>
     </FormGroup>
     <FormGroup :label-type="LabelType.None">
@@ -17,13 +20,24 @@
       <RouterLink :to="{ name: 'home' }">Home</RouterLink>
     </FormGroup>
   </FormPage>
+  <dialog ref="qrContainer">
+    <div id="qr-dialog-contents">
+      <button id="qr-dialog-close" @click="qrContainer?.close">Close</button>
+      <div>
+        <input type="checkbox" v-model="excludeHeaders" id="exclude-headers" />
+        <label for="exclude-headers">Exclude headers in code</label>
+      </div>
+      <qrcode-vue :value="qrData" level="M" render-as="svg" :size="350" />
+    </div>
+  </dialog>
 </template>
 
 <script setup lang="ts">
 import FormPage from "./FormPage.vue";
 import FormGroup from "./FormGroup.vue";
-import { LabelType } from "@/common/types";
-import { ref } from "vue";
+import { LabelType } from "@/common/shared";
+import { computed } from "vue";
+import QrcodeVue from "qrcode.vue";
 import { useConfigStore, useWidgetsStore } from "@/common/stores";
 import { useRouter } from "vue-router";
 
@@ -32,11 +46,32 @@ const widgets = useWidgetsStore();
 
 const router = useRouter();
 
-const page = ref<InstanceType<typeof FormPage>>();
-defineExpose(page);
+const page = $ref<InstanceType<typeof FormPage>>();
+const qrContainer = $ref<HTMLDialogElement>();
+const qrData = $computed(() => widgets.toCSVString(widgets.getWidgetsAsCSV(), excludeHeaders));
+const excludeHeaders = $ref(false);
 
 function clearForm() {
   widgets.save();
   location.reload();
 }
+
+defineExpose({ title: computed(() => page?.title), setShown: computed(() => page?.setShown) });
 </script>
+
+<style lang="postcss">
+#qr-dialog-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+
+  button {
+    align-self: flex-end;
+  }
+
+  label {
+    color: black;
+  }
+}
+</style>

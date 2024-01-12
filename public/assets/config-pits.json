@@ -1,6 +1,6 @@
 {
-  "heading": "Pit Scouting",
-  "logo": "Charged_Up_Logo.png",
+  "heading": "Crescendo - 2024 (Pit Scouting)",
+  "logo": "logo.png",
   "skipTeamSelection": true,
   "pages": [
     {
@@ -11,10 +11,20 @@
           "type": "text"
         },
         {
-          "name": "Team Number",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 1
+          "name": "Length",
+          "type": "number"
+        },
+        {
+          "name": "Width",
+          "type": "number"
+        },
+        {
+          "name": "Number of Batteries",
+          "type": "number"
+        },
+        {
+          "name": "Weight",
+          "type": "number"
         },
         {
           "name": "Drivetrain Type",
@@ -27,74 +37,27 @@
           ]
         },
         {
-          "name": "Frame Width",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 20,
-          "max": 40
-        },
-        {
-          "name": "Frame Length",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 20,
-          "max": 40
-        },
-        {
-          "name": "Weight",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 50,
-          "max": 150
-        },
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Bumper Height",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 0,
-          "max": 20
-        },
-        {
-          "name": "Bumper Depth",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 0,
-          "max": 20
-        },
-        {
-          "name": "Bumper Mounting Configuration",
-          "type": "text"
-        },
-        {
-          "name": "Using break mode on drivetrain",
-          "type": "checkbox"
-        },
-        {
-          "name": "If swerve what kind of modules",
+          "name": "Swerve Motor Type",
           "type": "dropdown",
           "options": [
-            "SDS L1-L4",
-            "SDS MK3",
-            "SDS MK4",
-            "SDS MK4i",
-            "REV MAXSwerve",
-            "Swerve X",
-            "Other COTS",
-            "Custom",
-            "Other (comments)"
+            "Neo",
+            "Falcon",
+            "Cim"
           ]
         },
         {
-          "name": "Frequency of replacing wheels",
-          "type": "text"
-        },
-        {
-          "name": "Pneumatics in use",
-          "type": "checkbox"
+          "name": "Swerve Type",
+          "type": "dropdown",
+          "options": [
+            "No swerve",
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "Neo",
+            "Falcon",
+            "Custom"
+          ]
         }
       ]
     },
@@ -102,26 +65,24 @@
       "name": "Gameplay and Programming",
       "widgets": [
         {
-          "name": "Programming Language",
-          "type": "dropdown",
+          "name": "Cycle Time",
+          "type": "number"
+        },
+        {
+          "name": "Can Pick Up",
+          "type": "multicheckbox",
           "options": [
-            "Java",
-            "C++",
-            "Python",
-            "Labview"
+            "Ground",
+            "Source"
           ]
         },
         {
-          "name": "Mobility Capable",
-          "type": "checkbox"
-        },
-        {
-          "name": "Preferred Play Style",
-          "type": "dropdown",
+          "name": "Can Score In",
+          "type": "multicheckbox",
           "options": [
-            "Defense",
-            "Offense",
-            "Runner"
+            "Speaker",
+            "Amp",
+            "Trap"
           ]
         }
       ]
@@ -217,6 +178,23 @@
         {
           "name": "Comments",
           "type": "label"
+        },
+        {
+          "name": "Scoring Methods",
+          "type": "multicheckbox",
+          "options": [
+            "Manual",
+            "Auto"
+          ]
+        },
+        {
+          "name": "Preferred Pickup Location",
+          "type": "dropdown",
+          "options": [
+            "Ground",
+            "Source"
+          ],
+          "defaultOption": true
         },
         {
           "name": "Comments",

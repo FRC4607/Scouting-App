@@ -4,19 +4,20 @@
 
 <script setup lang="ts">
 import { useWidgetsStore } from "@/common/stores";
-import { WidgetData } from "@/common/types";
+import { Widget, WidgetCheckbox, WidgetNumber, WidgetText } from "@/config";
 
 const props = defineProps<{
-  data: WidgetData,
+  data: Widget & (WidgetCheckbox | WidgetNumber | WidgetText),
   currentId: string
 }>();
 
 // Table of default values for different input types
-const defaultValues = new Map<string, unknown>();
-defaultValues.set("checkbox", false);
-defaultValues.set("number", 0);
-defaultValues.set("text", "");
+const defaultValues = new Map<string, unknown>([
+  ["checkbox", false],
+  ["number", 0],
+  ["text", ""]
+]);
 
-const value = $ref(defaultValues.get(props.data.type) ?? "");
-useWidgetsStore().addWidgetValue(props.data, $$(value));
+const value = $ref(defaultValues.get(props.data.type));
+defineExpose({ index: useWidgetsStore().addWidgetValue(props.data, $$(value)) });
 </script>
