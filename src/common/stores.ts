@@ -2,9 +2,9 @@ import Ajv from "ajv";
 import { ConfigSchema, Widget } from "@/config";
 import { defineStore } from "pinia";
 import { isFailed, TBAData } from "./tba";
-import { Ref } from "vue";
 import { useStorage } from "@vueuse/core";
 import validate from "./validate";
+import { Ref } from "vue";
 
 export interface WidgetValue {
   readonly name: string;
@@ -61,9 +61,9 @@ export const useWidgetsStore = defineStore("widgets", () => {
 
     // Get header and record from the data (`name` is already a string so it does not need stringification)
     // Then add the current timestamp as the last field in the record
-    const header = values.map(i => i.name).concat("ScoutedTime");
-    const record = values.map(i => stringify(i.value)).concat(new Date().toString());
-    return { header, values: [record] };
+    const header = values.map((i: WidgetValue) => i.name).concat("ScoutedTime");
+    const record = values.map((i: WidgetValue) => stringify(i.value)).concat(new Date().toString());
+    return { title: useConfigStore().name, header, values: [record] };
   }
 
   // Turns to given data object into a CSV string.
@@ -103,22 +103,13 @@ export const useWidgetsStore = defineStore("widgets", () => {
 
   // Saves the temporary array of widget data to a record in local storage.
   function save() {
-    // Turns a value into a string. Arrays are space-delimited to minimize collision with the CSV format.
-    const stringify = (value: unknown) => Array.isArray(value) ? value.join(" ") : String(value);
-
-    // Get header and record from the data (`name` is already a string so it does not need stringification)
-    // Then add the current timestamp as the last field in the record
-    const header = values.map(i => i.name).concat("ScoutedTime");
-    const record = values.map(i => stringify(i.value)).concat(new Date().toString());
+    const csv = getWidgetsAsCSV();
 
     // Add to saved local storage
-    if (!table) {
-      table = config.name;
-    }
-    const entry: SavedData | undefined = savedData.get(table);
+    const entry = savedData.get(config.name);
     if (entry === undefined) {
       // The entry for the current configuration name does not exist, create it
-      savedData.set(config.name, { header, values: [record] });
+      savedData.set(config.name, csv);
     } else {
       // The entry exists, overwrite the header and append the record
       entry.header = csv.header;
@@ -126,7 +117,49 @@ export const useWidgetsStore = defineStore("widgets", () => {
     }
   }
 
-  return $$({ values, savedData, lastWidgetRowEnd, downloadLink, makeDownloadLink, addWidgetValue, save });
+  // Like above, but one row.
+  function saveRow(header: string[], row: string[], table: string) {
+    // Add to saved local storage
+    const entry = savedData.get(table);
+    if (entry === undefined) {
+      // The entry for the current configuration name does not exist, create it
+      savedData.set(config.name, {title: table, header, values: [row]});
+    } else {
+      // The entry exists, overwrite the header and append the record
+      entry.header = header;
+      entry.values.push(row);
+    }
+  }
+
+  function uploadData(data: SavedData): Promise<string> {
+    return new Promise(function (resolve, reject) {
+      const upload = new XMLHttpRequest();
+      upload.open("POST", `/api`);
+      upload.setRequestHeader("Content-Type", "application/json");
+
+      upload.onloadend = function () {
+        if (this.status >= 200 && this.status < 300) {
+          resolve(upload.response);
+        } else {
+          reject({
+            status: this.status,
+            statusText: upload.statusText
+          });
+        }
+      };
+      upload.onerror = function (event) {
+      console.log(event);
+        reject({
+          status: this.status,
+          statusText: upload.statusText
+        });
+      };
+
+      upload.send(JSON.stringify(data));
+    });
+  }
+
+  return $$({ values, savedData, lastWidgetRowEnd, downloadLink, makeDownloadLink, addWidgetValue, save, getWidgetsAsCSV, toCSVString, teamSelectionConfig, uploadData, saveRow });
 });
 
 export function reportError(error: Error): Promise<string> {
@@ -189,4 +222,12 @@ export const useTBAStore = defineStore("tba", () => {
   }
 
   return $$({ eventCode, savedData, load });
+});
+
+// Store to contain widget validation status flags
+export const useValidationStore = defineStore("validation", () => {
+  const triggerPages = $ref(new Array<number>()); // Array of pages to validate
+  const failedPage = $ref(-1); // Index of page that failed validation (-1 indicates success)
+
+  return $$({ triggerPages, failedPage });
 });

@@ -11,6 +11,10 @@
           "type": "text"
         },
         {
+          "name": "Team Number",
+          "type": "number"
+        },
+        {
           "name": "Length",
           "type": "number"
         },
@@ -101,7 +105,7 @@
         },
         {
           "name": "Battery Maintenance_text",
-          "noLabel": "true",
+          "noLabel": true,
           "type": "text",
           "col": 2
         },

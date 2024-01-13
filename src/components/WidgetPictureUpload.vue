@@ -10,15 +10,15 @@
 
 <script setup lang="ts">
 
-import { createClient } from "webdav/web";
+import { createClient } from "webdav";
 import { imageServerConfig } from "../../imageServerConfig";
 import { useWidgetsStore, WidgetValue } from "@/common/stores";
-import { WidgetData } from "@/common/types";
+import type { Widget } from "../config.d.ts";
 import { Buffer } from "buffer";
 
 // register the widget with the store
 const props = defineProps<{
-  data: WidgetData,
+  data: Widget,
   currentId: string
 }>();
 
@@ -47,8 +47,8 @@ function uploadImage(e: any) {
   const pictureContext = props.data.name?.toLowerCase().replace(" ", "-");
   // grab widget values from the store that correspond to this session
   const instanceWidgetStores: Array<WidgetValue> = useWidgetsStore().values;
-  const scouterName: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "scouter_name")?.value.toString();
-  const teamNumber: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "team_number")?.value.toString();
+  const scouterName: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "Scouter Name")?.value.toString();
+  const teamNumber: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "Team Number")?.value.toString();
   const uuid: string = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   // create file name using scouter name, team number, and a random uuid to make sure the file name is unique when multiple photos are taken
   let fileName = `${scouterName}_${teamNumber}_${pictureContext}_${uuid}`;
@@ -72,18 +72,18 @@ function uploadImage(e: any) {
   }
   const buttonTextPrev = buttonText;
   buttonText = "Uploading...";
-  try {
-    const image = e.target.files[0];
-    if (!image){
-      buttonText = buttonTextPrev;
-      return; // no image was selected or taken, just a button click (user cancelled probably)
-    }
-    console.log(`File collected from user: ${image.name}`);
-    // add file extension to file name (e.g: .png, .jpg, etc.)
-    fileName += `.${image.name.split(".").pop()}`;
-    const reader = new FileReader();
-    reader.readAsDataURL(image);
-    reader.onload = async (e: any) => {
+  const image = e.target.files[0];
+  if (!image){
+    buttonText = buttonTextPrev;
+    return; // no image was selected or taken, just a button click (user cancelled probably)
+  }
+  console.log(`File collected from user: ${image.name}`);
+  // add file extension to file name (e.g: .png, .jpg, etc.)
+  fileName += `.${image.name.split(".").pop()}`;
+  const reader = new FileReader();
+  reader.readAsDataURL(image);
+  reader.onload = async (e: any) => {
+    try {
       imageRawBase64 = e.target.result;
       // remove the metadata from the beginning of the base64 string, ex: data:image/png;base64,
       imageCorrectedBase64 = imageRawBase64.split(",").pop();
@@ -137,15 +137,15 @@ function uploadImage(e: any) {
           buttonText = buttonTextPrev;
         }
       }, 3000);
-    };
-  }
-  catch (e) {
-    console.error(e);
-    buttonText = "Failure.. Try again";
-    setTimeout(() => {
-      buttonText = buttonTextPrev;
-    }, 4000);
-  }
+    }
+    catch (e) {
+      console.error(e);
+      buttonText = "Failure.. Try again";
+      setTimeout(() => {
+        buttonText = buttonTextPrev;
+      }, 4000);
+    }
+  };
 }
 
 </script>

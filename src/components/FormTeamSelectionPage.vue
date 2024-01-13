@@ -71,7 +71,7 @@ const selectType = $ref(0);
 let eventKey = $ref("");
 const matchLevel = $ref(0);
 const matchNumber = $ref(1);
-const selectedTeam = $ref(0);
+let selectedTeam = $ref(0);
 
 const teamNumberManual = $ref(0);
 const teamColorManual = $ref("Red");
@@ -134,9 +134,7 @@ const teamData = $computed(() => {
 widgets.addWidgetValue("event_key", $$(eventKey));
 widgets.addWidgetValue("match_level", $$(matchLevel));
 widgets.addWidgetValue("match_number", $$(matchNumber));
-widgets.addWidgetValue("team_station", $$(computedTeamStation));
-widgets.addWidgetValue("team_number", $$(computedTeamNumber));
-widgets.addWidgetValue("scouter_name", $$(scouterName));
+widgets.addWidgetValue("team_data", $$(teamData));
 
 // Updates the loaded status message for a variable.
 // This function takes Ref objects to get a behavior similar to pass-by-reference in C++.
@@ -160,14 +158,14 @@ function updateStatus(msg: Ref<string>, saveVar: Ref<unknown>, { code, data }: T
 // Loads team and match data from the event key the user entered.
 function loadTBAData() {
   teamsLoadStatus = "Loading...";
-  tba.load(eventKey, "teams").then(value => updateStatus($$(teamsLoadStatus), $$(teams), value));
+  tba.load(eventKey, "teams").then((value: TBAData) => updateStatus($$(teamsLoadStatus), $$(teams), value));
 
   matchesLoadStatus = "Loading...";
-  tba.load(eventKey, "matches").then(value => updateStatus($$(matchesLoadStatus), $$(matches), value));
+  tba.load(eventKey, "matches").then((value: TBAData) => updateStatus($$(matchesLoadStatus), $$(matches), value));
 }
 
 function onLevelChange() {
-  selectedTeam = matchLevel !== 4 ? widgets.teamSelectionConfig.selectedTeam : null;
+  selectedTeam = matchLevel !== 4 ? widgets.teamSelectionConfig.selectedTeam : -1;
 }
 
 </script>

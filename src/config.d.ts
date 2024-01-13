@@ -21,7 +21,9 @@ export type Widget = {
     | "spinbox"
     | "stopwatch"
     | "textarea"
-    | "togglegrid";
+    | "togglegrid"
+    | "pictureupload"
+    | "checkboxgrid";
   prefix?: string;
   name?: string;
   align?: "left" | "center" | "right";
@@ -54,7 +56,9 @@ export type Widget1 =
   | WidgetSpinbox
   | WidgetStopwatch
   | WidgetTextarea
-  | WidgetToggleGrid;
+  | WidgetToggleGrid
+  | WidgetPictureUpload
+  | WidgetCheckboxGrid;
 
 export interface ConfigSchema {
   heading?: string;
@@ -166,5 +170,19 @@ export interface WidgetToggleGrid {
   colors: string[];
   rowColors?: string[];
   colColors?: string[];
+  [k: string]: unknown;
+}
+export interface WidgetPictureUpload {
+  type?: "pictureupload";
+  [k: string]: unknown;
+}
+export interface WidgetCheckboxGrid {
+  type?: "checkboxgrid";
+  width?: number;
+  height?: number;
+  leftOffset?: number;
+  rightOffset?: number;
+  topOffset?: number;
+  bottomOffset?: number;
   [k: string]: unknown;
 }

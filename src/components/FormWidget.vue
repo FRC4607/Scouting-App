@@ -60,7 +60,9 @@ const info = {
   spinbox:       { class: WidgetSpinbox,       label: LabelType.LabelTag  },
   stopwatch:     { class: WidgetStopwatch,     label: LabelType.PlainText },
   textarea:      { class: WidgetTextarea,      label: LabelType.LabelTag  },
-  togglegrid:    { class: WidgetToggleGrid,    label: LabelType.PlainText }
+  togglegrid:    { class: WidgetToggleGrid,    label: LabelType.PlainText },
+  pictureupload: { class: WidgetPictureUpload, label: LabelType.LabelTag},
+  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.LabelTag}
 }[props.data.type];
 
 // Props to pass from the widget data to the sub-components

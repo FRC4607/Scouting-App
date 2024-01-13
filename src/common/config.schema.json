@@ -214,12 +214,32 @@
       },
       "required": ["name", "width", "height", "colors"]
     },
+    "widgetPictureUpload": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "pictureupload" }
+      },
+      "required": ["name"]
+    },
+    "widgetCheckboxGrid": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "checkboxgrid" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "leftOffset": { "type": "integer" },
+        "rightOffset": { "type": "integer" },
+        "topOffset": { "type": "integer" },
+        "bottomOffset": { "type": "integer" }
+      },
+      "required": ["name"]
+    },
     "widget": {
       "type": "object",
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["dropdown", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "textarea", "togglegrid"]
+          "enum": ["dropdown", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
         },
         "prefix": { "type": "string" },
         "name": { "type": "string" },
@@ -251,7 +271,9 @@
         { "$ref": "#/$defs/widgetSpinbox" },
         { "$ref": "#/$defs/widgetStopwatch" },
         { "$ref": "#/$defs/widgetTextarea" },
-        { "$ref": "#/$defs/widgetToggleGrid" }
+        { "$ref": "#/$defs/widgetToggleGrid" },
+        { "$ref": "#/$defs/widgetPictureUpload"},
+        { "$ref": "#/$defs/widgetCheckboxGrid"}
       ]
     }
   }

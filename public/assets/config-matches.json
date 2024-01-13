@@ -16,7 +16,9 @@
         {
           "name": "Starting Position",
           "type": "positions",
-          "file": "field.png"
+          "file": "field.png",
+          "width": 600,
+          "height": 300
         }
       ]
     },
