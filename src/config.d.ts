@@ -26,6 +26,7 @@ export type Widget = {
     | "checkboxgrid";
   prefix?: string;
   name?: string;
+  displayName?: string;
   align?: "left" | "center" | "right";
   noLabel?: boolean;
   row?: number;

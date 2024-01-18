@@ -7,31 +7,33 @@
       "name": "Robot",
       "widgets": [
         {
-          "name": "Scouter Name",
+          "displayName": "Scouter Name",
+          "name": "scouter_name",
           "type": "text"
         },
         {
-          "name": "Team Number",
+          "displayName": "Team Number",
+          "name": "team_number",
           "type": "number"
         },
         {
-          "name": "Length",
+          "displayName": "Length",
+          "name": "length",
           "type": "number"
         },
         {
-          "name": "Width",
+          "displayName": "Width",
+          "name": "width",
           "type": "number"
         },
         {
-          "name": "Number of Batteries",
+          "displayName": "Weight",
+          "name": "weight",
           "type": "number"
         },
         {
-          "name": "Weight",
-          "type": "number"
-        },
-        {
-          "name": "Drivetrain Type",
+          "displayName": "Drivetrain Type",
+          "name": "dt_type",
           "type": "dropdown",
           "options": [
             "Tank Drive",
@@ -41,7 +43,8 @@
           ]
         },
         {
-          "name": "Swerve Motor Type",
+          "displayName": "Swerve Motor Type",
+          "name": "swerve_motor",
           "type": "dropdown",
           "options": [
             "Neo",
@@ -50,7 +53,8 @@
           ]
         },
         {
-          "name": "Swerve Type",
+          "displayName": "Swerve Type",
+          "name": "swerve_type",
           "type": "dropdown",
           "options": [
             "No swerve",
@@ -69,11 +73,13 @@
       "name": "Gameplay and Programming",
       "widgets": [
         {
-          "name": "Cycle Time",
+          "displayName": "Cycle Time",
+          "name": "cycle_time",
           "type": "number"
         },
         {
-          "name": "Can Pick Up",
+          "displayName": "Can Pick Up",
+          "name": "can_pickup",
           "type": "multicheckbox",
           "options": [
             "Ground",
@@ -81,7 +87,8 @@
           ]
         },
         {
-          "name": "Can Score In",
+          "displayName": "Can Score In",
+          "name": "scoring_locations",
           "type": "multicheckbox",
           "options": [
             "Speaker",
@@ -95,26 +102,31 @@
       "name": "Processes",
       "widgets": [
         {
-          "name": "Number of Batteries",
+          "displayName": "Number of Batteries",
+          "name": "num_batt",
           "type": "number",
           "min": 1
         },
         {
-          "name": "Battery Maintenance",
+          "displayName": "Battery Maintenance",
+          "name": "does_batt_maint",
           "type": "checkbox"
         },
         {
-          "name": "Battery Maintenance_text",
+          "displayName": "Battery Maintenance_text",
+          "name": "batt_maint_txt",
           "noLabel": true,
           "type": "text",
           "col": 2
         },
         {
-          "name": "Batteries Get Tested",
+          "displayName": "Batteries Get Tested",
+          "name": "batt_testing",
           "type": "checkbox"
         },
         {
-          "name": "Main Battery Brand",
+          "displayName": "Main Battery Brand",
+          "name": "batt_brand",
           "type": "dropdown",
           "options": [
             "MK",
@@ -125,19 +137,23 @@
           ]
         },
         {
-          "name": "Our batteries needed during playoffs",
+          "displayName": "Our batteries needed during playoffs",
+          "name": "batt_needed",
           "type": "checkbox"
         },
         {
-          "name": "Pit Checklist",
+          "displayName": "Pit Checklist",
+          "name": "pit_checklist",
           "type": "checkbox"
         },
         {
-          "name": "Does Scouting",
+          "displayName": "Does Scouting",
+          "name": "does_scouting",
           "type": "checkbox"
         },
         {
-          "name": "Willing to trade scouting data",
+          "displayName": "Willing to trade scouting data",
+          "name": "trade_scouting_data",
           "type": "checkbox"
         }
       ]
@@ -152,39 +168,41 @@
           "labelColspan": 2
         },
         {
-          "name": "space",
+          "displayName": "space",
           "type": "spacer"
         },
         {
-          "name": "Battery Storage and Charging Area",
+          "displayName": "Battery Storage and Charging Area",
+          "name": "batt_storchrg",
           "type": "pictureupload"
         },
         {
-          "name": "Battery Location On Robot",
+          "displayName": "Battery Location On Robot",
+          "name": "batt_loc",
           "type": "pictureupload"
         },
         {
-          "name": "Battery Connector Close Up",
+          "displayName": "Battery Connector Close Up",
+          "name": "batt_con",
           "type": "pictureupload"
         },
         {
-          "name": "Main Power Switch Location",
+          "displayName": "Main Power Switch Location",
+          "name": "powersw_loc",
           "type": "pictureupload"
         },
         {
-          "name": "Robot Close Ups and Features",
+          "displayName": "Robot Close Ups and Features",
+          "name": "misc_pics",
           "type": "pictureupload"
         },
         {
-          "name": "space",
+          "displayName": "space",
           "type": "spacer"
         },
         {
-          "name": "Comments",
-          "type": "label"
-        },
-        {
-          "name": "Scoring Methods",
+          "displayName": "Scoring Methods",
+          "name": "scoring_method",
           "type": "multicheckbox",
           "options": [
             "Manual",
@@ -192,7 +210,8 @@
           ]
         },
         {
-          "name": "Preferred Pickup Location",
+          "displayName": "Preferred Pickup Location",
+          "name": "preferred_pickup",
           "type": "dropdown",
           "options": [
             "Ground",
@@ -201,7 +220,8 @@
           "defaultOption": true
         },
         {
-          "name": "Comments",
+          "displayName": "Comments",
+          "name": "comments",
           "type": "textarea",
           "colspan": 2
         }

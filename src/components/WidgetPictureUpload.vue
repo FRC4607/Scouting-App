@@ -47,8 +47,8 @@ function uploadImage(e: any) {
   const pictureContext = props.data.name?.toLowerCase().replace(" ", "-");
   // grab widget values from the store that correspond to this session
   const instanceWidgetStores: Array<WidgetValue> = useWidgetsStore().values;
-  const scouterName: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "Scouter Name")?.value.toString();
-  const teamNumber: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "Team Number")?.value.toString();
+  const scouterName: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "scouter_name")?.value.toString();
+  const teamNumber: string | undefined = instanceWidgetStores.find((widget: WidgetValue) => widget.name === "team_number")?.value.toString();
   const uuid: string = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   // create file name using scouter name, team number, and a random uuid to make sure the file name is unique when multiple photos are taken
   let fileName = `${scouterName}_${teamNumber}_${pictureContext}_${uuid}`;

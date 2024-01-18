@@ -66,7 +66,7 @@ const info = {
 }[props.data.type];
 
 // Props to pass from the widget data to the sub-components
-const mappedProps = pick(props.data, ["name", "align", "row", "col", "rowspan", "colspan", "labelColspan"]);
+const mappedProps = pick(props.data, ["name", "displayName", "align", "row", "col", "rowspan", "colspan", "labelColspan"]);
 
 // Validates the value of the widget.
 function validate() {

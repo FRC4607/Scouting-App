@@ -243,6 +243,7 @@
         },
         "prefix": { "type": "string" },
         "name": { "type": "string" },
+        "displayName": { "type": "string" },
         "align": {
           "type": "string",
           "enum": ["left", "center", "right"]

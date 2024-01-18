@@ -1,7 +1,7 @@
 <template>
   <div v-if="hasLabel" :style="{ gridArea: getGridArea(0) }" class="label" v-show="show">
-    <span v-if="labelType === LabelType.PlainText">{{ name }}</span>
-    <label v-else :for="id">{{ name }}</label>
+    <span v-if="labelType === LabelType.PlainText">{{ displayName ?? name }}</span>
+    <label v-else :for="id">{{ displayName ?? name }}</label>
   </div>
   <div :style="{ gridArea: getGridArea(hasLabel ? 1 : 0), justifySelf: align }" class="widget" v-show="show">
     <slot></slot>
@@ -17,6 +17,7 @@ type PosName = "row" | "col";
 const props = withDefaults(defineProps<{
   labelType: LabelType,
   name?: string,
+  displayName?: string,
   id?: string,
   align?: string,
   row?: number,
