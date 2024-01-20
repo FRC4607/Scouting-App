@@ -16,9 +16,7 @@
         {
           "name": "Starting Position",
           "type": "positions",
-          "file": "field.png",
-          "width": 600,
-          "height": 300
+          "file": "field.png"
         }
       ]
     },
@@ -41,6 +39,12 @@
         {
           "name": "Speaker Notes",
           "type": "spinbox",
+          "prefix": "Auto"
+        },
+        {
+          "name": "Trap Notes",
+          "type": "spinbox",
+          "max": 3,
           "prefix": "Auto"
         }
       ]
@@ -85,6 +89,13 @@
           "type": "spinbox"
         },
         {
+          "name": "Trap Notes",
+          "type": "spinbox",
+          "max": 3,
+          "row": 5,
+          "col": 3
+        },
+        {
           "name": "Co-op Bonus",
           "type": "checkbox",
           "col": 2
@@ -94,7 +105,7 @@
           "height": 20
         },
         {
-          "name": "Playstyle",
+          "name": "Defense Rating",
           "type": "dropdown",
           "options": [
             "0 (Not Played)",
@@ -133,26 +144,45 @@
         },
         {
           "name": "Robots Onstage",
-          "type": "spinbox",
-          "max": 3
+          "type": "multicheckbox",
+          "options": [
+            "Stage Left",
+            "Stage Right",
+            "Center Stage"
+          ]
         },
         {
-          "name": "Note Scored in Trap",
+          "name": "Harmony",
           "type": "checkbox"
+        },
+        {
+          "name": "Trap Note Positions",
+          "type": "multicheckbox",
+          "options": [
+            "Stage Left",
+            "Stage Right",
+            "Center Stage"
+          ]
         },
         {
           "name": "Mechanical Failures",
           "type": "text"
         },
         {
-          "name": "Comments:",
-          "type": "label",
-          "colspan": 2
+          "name": "Comments",
+          "type": "textarea"
         },
         {
-          "name": "Comments",
-          "type": "textarea",
-          "colspan": 2
+          "name": "Stage Positions",
+          "type": "heading",
+          "colspan": 2,
+          "align": "center"
+        },
+        {
+          "type": "picture",
+          "file": "stage.png",
+          "colspan": 2,
+          "height": 250
         }
       ]
     }
