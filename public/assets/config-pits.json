@@ -7,6 +7,49 @@
       "name": "Robot",
       "widgets": [
         {
+          "name": "Wheel replacement frequency",
+          "type": "text"
+        },
+        {
+          "name": "Frame size w/o bumpers",
+          "type" : "number"
+        },
+        {
+          "name": "Bumper height",
+          "type": "number"
+        },
+        {
+          "name": "Radio location",
+          "type":"text"
+        },
+        {
+          "name":"CAN bus topology",
+          "type":"dropdown",
+          "options": [
+            "Dazychain",
+            "Star"
+          ]
+        },
+        {
+          "name": "Motors on drivetrain",
+          "type": "dropdown",
+          "options":[
+            "Falcons",
+            "Krakens",
+            "Neos",
+            "Cims/mini cims",
+            "Other"
+          ]
+        },
+        {
+          "name": "Pneumatics",
+          "type": "checkbox"
+        },
+        {
+          "name": "Where is battery secured",
+          "type": "text"
+        },
+        {
           "displayName": "Scouter Name",
           "name": "scouter_name",
           "type": "text"
@@ -72,6 +115,10 @@
     {
       "name": "Gameplay and Programming",
       "widgets": [
+        { "displayName": "Programming Langauge",
+          "name": "programming_langauge",
+          "type" : "text"
+        },
         {
           "displayName": "Cycle Time",
           "name": "cycle_time",
@@ -133,12 +180,23 @@
             "Interstate",
             "Duracell",
             "Mighty Max",
+            "Power Sonic",
             "Other (comments)"
           ]
         },
         {
           "displayName": "Our batteries needed during playoffs",
           "name": "batt_needed",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Battery and switch location",
+          "name": "batt_switch_loc",
+          "type": "text"
+        },
+        {
+          "displayName": "spare parts",
+          "name": "spare_parts",
           "type": "checkbox"
         },
         {
