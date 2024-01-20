@@ -68,7 +68,7 @@ Portions from https://vuejs.org/examples/#modal
       <template #body>
         <p>Use the camera to scan the QR codes in order:</p>
         <div id="camera-container" class="centered">
-          <qrcode-stream @decode="onDecode"/>
+          <qrcode-stream @detect="onDecode"/>
           <p class="centered" v-if="showQrCount">Scanning code {{ currentCode + 1 }}/{{ totalCodes }}</p>
           <p class="centered" v-if="showErrorMessage">Invalid QR Code scanned. Please try again.</p>
         </div>
@@ -84,7 +84,7 @@ Portions from https://vuejs.org/examples/#modal
 
 <script setup lang="ts">
 import InspectorTable from "./InspectorTable.vue";
-import { useWidgetsStore } from "@/common/stores.js";
+import { useWidgetsStore } from "@/common/stores";
 import Modal from "./ModalComponent.vue";
 
 import QrcodeVue from "qrcode.vue"
@@ -138,7 +138,8 @@ function deleteData() {
 }
 
 function downloadData() {
-  if (selectedEntry == undefined) return;
+  if (selectedEntry === undefined) return;
+  if (downloadLink === undefined) return; // Make sure the link exists
 
   // Generate the download link for the selected records, then trigger the download
   // If there are no records selected, they will all be included in the generated file
@@ -183,26 +184,30 @@ function closeCameraModal() {
   header = [""];
 }
 
-function onDecode(s: string) {
+function onDecode(s: any) {
   // If we haven't set up yet
   if (!showQrCount) {
     let data: QRData;
     try {
-      data = JSON.parse(s);
+      data = JSON.parse(s[0].rawValue);
     }
-    catch {
+    catch (e) {
+      console.error(e);
       showErrorMessage = true;
       return;
     }
     if (data.codes === undefined) {
+      console.error("bad codes")
       showErrorMessage = true;
       return;
     }
     if (data.config === undefined) {
+      console.error("bad config");
       showErrorMessage = true;
       return;
     }
     if (data.header === undefined) {
+      console.log("bad header");
       showErrorMessage = true;
       return;
     }
@@ -222,7 +227,7 @@ function onDecode(s: string) {
   }
   // If we have
   else {
-    decodedJSON += s;
+    decodedJSON += s[0].rawValue;
     currentCode += 1;
     if (currentCode === totalCodes) {
       let data:string[][];
@@ -241,7 +246,7 @@ function onDecode(s: string) {
         return;
       }
       data.forEach(row => {
-        widgets.save(header, row, table);
+        widgets.saveRow(header, row, table);
       });
       closeCameraModal();
       return;
@@ -270,7 +275,7 @@ async function uploadData() {
     } else {
       uploadInfo = value;
     }
-  })
+  });
 }
 
 </script>

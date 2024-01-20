@@ -4,13 +4,13 @@
 
 <script setup lang="ts">
 import { useWidgetsStore } from "@/common/stores";
-import { WidgetData } from "@/common/types";
+import { Widget, WidgetTextarea } from "@/config";
 
 const props = defineProps<{
-  data: WidgetData,
+  data: Widget & WidgetTextarea,
   currentId: string
 }>();
 
 const value = $ref("");
-useWidgetsStore().addWidgetValue(props.data, $$(value));
+defineExpose({ index: useWidgetsStore().addWidgetValue(props.data, $$(value)) });
 </script>

@@ -5,6 +5,7 @@
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -22,7 +23,8 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "types": ["@vue-macros/reactivity-transform/macros-global"]
   },
   "include": [
     "src/**/*.ts",

@@ -1,67 +1,47 @@
 {
-  "logo": "Charged_Up_Logo.png",
+  "heading": "Crescendo - 2024",
+  "logo": "logo.png",
   "pages": [
     {
-      "name": "Setup and Autonomous",
+      "name": "Setup",
       "widgets": [
+        {
+          "name": "Scouter Name",
+          "type": "text",
+          "validation": {
+            "comparison": "greater",
+            "value": 0
+          }
+        },
         {
           "name": "Starting Position",
           "type": "positions",
           "file": "field.png",
-          "height": 160,
-          "colspan": 2
-        },
+          "width": 600,
+          "height": 300
+        }
+      ]
+    },
+    {
+      "name": "Autonomous",
+      "widgets": [
         {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Mobility",
+          "name": "Left Starting Zone",
           "type": "checkbox"
         },
         {
-          "name": "Cones Missed",
-          "type": "spinbox",
-          "prefix": "Auto"
-        },
-        {
-          "name": "Cubes Missed",
-          "type": "spinbox",
-          "prefix": "Auto"
-        },
-        {
           "type": "spacer",
           "height": 20
         },
         {
-          "name": "Grid",
-          "type": "heading",
-          "colspan": 2
+          "name": "Amp Notes",
+          "type": "spinbox",
+          "prefix": "Auto"
         },
         {
-          "name": "Grid",
-          "type": "checkboxgrid",
-          "prefix": "Auto",
-          "rows": 9,
-          "columns": 3,
-          "file": "grids.png",
-          "colspan": 2,
-          "leftOffset": 50
-
-        },
-        
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Charging Station",
-          "type": "dropdown",
-          "options" : [
-            "Not on Charging Station",
-            "Docked",
-            "Engaged"
-          ]
+          "name": "Speaker Notes",
+          "type": "spinbox",
+          "prefix": "Auto"
         }
       ]
     },
@@ -69,65 +49,67 @@
       "name": "Teleop",
       "widgets": [
         {
-          "name": "Cones Missed",
-          "type": "spinbox",
-          "prefix": "Teleop"
+          "name": "Picked Up From",
+          "type": "heading",
+          "colspan": 5,
+          "align": "center"
         },
         {
-          "name": "Cubes Missed",
+          "name": "Ground",
+          "type": "spinbox"
+        },
+        {
+          "name": "Source",
           "type": "spinbox",
-          "prefix": "Teleop"
+          "row": 2,
+          "col": 3
+        },
+        {
+          "name": "Scoring",
+          "type": "heading",
+          "colspan": 5,
+          "align": "center"
+        },
+        {
+          "name": "Speaker Notes",
+          "type": "spinbox"
+        },
+        {
+          "name": "Amplified Speaker Notes",
+          "type": "spinbox",
+          "row": 4,
+          "col": 3
+        },
+        {
+          "name": "Amp Notes",
+          "type": "spinbox"
+        },
+        {
+          "name": "Co-op Bonus",
+          "type": "checkbox",
+          "col": 2
         },
         {
           "type": "spacer",
           "height": 20
-        },
-        {
-          "name": "Grid",
-          "type": "heading",
-          "colspan": 2
-        },
-        {
-          "name": "Grid",
-          "type": "checkboxgrid",
-          "prefix": "Teleop",
-          "rows": 9,
-          "columns": 3,
-          "file": "grids.png",
-          "colspan": 2, 
-          "leftOffset": 50
-        },
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Super Charged Grid",
-          "type": "heading",
-          "colspan": 2
-        },
-        {
-          "name": "Super Charged Grid",
-          "type": "checkboxgrid",
-          "rows": 9,
-          "columns": 3,
-          "file": "grids.png",
-          "colspan": 2, 
-          "leftOffset": 50
-        },
-        {
-          "type": "spacer",
-          "height": 40
         },
         {
           "name": "Playstyle",
           "type": "dropdown",
           "options": [
-            "Offense",
-            "Defense",
-            "Runner",
-            "Defense-Runner Hybrid"
-          ]
+            "0 (Not Played)",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5 (Very Effective)"
+          ],
+          "col": 2
+        },
+        {
+          "name": "Tipped",
+          "type": "checkbox",
+          "col": 2
         }
       ]
     },
@@ -135,17 +117,31 @@
       "name": "Endgame",
       "widgets": [
         {
-          "name": "Endgame State",
-          "type": "dropdown",
-          "options" : [
-            "Not in Community",
+          "name": "End Location",
+          "type": "radio",
+          "options": [
+            "Onstage and Spotlit",
+            "Onstage",
             "Parked",
-            "Docked",
-            "Engaged"
-          ]
+            "None"
+          ],
+          "default": 3
         },
         {
-          "name": "Major Failures",
+          "name": "Failed Climb",
+          "type": "checkbox"
+        },
+        {
+          "name": "Robots Onstage",
+          "type": "spinbox",
+          "max": 3
+        },
+        {
+          "name": "Note Scored in Trap",
+          "type": "checkbox"
+        },
+        {
+          "name": "Mechanical Failures",
           "type": "text"
         },
         {

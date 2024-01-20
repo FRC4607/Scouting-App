@@ -8,17 +8,17 @@
 
 <script setup lang="ts">
 import { useWidgetsStore, WidgetValue } from "@/common/stores";
-import { WidgetData } from "@/common/types";
+import type { WidgetCheckboxGrid, Widget } from "../config.d.ts";
 import { computed } from "@vue/runtime-core";
 
 const props = defineProps<{
-  data: WidgetData,
+  data: WidgetCheckboxGrid,
   currentId: string
 }>();
 
 
-let width = props.data.columns ?? 0;
-let height = props.data.rows ?? 0;
+let width = props.data.width ?? 0;
+let height = props.data.height ?? 0;
 
 let gridConstruct: boolean[][] = [];
 for (let c = 0; c < width; c++) {
@@ -32,7 +32,7 @@ const grid = $ref(gridConstruct);
 
 // The exported value
 const value = $computed(() => exportData());
-useWidgetsStore().addWidgetValue(props.data, $$(value));
+useWidgetsStore().addWidgetValue(props.data as Widget, $$(value));
 
 
 const instanceWidgetStores: Array<WidgetValue> = useWidgetsStore().values;

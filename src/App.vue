@@ -11,9 +11,11 @@ import { reportError } from "@/common/stores"
 const errors = $ref(new Array<string>());
 
 // Set handler to capture errors and push them to an array
-onErrorCaptured(e => {
-  reportError(e).catch();
-  errors.push(`Name: ${e.name}; Message: ${e.message};`);
+onErrorCaptured(obj => {
+  const errorToString = (e: Error) => `${e.name}: ${e.message}`;
+
+  if (Array.isArray(obj)) errors.push(...obj.map(errorToString));
+  else errors.push(errorToString(obj));
 
   return false;
 });
@@ -105,4 +107,14 @@ input, button, select {
   font-family: inherit;
 }
 
+@media (pointer:none),
+(pointer:coarse) {
+
+  button,
+  input,
+  select,
+  label {
+    font-size: 120%;
+  }
+}
 </style>

@@ -1,23 +1,39 @@
 {
-  "heading": "Pit Scouting",
-  "logo": "Charged_Up_Logo.png",
+  "heading": "Crescendo - 2024 (Pit Scouting)",
+  "logo": "logo.png",
   "skipTeamSelection": true,
   "pages": [
     {
       "name": "Robot",
       "widgets": [
         {
-          "name": "Scouter Name",
+          "displayName": "Scouter Name",
+          "name": "scouter_name",
           "type": "text"
         },
         {
-          "name": "Team Number",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 1
+          "displayName": "Team Number",
+          "name": "team_number",
+          "type": "number"
         },
         {
-          "name": "Drivetrain Type",
+          "displayName": "Length",
+          "name": "length",
+          "type": "number"
+        },
+        {
+          "displayName": "Width",
+          "name": "width",
+          "type": "number"
+        },
+        {
+          "displayName": "Weight",
+          "name": "weight",
+          "type": "number"
+        },
+        {
+          "displayName": "Drivetrain Type",
+          "name": "dt_type",
           "type": "dropdown",
           "options": [
             "Tank Drive",
@@ -27,74 +43,29 @@
           ]
         },
         {
-          "name": "Frame Width",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 20,
-          "max": 40
-        },
-        {
-          "name": "Frame Length",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 20,
-          "max": 40
-        },
-        {
-          "name": "Weight",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 50,
-          "max": 150
-        },
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Bumper Height",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 0,
-          "max": 20
-        },
-        {
-          "name": "Bumper Depth",
-          "type": "spinbox",
-          "allowKeyboardInput": true,
-          "min": 0,
-          "max": 20
-        },
-        {
-          "name": "Bumper Mounting Configuration",
-          "type": "text"
-        },
-        {
-          "name": "Using break mode on drivetrain",
-          "type": "checkbox"
-        },
-        {
-          "name": "If swerve what kind of modules",
+          "displayName": "Swerve Motor Type",
+          "name": "swerve_motor",
           "type": "dropdown",
           "options": [
-            "SDS L1-L4",
-            "SDS MK3",
-            "SDS MK4",
-            "SDS MK4i",
-            "REV MAXSwerve",
-            "Swerve X",
-            "Other COTS",
-            "Custom",
-            "Other (comments)"
+            "Neo",
+            "Falcon",
+            "Cim"
           ]
         },
         {
-          "name": "Frequency of replacing wheels",
-          "type": "text"
-        },
-        {
-          "name": "Pneumatics in use",
-          "type": "checkbox"
+          "displayName": "Swerve Type",
+          "name": "swerve_type",
+          "type": "dropdown",
+          "options": [
+            "No swerve",
+            "L1",
+            "L2",
+            "L3",
+            "L4",
+            "Neo",
+            "Falcon",
+            "Custom"
+          ]
         }
       ]
     },
@@ -102,26 +73,27 @@
       "name": "Gameplay and Programming",
       "widgets": [
         {
-          "name": "Programming Language",
-          "type": "dropdown",
+          "displayName": "Cycle Time",
+          "name": "cycle_time",
+          "type": "number"
+        },
+        {
+          "displayName": "Can Pick Up",
+          "name": "can_pickup",
+          "type": "multicheckbox",
           "options": [
-            "Java",
-            "C++",
-            "Python",
-            "Labview"
+            "Ground",
+            "Source"
           ]
         },
         {
-          "name": "Mobility Capable",
-          "type": "checkbox"
-        },
-        {
-          "name": "Preferred Play Style",
-          "type": "dropdown",
+          "displayName": "Can Score In",
+          "name": "scoring_locations",
+          "type": "multicheckbox",
           "options": [
-            "Defense",
-            "Offense",
-            "Runner"
+            "Speaker",
+            "Amp",
+            "Trap"
           ]
         }
       ]
@@ -130,26 +102,31 @@
       "name": "Processes",
       "widgets": [
         {
-          "name": "Number of Batteries",
+          "displayName": "Number of Batteries",
+          "name": "num_batt",
           "type": "number",
           "min": 1
         },
         {
-          "name": "Battery Maintenance",
+          "displayName": "Battery Maintenance",
+          "name": "does_batt_maint",
           "type": "checkbox"
         },
         {
-          "name": "Battery Maintenance_text",
-          "noLabel": "true",
+          "displayName": "Battery Maintenance_text",
+          "name": "batt_maint_txt",
+          "noLabel": true,
           "type": "text",
           "col": 2
         },
         {
-          "name": "Batteries Get Tested",
+          "displayName": "Batteries Get Tested",
+          "name": "batt_testing",
           "type": "checkbox"
         },
         {
-          "name": "Main Battery Brand",
+          "displayName": "Main Battery Brand",
+          "name": "batt_brand",
           "type": "dropdown",
           "options": [
             "MK",
@@ -160,19 +137,23 @@
           ]
         },
         {
-          "name": "Our batteries needed during playoffs",
+          "displayName": "Our batteries needed during playoffs",
+          "name": "batt_needed",
           "type": "checkbox"
         },
         {
-          "name": "Pit Checklist",
+          "displayName": "Pit Checklist",
+          "name": "pit_checklist",
           "type": "checkbox"
         },
         {
-          "name": "Does Scouting",
+          "displayName": "Does Scouting",
+          "name": "does_scouting",
           "type": "checkbox"
         },
         {
-          "name": "Willing to trade scouting data",
+          "displayName": "Willing to trade scouting data",
+          "name": "trade_scouting_data",
           "type": "checkbox"
         }
       ]
@@ -187,39 +168,60 @@
           "labelColspan": 2
         },
         {
-          "name": "space",
+          "displayName": "space",
           "type": "spacer"
         },
         {
-          "name": "Battery Storage and Charging Area",
+          "displayName": "Battery Storage and Charging Area",
+          "name": "batt_storchrg",
           "type": "pictureupload"
         },
         {
-          "name": "Battery Location On Robot",
+          "displayName": "Battery Location On Robot",
+          "name": "batt_loc",
           "type": "pictureupload"
         },
         {
-          "name": "Battery Connector Close Up",
+          "displayName": "Battery Connector Close Up",
+          "name": "batt_con",
           "type": "pictureupload"
         },
         {
-          "name": "Main Power Switch Location",
+          "displayName": "Main Power Switch Location",
+          "name": "powersw_loc",
           "type": "pictureupload"
         },
         {
-          "name": "Robot Close Ups and Features",
+          "displayName": "Robot Close Ups and Features",
+          "name": "misc_pics",
           "type": "pictureupload"
         },
         {
-          "name": "space",
+          "displayName": "space",
           "type": "spacer"
         },
         {
-          "name": "Comments",
-          "type": "label"
+          "displayName": "Scoring Methods",
+          "name": "scoring_method",
+          "type": "multicheckbox",
+          "options": [
+            "Manual",
+            "Auto"
+          ]
         },
         {
-          "name": "Comments",
+          "displayName": "Preferred Pickup Location",
+          "name": "preferred_pickup",
+          "type": "dropdown",
+          "options": [
+            "Ground",
+            "Source"
+          ],
+          "defaultOption": true
+        },
+        {
+          "displayName": "Comments",
+          "name": "comments",
           "type": "textarea",
           "colspan": 2
         }

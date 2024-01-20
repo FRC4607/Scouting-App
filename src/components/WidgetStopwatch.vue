@@ -29,10 +29,10 @@
 
 <script setup lang="ts">
 import { useWidgetsStore } from "@/common/stores";
-import { WidgetData } from "@/common/types";
+import { Widget, WidgetStopwatch } from "@/config";
 
 const props = defineProps<{
-  data: WidgetData,
+  data: Widget & WidgetStopwatch,
   currentId: string
 }>();
 
@@ -47,7 +47,7 @@ const laps = $ref(new Array<Lap>());
 
 // The exported value - reverse laps, then add the total elapsed time
 const value = $computed(() => laps.map(i => trunc(i.elapsed)).reverse().concat(trunc(time)));
-useWidgetsStore().addWidgetValue(props.data, $$(value));
+defineExpose({ index: useWidgetsStore().addWidgetValue(props.data, $$(value)) });
 
 // Truncates a floating-point number for display.
 const trunc = (n: number) => n.toFixed(1);

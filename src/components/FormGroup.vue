@@ -1,15 +1,15 @@
 <template>
-  <div v-if="hasLabel" :style="{ gridArea: getGridArea(0) }" class="label">
-    <span v-if="labelType === LabelType.PlainText">{{ name }}</span>
-    <label v-else :for="id">{{ name }}</label>
+  <div v-if="hasLabel" :style="{ gridArea: getGridArea(0) }" class="label" v-show="show">
+    <span v-if="labelType === LabelType.PlainText">{{ displayName ?? name }}</span>
+    <label v-else :for="id">{{ displayName ?? name }}</label>
   </div>
-  <div :style="{ gridArea: getGridArea(hasLabel ? 1 : 0), justifySelf: align }" class="widget">
+  <div :style="{ gridArea: getGridArea(hasLabel ? 1 : 0), justifySelf: align }" class="widget" v-show="show">
     <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
-import { LabelType } from "@/common/types";
+import { LabelType } from "@/common/shared";
 import { useWidgetsStore } from "@/common/stores";
 
 type PosName = "row" | "col";
@@ -17,17 +17,20 @@ type PosName = "row" | "col";
 const props = withDefaults(defineProps<{
   labelType: LabelType,
   name?: string,
+  displayName?: string,
   id?: string,
   align?: string,
   row?: number,
   col?: number,
   rowspan?: number,
   colspan?: number,
-  labelColspan?: number
+  labelColspan?: number,
+  show?: boolean
 }>(), {
   rowspan: 1,
   colspan: 1,
-  labelColspan: 1
+  labelColspan: 1,
+  show: true
 });
 
 const hasLabel = $computed(() => props.labelType != LabelType.None);
@@ -78,5 +81,14 @@ function calcGridPos(name: PosName): number[][] {
 
 .widget {
   white-space: nowrap;
+}
+
+@media (pointer:none),
+(pointer:coarse) {
+
+  /* Label tags are set to increase font size, these are not: */
+  .label>span {
+    font-size: 120%;
+  }
 }
 </style>
