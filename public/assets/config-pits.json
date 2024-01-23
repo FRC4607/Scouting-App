@@ -13,14 +13,13 @@
           "validation": {
             "comparison": "greater",
             "value": 0
-
           }
         },
         {
           "displayName": "Team Number",
           "name": "team_number",
           "type": "number",
-          "validation":{
+          "validation": {
             "comparison": "greater",
             "value": 0
           }
@@ -29,7 +28,7 @@
           "displayName": "Length",
           "name": "length",
           "type": "number",
-          "validation":{
+          "validation": {
             "comparison": "greater",
             "value": 0
           }
@@ -39,7 +38,7 @@
           "name": "width",
           "type": "number",
           "validation": {
-            "comparison":"greater",
+            "comparison": "greater",
             "value": 0
           }
         },
@@ -47,29 +46,37 @@
           "displayName": "Starting Height",
           "name": "start_height",
           "type": "number",
-          "validation":{
-            "comparison":"inRange",
-            "value": [1, 48]
+          "validation": {
+            "comparison": "inRange",
+            "value": [
+              1,
+              48
+            ]
           }
         },
         {
-          "displayName":"Max Height",
+          "displayName": "Max Height",
           "name": "max_height",
           "type": "number",
-          "validation":{
+          "validation": {
             "comparison": "inRange",
-            "value": [1, 48]
+            "value": [
+              1,
+              48
+            ]
           }
         },
         {
           "displayName": "Weight",
           "name": "weight",
           "type": "number",
-          "validation":{
+          "validation": {
             "comparison": "inRange",
-            "value": [1, 125]
+            "value": [
+              1,
+              125
+            ]
           }
-
         },
         {
           "displayName": "Drivetrain Type",
@@ -81,7 +88,7 @@
             "Swerve",
             "Other"
           ],
-          "validation":{
+          "validation": {
             "comparison": "greater",
             "value": -1
           }
@@ -98,7 +105,7 @@
             "CIM",
             "Other"
           ],
-            "validation": {
+          "validation": {
             "comparison": "greater",
             "value": -1
           }
@@ -109,13 +116,11 @@
           "type": "dropdown",
           "options": [
             "No swerve",
-            "L1",
-            "L2",
-            "L3",
-            "L4",
-            "Neo",
-            "Falcon",
-            "Custom"
+            "SDS Mk4(i)",
+            "Other SDS",
+            "WCP SwerveX(s)",
+            "REV MAXSwerve",
+            "Custom/Other"
           ],
           "validation": {
             "comparison": "greater",
@@ -137,9 +142,9 @@
           }
         },
         {
-          "displayName":"CAN Bus Topology",
+          "displayName": "CAN Bus Topology",
           "name": "can_bus_top",
-          "type":"dropdown",
+          "type": "dropdown",
           "options": [
             "Dazychain",
             "Star"
@@ -154,10 +159,11 @@
           "name": "pneumatics",
           "type": "checkbox"
         },
-        { "displayName": "Programming Langauge",
+        {
+          "displayName": "Programming Langauge",
           "name": "programming_langauge",
-          "type" : "dropdown",
-          "options":[
+          "type": "dropdown",
+          "options": [
             "Java",
             "C++",
             "Python",
@@ -167,13 +173,10 @@
             "comparison": "greater",
             "value": -1
           }
-        }   
-      
-        
+        }
       ]
     },
     {
-      
       "name": "Processes",
       "widgets": [
         {
@@ -182,10 +185,9 @@
           "type": "number",
           "min": 1,
           "validation": {
-          "comparison": "greater",
-          "value": 0
+            "comparison": "greater",
+            "value": 0
           }
-
         },
         {
           "displayName": "Battery Maintenance",
@@ -217,9 +219,9 @@
             "Other (comments)"
           ],
           "validation": {
-          "comparison": "greater",
-          "value": -1
-         }
+            "comparison": "greater",
+            "value": -1
+          }
         },
         {
           "displayName": "Our batteries needed during playoffs",
@@ -284,7 +286,7 @@
         {
           "displayName": "Radio Location",
           "name": "radio_loc",
-          "type":"pictureupload"
+          "type": "pictureupload"
         },
         {
           "displayName": "Robot Close Ups and Features",
