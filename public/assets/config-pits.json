@@ -7,72 +7,69 @@
       "name": "Robot",
       "widgets": [
         {
-          "name": "Wheel replacement frequency",
-          "type": "text"
-        },
-        {
-          "name": "Frame size w/o bumpers",
-          "type" : "number"
-        },
-        {
-          "name": "Bumper height",
-          "type": "number"
-        },
-        {
-          "name": "Radio location",
-          "type":"text"
-        },
-        {
-          "name":"CAN bus topology",
-          "type":"dropdown",
-          "options": [
-            "Dazychain",
-            "Star"
-          ]
-        },
-        {
-          "name": "Motors on drivetrain",
-          "type": "dropdown",
-          "options":[
-            "Falcons",
-            "Krakens",
-            "Neos",
-            "Cims/mini cims",
-            "Other"
-          ]
-        },
-        {
-          "name": "Pneumatics",
-          "type": "checkbox"
-        },
-        {
-          "name": "Where is battery secured",
-          "type": "text"
-        },
-        {
           "displayName": "Scouter Name",
           "name": "scouter_name",
-          "type": "text"
+          "type": "text",
+          "validation": {
+            "comparison": "greater",
+            "value": 0
+
+          }
         },
         {
           "displayName": "Team Number",
           "name": "team_number",
-          "type": "number"
+          "type": "number",
+          "validation":{
+            "comparison": "greater",
+            "value": 0
+          }
         },
         {
           "displayName": "Length",
           "name": "length",
-          "type": "number"
+          "type": "number",
+          "validation":{
+            "comparison": "greater",
+            "value": 0
+          }
         },
         {
           "displayName": "Width",
           "name": "width",
-          "type": "number"
+          "type": "number",
+          "validation": {
+            "comparison":"greater",
+            "value": 0
+          }
+        },
+        {
+          "displayName": "Starting Height",
+          "name": "start_height",
+          "type": "number",
+          "validation":{
+            "comparison":"inRange",
+            "value": [1, 48]
+          }
+        },
+        {
+          "displayName":"Max Height",
+          "name": "max_height",
+          "type": "number",
+          "validation":{
+            "comparison": "inRange",
+            "value": [1, 48]
+          }
         },
         {
           "displayName": "Weight",
           "name": "weight",
-          "type": "number"
+          "type": "number",
+          "validation":{
+            "comparison": "inRange",
+            "value": [1, 125]
+          }
+
         },
         {
           "displayName": "Drivetrain Type",
@@ -83,17 +80,28 @@
             "Mecanum",
             "Swerve",
             "Other"
-          ]
+          ],
+          "validation":{
+            "comparison": "greater",
+            "value": -1
+          }
         },
         {
-          "displayName": "Swerve Motor Type",
-          "name": "swerve_motor",
+          "displayName": "Drive Motor Type",
+          "name": "drive_motor",
           "type": "dropdown",
           "options": [
-            "Neo",
+            "Neo v1",
+            "Neo Vortex",
             "Falcon",
-            "Cim"
-          ]
+            "Kraken",
+            "CIM",
+            "Other"
+          ],
+            "validation": {
+            "comparison": "greater",
+            "value": -1
+          }
         },
         {
           "displayName": "Swerve Type",
@@ -108,51 +116,76 @@
             "Neo",
             "Falcon",
             "Custom"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Gameplay and Programming",
-      "widgets": [
+          ],
+          "validation": {
+            "comparison": "greater",
+            "value": -1
+          }
+        },
+        {
+          "displayName": "Wheel Replacement Frequency",
+          "name": "wheel_rep_freq",
+          "type": "text"
+        },
+        {
+          "displayName": "Bumper Height",
+          "name": "bumper_height",
+          "type": "number",
+          "validation": {
+            "comparison": "greater",
+            "value": 0
+          }
+        },
+        {
+          "displayName":"CAN Bus Topology",
+          "name": "can_bus_top",
+          "type":"dropdown",
+          "options": [
+            "Dazychain",
+            "Star"
+          ],
+          "validation": {
+            "comparison": "greater",
+            "value": -1
+          }
+        },
+        {
+          "displayName": "Pneumatics",
+          "name": "pneumatics",
+          "type": "checkbox"
+        },
         { "displayName": "Programming Langauge",
           "name": "programming_langauge",
-          "type" : "text"
-        },
-        {
-          "displayName": "Cycle Time",
-          "name": "cycle_time",
-          "type": "number"
-        },
-        {
-          "displayName": "Can Pick Up",
-          "name": "can_pickup",
-          "type": "multicheckbox",
-          "options": [
-            "Ground",
-            "Source"
-          ]
-        },
-        {
-          "displayName": "Can Score In",
-          "name": "scoring_locations",
-          "type": "multicheckbox",
-          "options": [
-            "Speaker",
-            "Amp",
-            "Trap"
-          ]
-        }
+          "type" : "dropdown",
+          "options":[
+            "Java",
+            "C++",
+            "Python",
+            "Labview"
+          ],
+          "validation": {
+            "comparison": "greater",
+            "value": -1
+          }
+        }   
+      
+        
       ]
     },
     {
+      
       "name": "Processes",
       "widgets": [
         {
           "displayName": "Number of Batteries",
           "name": "num_batt",
           "type": "number",
-          "min": 1
+          "min": 1,
+          "validation": {
+          "comparison": "greater",
+          "value": 0
+          }
+
         },
         {
           "displayName": "Battery Maintenance",
@@ -182,7 +215,11 @@
             "Mighty Max",
             "Power Sonic",
             "Other (comments)"
-          ]
+          ],
+          "validation": {
+          "comparison": "greater",
+          "value": -1
+         }
         },
         {
           "displayName": "Our batteries needed during playoffs",
@@ -190,12 +227,7 @@
           "type": "checkbox"
         },
         {
-          "displayName": "Battery and switch location",
-          "name": "batt_switch_loc",
-          "type": "text"
-        },
-        {
-          "displayName": "spare parts",
+          "displayName": "Spare Parts",
           "name": "spare_parts",
           "type": "checkbox"
         },
@@ -250,6 +282,11 @@
           "type": "pictureupload"
         },
         {
+          "displayName": "Radio Location",
+          "name": "radio_loc",
+          "type":"pictureupload"
+        },
+        {
           "displayName": "Robot Close Ups and Features",
           "name": "misc_pics",
           "type": "pictureupload"
@@ -257,25 +294,6 @@
         {
           "displayName": "space",
           "type": "spacer"
-        },
-        {
-          "displayName": "Scoring Methods",
-          "name": "scoring_method",
-          "type": "multicheckbox",
-          "options": [
-            "Manual",
-            "Auto"
-          ]
-        },
-        {
-          "displayName": "Preferred Pickup Location",
-          "name": "preferred_pickup",
-          "type": "dropdown",
-          "options": [
-            "Ground",
-            "Source"
-          ],
-          "defaultOption": true
         },
         {
           "displayName": "Comments",
