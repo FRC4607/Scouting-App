@@ -155,6 +155,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
         });
       };
 
+      console.log(JSON.stringify(data));
       upload.send(JSON.stringify(data));
     });
   }

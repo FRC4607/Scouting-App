@@ -1,0 +1,117 @@
+{
+    "title": "Pit Scouting Entry Database Schema",
+    "description": "A single pit scouting entry in the database",
+    "type": "object",
+    "properties": {
+        "scouter_name": {
+            "type": "string"
+        },
+        "team_number": {
+            "type": "number"
+        },
+        "length": {
+            "type": "number"
+        },
+        "width": {
+            "type": "number"
+        },
+        "start_height": {
+            "type": "number"
+        },
+        "max_height": {
+            "type": "number"
+        },
+        "dt_type": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+        },
+        "drive_motor": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+        },
+        "swerve_type": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+        },
+        "wheel_rep_freq": {
+            "type": "string"
+        },
+        "bumper_height": {
+            "type": "number"
+        },
+        "can_bus_top": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "pneumatics": {
+            "type": "boolean"
+        },
+        "programming_langauge": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+        },
+        "num_batt": {
+            "type": "integer"
+        },
+        "does_batt_maint": {
+            "type": "boolean"
+        },
+        "batt_maint_txt": {
+            "type": "string"
+        },
+        "batt_testing": {
+            "type": "boolean"
+        },
+        "batt_brand": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+        },
+        "batt_needed": {
+            "type": "boolean"
+        },
+        "spare_parts": {
+            "type": "boolean"
+        },
+        "pit_checklist": {
+            "type": "boolean"
+        },
+        "does_scouting": {
+            "type": "boolean"
+        },
+        "trade_scouting_data": {
+            "type": "boolean"
+        },
+        "batt_storchrg": {
+            "type": "string"
+        },
+        "batt_loc": {
+            "type": "string"
+        },
+        "batt_con": {
+            "type": "string"
+        },
+        "powersw_loc": {
+            "type": "string"
+        },
+        "radio_loc": {
+            "type": "string"
+        },
+        "misc_pics": {
+            "type": "string"
+        },
+        "comments": {
+            "type": "string"
+        },
+        "ScoutedTime": {
+            "type": "string"
+        }
+    },
+    "minProperties": 33,
+    "additionalProperties": false
+}
