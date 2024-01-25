@@ -47,7 +47,7 @@ Portions from https://vuejs.org/examples/#modal
       <template #body>
         <p>Scan the following QR codes in order on the target device:</p>
         <div class="centered" v-for="index in qrStrings.length" :key="index">
-          <qrcode-vue :value=qrStrings[index - 1] :size=windowSize/3 :margin=2 />
+          <qrcode-vue :value=qrStrings[index-1] :size=windowSize/3 :margin=2 />
           <p>QR Code {{ index }}/{{ qrStrings.length }}</p>
         </div>
         <!--
