@@ -114,7 +114,7 @@ const app: http.RequestListener = async (req, res) => {
                     else {
                         res.setHeader("Access-Control-Allow-Origin", "*");
                         res.writeHead(400);
-                        let msg = "JSON did not pass validation: "
+                        let msg = "JSON did not pass validation:"
                         result.errors.forEach(error => {
                             msg += "\n" + error
                         });
