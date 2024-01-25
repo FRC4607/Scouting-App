@@ -123,7 +123,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
     const entry = savedData.get(table);
     if (entry === undefined) {
       // The entry for the current configuration name does not exist, create it
-      savedData.set(config.name, {title: table, header, values: [row]});
+      savedData.set(config.name, { title: table, header, values: [row] });
     } else {
       // The entry exists, overwrite the header and append the record
       entry.header = header;
@@ -135,7 +135,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
     return new Promise(function (resolve, reject) {
       const upload = new XMLHttpRequest();
       upload.responseType = "text";
-      upload.open("POST", "http://localhost:4173/api");
+      upload.open("POST", import.meta.env.PROD ? "/api" : "http://localhost:4173/api");
       upload.setRequestHeader("Content-Type", "application/json");
 
       upload.onloadend = function () {
@@ -149,7 +149,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
         }
       };
       upload.onerror = function (event) {
-      console.log(event);
+        console.log(event);
         reject({
           status: this.status,
           statusText: upload.statusText
@@ -181,7 +181,7 @@ export function reportError(error: Error): Promise<string> {
       }
     };
     upload.onerror = function (event) {
-    console.log(event);
+      console.log(event);
       reject({
         status: this.status,
         statusText: upload.statusText
