@@ -1,5 +1,5 @@
 {
-    "title": "Pit Scouting Entry Database Schema",
+    "title": "Pit Scout Entry Interface",
     "description": "A single pit scouting entry in the database",
     "type": "object",
     "properties": {
@@ -13,6 +13,9 @@
             "type": "number"
         },
         "width": {
+            "type": "number"
+        },
+        "weight": {
             "type": "number"
         },
         "start_height": {
@@ -50,7 +53,7 @@
         "pneumatics": {
             "type": "boolean"
         },
-        "programming_langauge": {
+        "programming_language": {
             "type": "integer",
             "minimum": 0,
             "maximum": 3
@@ -112,6 +115,6 @@
             "type": "string"
         }
     },
-    "minProperties": 33,
-    "additionalProperties": false
+    "additionalProperties": false,
+    "required": ["scouter_name", "team_number", "length", "width", "start_height", "max_height", "dt_type", "drive_motor", "swerve_type", "wheel_rep_freq", "bumper_height", "can_bus_top", "pneumatics", "programming_language", "num_batt", "does_batt_maint", "batt_maint_txt", "batt_testing", "batt_brand", "batt_needed", "spare_parts", "pit_checklist", "does_scouting", "trade_scouting_data", "batt_storchrg", "batt_loc", "batt_con", "powersw_loc", "radio_loc", "misc_pics", "comments", "ScoutedTime"]
 }

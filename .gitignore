@@ -21,4 +21,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
 imageServerConfig.ts
+backend/dev.sqlite3

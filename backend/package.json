@@ -1,18 +1,24 @@
 {
   "scripts": {
     "build": "tsc && echo Build Successful\n",
-    "run": "node ./build/main.js",
+    "run": "node ./build/src/main.js",
     "buildAndRun": "npm run build && npm run run",
-    "installModules": "npm install"
+    "installModules": "npm install",
+    "generateSchema": "json2ts schemas/pit_scout_entry.schema.json schemas/PitScoutEntry.d.ts && json2ts schemas/api_request.schema.json schemas/ApiRequest.d.ts"
   },
-  "type": "module",
   "dependencies": {
     "@types/node": "^18.15.0",
+    "jsonschema": "^1.4.1",
     "knex": "^3.1.0",
     "objection": "^3.1.3",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
-    "@types/pg": "^8.10.9"
+    "@tsconfig/node20": "^20.1.2",
+    "@types/pg": "^8.10.9",
+    "json-schema-to-typescript": "^13.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

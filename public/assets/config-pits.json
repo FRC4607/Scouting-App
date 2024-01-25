@@ -160,8 +160,8 @@
           "type": "checkbox"
         },
         {
-          "displayName": "Programming Langauge",
-          "name": "programming_langauge",
+          "displayName": "Programming Language",
+          "name": "programming_language",
           "type": "dropdown",
           "options": [
             "Java",

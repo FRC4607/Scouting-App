@@ -2,144 +2,29 @@
 import fs from "fs";
 import http from "http";
 import path from "path";
-import { fileURLToPath } from "url";
-import mysql from "mysql";
-import { TableLayouts, TableLayoutQueries } from "./TableSchemes.js"
-import { DataType, Parsers, getUTCDateTime } from "./DataType.js";
-interface SavedData {
-    title: string;
-    header: string[]; // Each element is a value in the CSV header
-    values: string[][]; // Each element is a CSV record, each element in a record is a widget value
-}
+import Knex from "knex";
+import { Model } from "objection";
+import config from "./../knexfile";
+import { validate } from "jsonschema";
+import { env } from "process";
+import { ApiRequest } from "../schemas/ApiRequest";
+import { PitScoutEntry } from "./models";
+import { convertPitScout } from "./conversions";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const knex = Knex(config[env["NODE_ENV"] ? env["NODE_ENV"] : "development"])
+Model.knex(knex);
 
-/* ------ FILE: mysql-config.json ------
-{
-    "host": "localhost",
-    "user": "username",
-    "password": "password",
-    "database": "database",
-    "charset" : "utf8mb4"
-}
-*/
+const apiSchema = JSON.parse(fs.readFileSync("schemas/api_request.schema.json").toString());
 
-const mysqlConfig: mysql.ConnectionConfig = JSON.parse(fs.readFileSync("/usr/src/app/backend/mysql-config.json").toString());
-
-function queryServer(query: string, connection?: mysql.Connection) {
-    return new Promise<{ results: any, fields: mysql.FieldInfo[] | undefined }>((resolve, reject) => {
-        const currentConnection = connection ?? mysql.createConnection(mysqlConfig);
-
-        if (currentConnection.listeners("end").length == 0) {
-            currentConnection.on("end", () => {
-                console.log("\x1b[2m%s\x1b[0m", "Database Connection Closed");
-            })
-        }
-
-        if (currentConnection.listeners("connect").length == 0) {
-            currentConnection.on("connect", () => {
-                console.log("\x1b[2m%s\x1b[0m", "Database Connection Opened");
-            })
-        }
-
-        currentConnection.query(query, (err, results, fields) => {
-            if (err) {
-                reject(err);
-            } else {
-                if (connection == null) {
-                    currentConnection.end((err) => {
-                        if (err) {
-                            reject(err)
-                        }
-                    });
-                }
-                resolve({ results, fields });
-            }
-        });
-
-    })
-}
-
-async function validateTables() {
-    const connection = mysql.createConnection(mysqlConfig);
-
-    function createTable(Table: [string, Map<string, DataType>]) {
-        return new Promise(async (resolve, reject) => {
-            console.log(`Creating Table "${Table[0]}"`);
-
-            const query = TableLayoutQueries.get(Table[0]);
-            if (query == null) {
-                reject("TableLayouts and TableLayoutQueries have mismatching entries");
-                return;
-            }
-
-            await queryServer(query, connection);
-
-            resolve(null);
-        });
-    }
-    function archiveAndReplaceTable(Table: [string, Map<string, DataType>]) {
-        return new Promise(async (resolve) => {
-            console.log(`The table "${Table[0]}" is different from the config: Archiving Table`);
-
-            await queryServer(`RENAME TABLE ${Table[0]} TO ${Table[0]}_archive_${getUTCDateTime().replaceAll(" ", "")
-                .replaceAll("-", "").replaceAll(":", "")}`, connection);
-
-            await createTable(Table);
-
-            resolve(null);
-        });
-    }
-
-    const { results } = await queryServer("SHOW TABLES", connection)
-
-    const tables: string[] = [];
-    for (const dataPacket of results) {
-        tables.push(dataPacket[`Tables_in_${mysqlConfig.database}`]);
-    }
-
-    for (const Table of TableLayouts) {
-        if (tables.includes(Table[0])) {
-            const { results } = await queryServer(`DESCRIBE ${Table[0]}`, connection)
-
-            const keyTypes: Map<string, DataType> = new Map();
-            for (const column of results) {
-                const type = Parsers.parseDataType(column.Type);
-                if (type == null) throw Error(`The datatype "${column.Type}" is undetermined`);
-                keyTypes.set(column.Field, type);
-            }
-
-            let tablesMatch = true;
-            for (const column of Table[1]) {
-                const databaseType = keyTypes.get(column[0]);
-                if (databaseType == null)
-                    tablesMatch = false;
-                else {
-                    if (databaseType.valueOf() !== column[1].valueOf())
-                        tablesMatch = false;
-                }
-            }
-
-            if (!tablesMatch) await archiveAndReplaceTable(Table);
-
-        } else {
-            await createTable(Table);
-        }
-    }
-
-    connection.end((err) => {
-        if (err) throw console.error(err);
-    });
-    console.log("DB Tables Validated");
-}
 const app: http.RequestListener = (req, res) => {
+    console.log("got request");
     try {
         if (req.method === "GET") {
             let url = path.normalize(`${__dirname}/static${req.url}`)
             if (req.url == "/") url += "index.html";
             // Path Filtering
             if (path.parse(url).dir.match(__dirname) == null) {
+                res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHead(403);
                 res.end();
                 return;
@@ -148,6 +33,7 @@ const app: http.RequestListener = (req, res) => {
             try {
                 file = fs.readFileSync(url);
             } catch (error) {
+                res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHead(404);
                 res.end("File not found");
                 return;
@@ -169,7 +55,7 @@ const app: http.RequestListener = (req, res) => {
                 default:
                     break;
             }
-
+            res.setHeader("Access-Control-Allow-Origin", "*");
             res.writeHead(200);
             res.write(file);
             res.end();
@@ -183,6 +69,7 @@ const app: http.RequestListener = (req, res) => {
             });
             req.on("end", () => {
                 console.error("Error Reported:\n" + body);
+                res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHead(200);
                 res.end();
             });
@@ -193,123 +80,52 @@ const app: http.RequestListener = (req, res) => {
             req.on("data", chunk => {
                 body += chunk.toString(); // convert Buffer to string
             });
-            req.on("end", () => {
-                let data: SavedData;
-                try {
-                    data = JSON.parse(body);
-
-                    if (typeof data.title != "string") throw new Error("Bad Title");
-                    if (!Array.isArray(data.header)) throw new Error("Bad Header");
-                    if (!Array.isArray(data.values[0])) throw new Error("Bad Values");
-                } catch (error) {
-                    res.writeHead(400);
-                    res.end("Bad data");
-                    return;
-                }
-
-                const rawHeaders: string[] = data.header;
-                const rawValues: string[][] = data.values;
-
-                const table = TableLayouts.get(data.title);
-
-                if (table == null) {
-                    res.writeHead(400);
-                    res.end("Bad data");
-                    console.warn(`The table "${data.title}" was submitted but not found.`);
-                    return;
-                }
-
-                const copyOfHeaders = [...rawHeaders];
-                for (const key of table.keys()) {
-                    // trim potential whitespace
-                    const trimmedKey = key.trim();
-                    const index = copyOfHeaders.findIndex((value) => value === trimmedKey);
-                    if (index == -1) {
-                        res.writeHead(400);
-                        res.end("Bad data");
-                        console.warn(`The key "${trimmedKey}" was not found in the submitted data.`);
-                        return;
-                    }
-                    copyOfHeaders.splice(index, 1);
-                }
-                if (copyOfHeaders.length > 0) {
-                    res.writeHead(400);
-                    res.end("Bad data");
-                    console.warn(`The extra header(s) were submitted: ${copyOfHeaders}`);
-                    return;
-                }
-
-                const cleanValues: Map<string, string>[] = []
-
-                for (const row of rawValues) {
-                    const rowMap: Map<string, string> = new Map();
-                    for (let i = 0; i < row.length; i++) {
-                        const rawEntry = row[i];
-                        const rawHeader = rawHeaders[i];
-                        if (rawEntry == null) {
+            req.on("end", async () => {
+                let bodyObj: ApiRequest = JSON.parse(body);
+                let result = validate(bodyObj, apiSchema);
+                if (result.valid) {
+                    console.log(bodyObj)
+                    switch (bodyObj.title) {
+                        case "pits":
+                            let records = convertPitScout(bodyObj);
+                            console.log(records);
+                            for await (let record of records) {
+                                console.log(record);
+                                await PitScoutEntry.query().insert(record);
+                            }
+                            res.setHeader("Access-Control-Allow-Origin", "*");
+                            res.writeHead(200);
+                            res.end("OK");
+                            break;
+                        default:
+                            res.setHeader("Access-Control-Allow-Origin", "*");
                             res.writeHead(400);
-                            res.end("Bad data");
-                            console.warn(`Index "${i}" was not found in ${row}`);
-                            return;
-                        }
-                        if (rawHeader == null) {
-                            res.writeHead(400);
-                            res.end("Bad data");
-                            console.warn(`Index "${i}" was not found in ${rawHeaders}`);
-                            return;
-                        }
-                        const dataType = table.get(rawHeader);
-                        if (dataType == null) {
-                            res.writeHead(400);
-                            res.end("Bad data");
-                            console.warn(`The header "${rawHeader}" was not found in ${table}`);
-                            return;
-                        }
-                        rowMap.set(rawHeader, Parsers.parse(rawEntry, dataType));
-                    }
-                    cleanValues.push(rowMap);
-                }
-
-                let headers = ""
-                const stringValues: string[] = new Array(cleanValues.length);
-                stringValues.fill("");
-
-                for (const header of table.keys()) {
-                    headers += `${header}, `
-                    for (let i = 0; i < stringValues.length; i++) {
-                        if (table.get(header) == DataType.Points || table.get(header) == DataType.Point) {
-                            stringValues[i] += `${cleanValues[i]?.get(header)}, `
-                        } else {
-                            stringValues[i] += `"${cleanValues[i]?.get(header)}", `
-                        }
+                            res.end("Invalid table")
+                            break;
                     }
                 }
-
-                headers = headers.replace(/, $/, "");
-                for (let i = 0; i < stringValues.length; i++) {
-                    const row = stringValues[i];
-                    if (row) stringValues[i] = row.replace(/, $/, "");
+                else {
+                    res.setHeader("Access-Control-Allow-Origin", "*");
+                    res.writeHead(400);
+                    let msg = "JSON did not pass validation: \n"
+                    result.errors.forEach(error => {
+                        msg += error + "\n";
+                    });
+                    res.end(msg);
                 }
-
-                const query = `INSERT INTO ${data.title} (${headers}) VALUES (${stringValues.join("), (")})`
-
-                // console.log(query);
-
-                queryServer(query).then(() => {
-                    res.setHeader("content-type", "plaintext");
-                    res.writeHead(200);
-                    res.end("Data Submitted");
-                    console.log("\x1b[2m%s\x1b[0m", "Data Added");
-                    return;
-                }).catch((err) => {
-                  res.setHeader("content-type", "plaintext");
-                  res.writeHead(500);
-                  res.end("Database Error");
-                  console.error(err);
-                });
             });
         }
+
+        if (req.method === "OPTIONS" && req.url === "/api") {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Methods", "POST");
+            res.setHeader("Access-Control-Max-Age", 3600);
+            res.setHeader("Access-Control-Allow-Headers", "*");
+            res.writeHead(204);
+            res.end();
+        }
     } catch (error) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHead(500);
         res.end("Server Error");
         console.error(error);
@@ -317,9 +133,6 @@ const app: http.RequestListener = (req, res) => {
     }
 }
 
-
-
-await validateTables();
 http.createServer(app).listen(4173, () => {
     console.log("Server started on port 4173");
 });
