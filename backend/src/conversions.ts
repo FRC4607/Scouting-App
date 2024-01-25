@@ -63,7 +63,6 @@ export function convertPitScout(r: ApiRequest): Record<string, boolean | number 
     r.values.forEach((entry: string[]) => {
         let obj: Record<string, boolean | number | string> = {};
         for (let i = 0; i < r.header.length; i++) {
-            console.log(r.header[i])
             obj[r.header[i]] = operations[r.header[i]](entry[i]);
         }
         entries.push(obj);

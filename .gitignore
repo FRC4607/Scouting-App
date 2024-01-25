@@ -23,4 +23,3 @@ pnpm-debug.log*
 *.sw?
 
 imageServerConfig.ts
-backend/dev.sqlite3

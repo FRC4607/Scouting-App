@@ -1,3 +1,5 @@
 mysql-config.json
 build
 node_modules
+knexfile.ts
+dev.sqlite3

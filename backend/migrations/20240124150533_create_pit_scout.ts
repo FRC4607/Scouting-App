@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<void> {
             table.tinyint("swerve_type").notNullable().unsigned();
             table.text("wheel_rep_freq").notNullable();
             table.tinyint("bumper_height").notNullable().unsigned();
-            table.tinyint("can_bus_top").unsigned();
+            table.tinyint("can_bus_top").notNullable().unsigned();
             table.boolean("pneumatics").notNullable();
             table.tinyint("programming_language").notNullable().unsigned();
             table.tinyint("num_batt").notNullable().unsigned();

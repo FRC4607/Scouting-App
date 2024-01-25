@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import fs from "fs";
+import fs from "fs"
+import fsAsync from "fs/promises";
 import http from "http";
 import path from "path";
 import Knex from "knex";
@@ -16,8 +17,7 @@ Model.knex(knex);
 
 const apiSchema = JSON.parse(fs.readFileSync("schemas/api_request.schema.json").toString());
 
-const app: http.RequestListener = (req, res) => {
-    console.log("got request");
+const app: http.RequestListener = async (req, res) => {
     try {
         if (req.method === "GET") {
             let url = path.normalize(`${__dirname}/static${req.url}`)
@@ -31,11 +31,11 @@ const app: http.RequestListener = (req, res) => {
             }
             let file;
             try {
-                file = fs.readFileSync(url);
+                file = await fsAsync.readFile(url);
             } catch (error) {
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHead(404);
-                res.end("File not found");
+                res.end("File Not Found");
                 return;
             }
 
@@ -68,10 +68,18 @@ const app: http.RequestListener = (req, res) => {
                 body += chunk.toString(); // convert Buffer to string
             });
             req.on("end", () => {
-                console.error("Error Reported:\n" + body);
-                res.setHeader("Access-Control-Allow-Origin", "*");
-                res.writeHead(200);
-                res.end();
+                try {
+                    console.error("Error Reported:\n" + body);
+                    res.setHeader("Access-Control-Allow-Origin", "*");
+                    res.writeHead(200);
+                    res.end();
+                }
+                catch (e) {
+                    console.error("Internal error: " + e);
+                    res.setHeader("Access-Control-Allow-Origin", "*");
+                    res.writeHead(500);
+                    res.end("Server Error");
+                }
             });
         }
 
@@ -81,37 +89,43 @@ const app: http.RequestListener = (req, res) => {
                 body += chunk.toString(); // convert Buffer to string
             });
             req.on("end", async () => {
-                let bodyObj: ApiRequest = JSON.parse(body);
-                let result = validate(bodyObj, apiSchema);
-                if (result.valid) {
-                    console.log(bodyObj)
-                    switch (bodyObj.title) {
-                        case "pits":
-                            let records = convertPitScout(bodyObj);
-                            console.log(records);
-                            for await (let record of records) {
-                                console.log(record);
-                                await PitScoutEntry.query().insert(record);
-                            }
-                            res.setHeader("Access-Control-Allow-Origin", "*");
-                            res.writeHead(200);
-                            res.end("OK");
-                            break;
-                        default:
-                            res.setHeader("Access-Control-Allow-Origin", "*");
-                            res.writeHead(400);
-                            res.end("Invalid table")
-                            break;
+                try {
+                    let bodyObj: ApiRequest = JSON.parse(body);
+                    let result = validate(bodyObj, apiSchema);
+                    if (result.valid) {
+                        switch (bodyObj.title) {
+                            case "pits":
+                                let records = convertPitScout(bodyObj);
+                                for await (let record of records) {
+                                    console.log("Adding pit scouting entry by " + record["scouter_name"] + " of team " + record["team_number"]);
+                                    await PitScoutEntry.query().insert(record);
+                                }
+                                res.setHeader("Access-Control-Allow-Origin", "*");
+                                res.writeHead(200);
+                                res.end();
+                                break;
+                            default:
+                                res.setHeader("Access-Control-Allow-Origin", "*");
+                                res.writeHead(400);
+                                res.end("Invalid Table")
+                                break;
+                        }
+                    }
+                    else {
+                        res.setHeader("Access-Control-Allow-Origin", "*");
+                        res.writeHead(400);
+                        let msg = "JSON did not pass validation: "
+                        result.errors.forEach(error => {
+                            msg += "\n" + error
+                        });
+                        res.end(msg);
                     }
                 }
-                else {
+                catch (e) {
+                    console.error("Internal error: " + e);
                     res.setHeader("Access-Control-Allow-Origin", "*");
-                    res.writeHead(400);
-                    let msg = "JSON did not pass validation: \n"
-                    result.errors.forEach(error => {
-                        msg += error + "\n";
-                    });
-                    res.end(msg);
+                    res.writeHead(500);
+                    res.end("Server Error");
                 }
             });
         }
