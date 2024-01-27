@@ -20,6 +20,7 @@ export type Widget = {
     | "spacer"
     | "spinbox"
     | "stopwatch"
+    | "averagestopwatch"
     | "textarea"
     | "togglegrid"
     | "pictureupload"
@@ -56,6 +57,7 @@ export type Widget1 =
   | WidgetSpacer
   | WidgetSpinbox
   | WidgetStopwatch
+  | WidgetAverageStopwatch
   | WidgetTextarea
   | WidgetToggleGrid
   | WidgetPictureUpload
@@ -158,6 +160,13 @@ export interface WidgetStopwatch {
   lapLabel?: string;
   stopLabel?: string;
   maxLaps?: number;
+  [k: string]: unknown;
+}
+export interface WidgetAverageStopwatch {
+  type?: "averagestopwatch";
+  startLabel?: string;
+  undoLabel?: string;
+  stopLabel?: string;
   [k: string]: unknown;
 }
 export interface WidgetTextarea {

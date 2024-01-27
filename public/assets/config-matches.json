@@ -78,8 +78,9 @@
           "type": "spinbox"
         },
         {
-          "name": "test",
-          "type": "stopwatch"
+          "displayName": "Average Source Wait",
+          "name": "source_avg",
+          "type": "averagestopwatch"
         }
       ]
     },
