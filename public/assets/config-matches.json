@@ -7,16 +7,7 @@
       "widgets": [
         {
           "name": "Scouter Name",
-          "type": "text",
-          "validation": {
-            "comparison": "greater",
-            "value": 0
-          }
-        },
-        {
-          "name": "Starting Position",
-          "type": "positions",
-          "file": "field.png"
+          "type": "text"
         }
       ]
     },
@@ -32,20 +23,14 @@
           "height": 20
         },
         {
-          "name": "Amp Notes",
-          "type": "spinbox",
-          "prefix": "Auto"
+          "displayName": "Amp Notes",
+          "name": "auto_amp",
+          "type": "spinbox"
         },
         {
-          "name": "Speaker Notes",
-          "type": "spinbox",
-          "prefix": "Auto"
-        },
-        {
-          "name": "Trap Notes",
-          "type": "spinbox",
-          "max": 3,
-          "prefix": "Auto"
+          "displayName": "Speaker Notes",
+          "name": "auto_speaker",
+          "type": "spinbox"
         }
       ]
     },
@@ -53,74 +38,48 @@
       "name": "Teleop",
       "widgets": [
         {
-          "name": "Picked Up From",
-          "type": "heading",
-          "colspan": 5,
-          "align": "center"
+          "displayName": " Can Go Under Stage",
+          "name": "under_stage",
+          "type": "checkbox"
         },
         {
-          "name": "Ground",
+          "displayName": "Defense",
+          "name": "defense",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Amp Notes",
+          "name": "teleop_amp",
           "type": "spinbox"
         },
         {
-          "name": "Source",
-          "type": "spinbox",
-          "row": 2,
-          "col": 3
-        },
-        {
-          "name": "Scoring",
-          "type": "heading",
-          "colspan": 5,
-          "align": "center"
-        },
-        {
-          "name": "Speaker Notes",
+          "displayName": "Speaker Notes",
+          "name": "teleop_speaker",
           "type": "spinbox"
         },
         {
-          "name": "Amplified Speaker Notes",
-          "type": "spinbox",
-          "row": 4,
-          "col": 3
-        },
-        {
-          "name": "Amp Notes",
-          "type": "spinbox"
-        },
-        {
-          "name": "Trap Notes",
-          "type": "spinbox",
-          "max": 3,
-          "row": 5,
-          "col": 3
-        },
-        {
-          "name": "Co-op Bonus",
-          "type": "checkbox",
-          "col": 2
-        },
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Defense Rating",
-          "type": "dropdown",
+          "displayName": "Pickup Method",
+          "name": "pickup_method",
+          "type": "multicheckbox",
           "options": [
-            "0 (Not Played)",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5 (Very Effective)"
-          ],
-          "col": 2
+            "Ground",
+            "Source"
+          ]
         },
         {
-          "name": "Tipped",
-          "type": "checkbox",
-          "col": 2
+          "name": "Human Player",
+          "type": "heading",
+          "colspan": 2,
+          "align": "center"
+        },
+        {
+          "displayName": "Pieces Stolen",
+          "name": "piece_stolen",
+          "type": "spinbox"
+        },
+        {
+          "name": "test",
+          "type": "stopwatch"
         }
       ]
     },
@@ -128,22 +87,54 @@
       "name": "Endgame",
       "widgets": [
         {
-          "name": "End Location",
+          "displayName": "Trap Scored",
+          "name": "trap_scored",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Can Climb",
+          "name": "climb",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Failed Climb",
+          "name": "climb_fail",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Robot Onstage",
+          "name": "rob_onstage",
+          "type": "multicheckbox",
+          "options": [
+            "Stage Left",
+            "Stage Right",
+            "Center Stage"
+          ]
+        },
+        {
+          "displayName": "Climb Order",
+          "name": "climb_order",
           "type": "radio",
           "options": [
-            "Onstage and Spotlit",
-            "Onstage",
-            "Parked",
-            "None"
-          ],
-          "default": 3
+            "No Climb",
+            "First",
+            "Second",
+            "Third"
+          ]
         },
         {
-          "name": "Failed Climb",
+          "displayName": "Buddy Climb",
+          "name": "bud_climb",
           "type": "checkbox"
         },
         {
-          "name": "Robots Onstage",
+          "displayName": "Harmony",
+          "name": "harmony",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Trap Note Positions",
+          "name": "trap_note_pos",
           "type": "multicheckbox",
           "options": [
             "Stage Left",
@@ -152,37 +143,56 @@
           ]
         },
         {
-          "name": "Harmony",
-          "type": "checkbox"
+          "displayName": "Spotlight Tried",
+          "name": "spot_try",
+          "type": "spinbox",
+          "min": 0,
+          "max": 3
         },
         {
-          "name": "Trap Note Positions",
+          "displayName": "Spotlight Made",
+          "name": "spot_made",
           "type": "multicheckbox",
           "options": [
-            "Stage Left",
-            "Stage Right",
-            "Center Stage"
+            "Farthest(HP)",
+            "Left(HP)",
+            "Right(HP)"
           ]
         },
         {
-          "name": "Mechanical Failures",
-          "type": "text"
+          "type": "picture",
+          "file": "evan.jpg",
+          "colspan": 2,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "name": "Issues/Comments",
+      "widgets": [
+        {
+          "displayName": "Radio Reboot",
+          "name": "radio_reboot",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Disabled",
+          "name": "disabled",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Power Disconnected",
+          "name": "power_disc",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Browning Out",
+          "name": "brown_out",
+          "type": "checkbox"
         },
         {
           "name": "Comments",
           "type": "textarea"
-        },
-        {
-          "name": "Stage Positions",
-          "type": "heading",
-          "colspan": 2,
-          "align": "center"
-        },
-        {
-          "type": "picture",
-          "file": "stage.png",
-          "colspan": 2,
-          "height": 250
         }
       ]
     }
