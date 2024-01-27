@@ -47,8 +47,8 @@ Portions from https://vuejs.org/examples/#modal
       <template #body>
         <p>Scan the following QR codes in order on the target device:</p>
         <div class="centered" v-for="index in qrStrings.length" :key="index">
-            <qrcode-vue :value=qrStrings[index-1] :size=windowSize/3 :margin=2 />
-            <p>QR Code {{ index }}/{{ qrStrings.length }}</p>
+          <qrcode-vue :value=qrStrings[index-1] :size=windowSize/3 :margin=2 />
+          <p>QR Code {{ index }}/{{ qrStrings.length }}</p>
         </div>
         <!--
           <carousel ref="qrCarousel">
@@ -68,7 +68,7 @@ Portions from https://vuejs.org/examples/#modal
       <template #body>
         <p>Use the camera to scan the QR codes in order:</p>
         <div id="camera-container" class="centered">
-          <qrcode-stream @detect="onDecode"/>
+          <qrcode-stream @detect="onDecode" />
           <p class="centered" v-if="showQrCount">Scanning code {{ currentCode + 1 }}/{{ totalCodes }}</p>
           <p class="centered" v-if="showErrorMessage">Invalid QR Code scanned. Please try again.</p>
         </div>
@@ -230,7 +230,7 @@ function onDecode(s: any) {
     decodedJSON += s[0].rawValue;
     currentCode += 1;
     if (currentCode === totalCodes) {
-      let data:string[][];
+      let data: string[][];
       try {
         data = JSON.parse(decodedJSON);
       }
@@ -263,7 +263,7 @@ function clearData() {
 
 async function uploadData() {
   if (selectedEntry == undefined) return;
-  widgets.uploadData({title: selectedEntry.title,  header: selectedEntry.header, values: filterRecords(true) }).then((value) => {
+  widgets.uploadData({ title: entries[selectedIdx], header: selectedEntry.header, values: filterRecords(true) }).then((value) => {
     uploadInfo = value;
     if (!confirm("Uploaded Successfully! Do you want to clear your entries?")) return;
     widgets.savedData.clear();
@@ -281,7 +281,6 @@ async function uploadData() {
 </script>
 
 <style>
-
 .table-container {
   overflow: auto;
 }
@@ -305,5 +304,4 @@ async function uploadData() {
   padding: 6px;
   font-weight: bold;
 }
-
 </style>
