@@ -31,6 +31,51 @@
           "displayName": "Speaker Notes",
           "name": "auto_speaker",
           "type": "spinbox"
+        },
+        {
+          "type": "picture",
+          "file": "2160xDarkCroppedFixed.png",
+          "height": 250
+        },
+        {
+          "displayName": "Zone 1 Shots Made",
+          "name": "zone1_shot_made_auto",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 1 Shots Miss",
+          "name": "zone1_shot_miss_auto",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 2 Shots Made",
+          "name": "zone2_shot_made_auto",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 2 Shots Miss",
+          "name": "zone2_shot_miss_auto",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 3 Shots Made",
+          "name": "zone3_shot_made_auto",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 3 Shots Miss",
+          "name": "zone3_shot_miss_auto",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 4 Shots Made",
+          "name": "zone4_shot_made_auto",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 4 Shots Miss",
+          "name": "zone4_shot_miss_auto",
+          "type": "spinbox"
         }
       ]
     },
@@ -80,7 +125,53 @@
         {
           "name": "test",
           "type": "stopwatch"
+        },
+        {
+          "type": "picture",
+          "file": "2160xDarkCroppedFixed.png",
+          "height": 250
+        },
+        {
+          "displayName": "Zone 1 Shots Made",
+          "name": "zone1_shot_made",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 1 Shots Miss",
+          "name": "zone1_shot_miss",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 2 Shots Made",
+          "name": "zone2_shot_made",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 2 Shots Miss",
+          "name": "zone2_shot_miss",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 3 Shots Made",
+          "name": "zone3_shot_made",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 3 Shots Miss",
+          "name": "zone3_shot_miss",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 4 Shots Made",
+          "name": "zone4_shot_made",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Zone 4 Shots Miss",
+          "name": "zone4_shot_miss",
+          "type": "spinbox"
         }
+      
       ]
     },
     {
