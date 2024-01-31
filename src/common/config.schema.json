@@ -186,6 +186,16 @@
       },
       "required": ["name"]
     },
+    "widgetAverageStopwatch": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "averagestopwatch" },
+        "startLabel": { "type": "string" },
+        "undoLabel": { "type": "string" },
+        "stopLabel": { "type": "string" }
+      },
+      "required": ["name"]
+    },
     "widgetTextarea": {
       "type": "object",
       "properties": {
@@ -239,7 +249,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["dropdown", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
+          "enum": ["dropdown", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "averagestopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
         },
         "prefix": { "type": "string" },
         "name": { "type": "string" },
@@ -271,6 +281,7 @@
         { "$ref": "#/$defs/widgetSpacer" },
         { "$ref": "#/$defs/widgetSpinbox" },
         { "$ref": "#/$defs/widgetStopwatch" },
+        { "$ref": "#/$defs/widgetAverageStopwatch" },
         { "$ref": "#/$defs/widgetTextarea" },
         { "$ref": "#/$defs/widgetToggleGrid" },
         { "$ref": "#/$defs/widgetPictureUpload"},
