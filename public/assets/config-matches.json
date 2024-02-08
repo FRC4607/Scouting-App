@@ -6,17 +6,39 @@
       "name": "Setup",
       "widgets": [
         {
-          "name": "Scouter Name",
-          "type": "text",
-          "validation": {
-            "comparison": "greater",
-            "value": 0
-          }
+          "displayName": "Scouter Name",
+          "name": "scouter_name",
+          "type": "text"
         },
         {
-          "name": "Starting Position",
-          "type": "positions",
-          "file": "field.png"
+          "displayName": "Robot Starting Position",
+          "name": "starting_pos",
+          "type": "dropdownwithpictures",
+          "options": [
+            "Subwoofer: Amp",
+            "Subwoofer: Speaker",
+            "Subwoofer: Podium",
+            "Amp Note",
+            "Speaker Note",
+            "Podium Note",
+            "Between Amp and Speaker Notes",
+            "Between Speaker and Podium Notes",
+            "Note Closest to Source",
+            "Note 2nd Closest to Source",
+            "Other"
+          ],
+          "files": [
+            "start_loc/sw_amp.png",
+            "start_loc/sw_speaker.png",
+            "start_loc/sw_podium.png",
+            "start_loc/note_amp.png",
+            "start_loc/note_speaker.png",
+            "start_loc/note_podium.png",
+            "start_loc/note_mid_amp.png",
+            "start_loc/note_mid_podium.png",
+            "start_loc/note_source_close.png",
+            "start_loc/note_source_far.png"
+          ]
         }
       ]
     },
@@ -24,28 +46,52 @@
       "name": "Autonomous",
       "widgets": [
         {
-          "name": "Left Starting Zone",
+          "displayName": "Left Starting Zone",
+          "name": "mobility",
           "type": "checkbox"
         },
         {
-          "type": "spacer",
-          "height": 20
+          "displayName": "Amp Notes",
+          "name": "auto_amp",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
         },
         {
-          "name": "Amp Notes",
-          "type": "spinbox",
-          "prefix": "Auto"
+          "type": "picture",
+          "file": "2160xDarkCroppedFixed.png",
+          "rowspan": 2,
+          "colspan": 2,
+          "col": 1,
+          "width": 600
         },
         {
-          "name": "Speaker Notes",
+          "displayName": "Zone 1 Shots Made",
+          "name": "zone1_shot_made_auto",
           "type": "spinbox",
-          "prefix": "Auto"
+          "min": 0,
+          "max": 255
         },
         {
-          "name": "Trap Notes",
+          "displayName": "Zone 1 Shots Miss",
+          "name": "zone1_shot_miss_auto",
           "type": "spinbox",
-          "max": 3,
-          "prefix": "Auto"
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 2 Shots Made",
+          "name": "zone2_shot_made_auto",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 2 Shots Miss",
+          "name": "zone2_shot_miss_auto",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
         }
       ]
     },
@@ -53,74 +99,112 @@
       "name": "Teleop",
       "widgets": [
         {
-          "name": "Picked Up From",
-          "type": "heading",
-          "colspan": 5,
-          "align": "center"
+          "displayName": "Can Go Under Stage",
+          "name": "under_stage",
+          "type": "checkbox"
         },
         {
-          "name": "Ground",
-          "type": "spinbox"
+          "displayName": "Defense",
+          "name": "defense",
+          "type": "checkbox"
         },
         {
-          "name": "Source",
-          "type": "spinbox",
-          "row": 2,
-          "col": 3
-        },
-        {
-          "name": "Scoring",
-          "type": "heading",
-          "colspan": 5,
-          "align": "center"
-        },
-        {
-          "name": "Speaker Notes",
-          "type": "spinbox"
-        },
-        {
-          "name": "Amplified Speaker Notes",
-          "type": "spinbox",
-          "row": 4,
-          "col": 3
-        },
-        {
-          "name": "Amp Notes",
-          "type": "spinbox"
-        },
-        {
-          "name": "Trap Notes",
-          "type": "spinbox",
-          "max": 3,
-          "row": 5,
-          "col": 3
-        },
-        {
-          "name": "Co-op Bonus",
-          "type": "checkbox",
-          "col": 2
-        },
-        {
-          "type": "spacer",
-          "height": 20
-        },
-        {
-          "name": "Defense Rating",
-          "type": "dropdown",
+          "displayName": "Pickup Method",
+          "name": "pickup_method",
+          "type": "multicheckbox",
           "options": [
-            "0 (Not Played)",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5 (Very Effective)"
-          ],
-          "col": 2
+            "Ground",
+            "Source"
+          ]
         },
         {
-          "name": "Tipped",
-          "type": "checkbox",
-          "col": 2
+          "type": "picture",
+          "file": "2160xDarkCroppedFixed.png",
+          "rowspan": 2,
+          "colspan": 2,
+          "col": 1,
+          "width": 600
+        },
+        {
+          "displayName": "Zone 1 Shots Made",
+          "name": "zone1_shot_made",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 1 Shots Miss",
+          "name": "zone1_shot_miss",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 2 Shots Made",
+          "name": "zone2_shot_made",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 2 Shots Miss",
+          "name": "zone2_shot_miss",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 3 Shots Made",
+          "name": "zone3_shot_made",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 3 Shots Miss",
+          "name": "zone3_shot_miss",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 4 Shots Made",
+          "name": "zone4_shot_made",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Zone 4 Shots Miss",
+          "name": "zone4_shot_miss",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Amp Notes",
+          "name": "teleop_amp",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "name": "Human Player",
+          "type": "heading",
+          "colspan": 2,
+          "align": "center"
+        },
+        {
+          "displayName": "Pieces Stolen",
+          "name": "piece_stolen",
+          "type": "spinbox",
+          "min": 0,
+          "max": 255
+        },
+        {
+          "displayName": "Robot Wait Time",
+          "name": "wait_time",
+          "type": "averagestopwatch"
         }
       ]
     },
@@ -128,61 +212,93 @@
       "name": "Endgame",
       "widgets": [
         {
-          "name": "End Location",
+          "displayName": "Failed Climb",
+          "name": "climb_fail",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Robot Onstage",
+          "name": "rob_onstage",
           "type": "radio",
           "options": [
-            "Onstage and Spotlit",
-            "Onstage",
-            "Parked",
-            "None"
-          ],
-          "default": 3
-        },
-        {
-          "name": "Failed Climb",
-          "type": "checkbox"
-        },
-        {
-          "name": "Robots Onstage",
-          "type": "multicheckbox",
-          "options": [
+            "N/A",
             "Stage Left",
             "Stage Right",
             "Center Stage"
           ]
         },
         {
-          "name": "Harmony",
-          "type": "checkbox"
-        },
-        {
-          "name": "Trap Note Positions",
-          "type": "multicheckbox",
+          "displayName": "Climb Order",
+          "name": "climb_order",
+          "type": "radio",
           "options": [
-            "Stage Left",
-            "Stage Right",
-            "Center Stage"
+            "No Climb",
+            "First",
+            "Second",
+            "Third"
           ]
         },
         {
-          "name": "Mechanical Failures",
-          "type": "text"
+          "displayName": "Trap Note Positions",
+          "name": "trap_note_pos",
+          "type": "multicheckbox",
+          "options": [
+            "Amp",
+            "Source",
+            "Center"
+          ]
+        },
+        {
+          "displayName": "Spotlight Tried",
+          "name": "spot_try",
+          "type": "spinbox",
+          "min": 0,
+          "max": 3
+        },
+        {
+          "displayName": "Spotlight Made",
+          "name": "spot_made",
+          "type": "multicheckbox",
+          "options": [
+            "Amp",
+            "Source",
+            "Center"
+          ]
+        },
+        {
+          "type": "picture",
+          "file": "evan.jpg",
+          "colspan": 2,
+          "height": 1
+        }
+      ]
+    },
+    {
+      "name": "Issues/Comments",
+      "widgets": [
+        {
+          "name": "Note: These checkboxes will send an alert to event CSAs when uploaded. Be careful and make sure to upload after checking the box!",
+          "type": "label",
+          "colspan": 2
+        },
+        {
+          "displayName": "RSL Solid",
+          "name": "rsl_solid",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "RSL Off",
+          "name": "rsl_off",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Browning Out",
+          "name": "brown_out",
+          "type": "checkbox"
         },
         {
           "name": "Comments",
           "type": "textarea"
-        },
-        {
-          "name": "Stage Positions",
-          "type": "heading",
-          "colspan": 2,
-          "align": "center"
-        },
-        {
-          "type": "picture",
-          "file": "stage.png",
-          "colspan": 2,
-          "height": 250
         }
       ]
     }

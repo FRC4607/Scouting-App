@@ -75,6 +75,22 @@
       },
       "required": ["name", "options"]
     },
+    "widgetDropdownWithPictures": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "dropdownwithpictures" },
+        "defaultOption": { "type": "boolean" },
+        "options": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["name", "options", "files"]
+    },
     "widgetHeading": {
       "type": "object",
       "properties": {
@@ -186,6 +202,16 @@
       },
       "required": ["name"]
     },
+    "widgetAverageStopwatch": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "averagestopwatch" },
+        "startLabel": { "type": "string" },
+        "undoLabel": { "type": "string" },
+        "stopLabel": { "type": "string" }
+      },
+      "required": ["name"]
+    },
     "widgetTextarea": {
       "type": "object",
       "properties": {
@@ -239,7 +265,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["dropdown", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
+          "enum": ["dropdown", "dropdownwithpictures", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "averagestopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
         },
         "prefix": { "type": "string" },
         "name": { "type": "string" },
@@ -259,6 +285,7 @@
       "required": ["type"],
       "oneOf": [
         { "$ref": "#/$defs/widgetDropdown" },
+        { "$ref": "#/$defs/widgetDropdownWithPictures" },
         { "$ref": "#/$defs/widgetHeading" },
         { "$ref": "#/$defs/widgetLabel" },
         { "$ref": "#/$defs/widgetText" },
@@ -271,6 +298,7 @@
         { "$ref": "#/$defs/widgetSpacer" },
         { "$ref": "#/$defs/widgetSpinbox" },
         { "$ref": "#/$defs/widgetStopwatch" },
+        { "$ref": "#/$defs/widgetAverageStopwatch" },
         { "$ref": "#/$defs/widgetTextarea" },
         { "$ref": "#/$defs/widgetToggleGrid" },
         { "$ref": "#/$defs/widgetPictureUpload"},

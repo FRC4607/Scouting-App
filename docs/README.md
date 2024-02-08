@@ -91,3 +91,7 @@ Licensed under the MIT License, see the [license document](/LICENSE.txt) for the
 
 #### Contributing
 Contributions are welcome and encouraged! Please feel free to open issues for problems you encounter or feature requests you come up with. If you would like to contribute code, please open a pull request and describe your changes and reasoning for them. Thank you in advance for your help!
+
+## Credits
+This program uses modified images from
+https://www.chiefdelphi.com/t/2024-crescendo-top-down-field-renders/447764.

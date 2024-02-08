@@ -15,7 +15,7 @@
     <FormGroup :label-type="LabelType.LabelTag" id="match-level-input" name="Match Level">
       <select id="match-level-input" v-model.number="matchLevel" :disabled="config.data.forceQualifiers"
         @change=onLevelChange>
-        <option value="4">Practice</option>
+        <option value="3">Practice</option>
         <option value="0">Qualifications</option>
         <option value="1">Playoffs</option>
         <option value="2">Finals</option>
@@ -24,7 +24,7 @@
     <FormGroup :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
       <input id="match-input" type="number" v-model.lazy="matchNumber" :min="1" />
     </FormGroup>
-    <FormGroup :show="isTBA" :label-type="LabelType.LabelTag" id="team-input" name="Team">
+    <FormGroup :show="isTBA && currentMatch !== null" :label-type="LabelType.LabelTag" id="team-input" name="Team">
       <span v-if="currentMatch === null">&lt;No Data&gt;</span>
       <select v-else id="team-input" v-model="selectedTeam">
         <option v-for="[i, { color, index, number, name }] of teamsList.entries()" :key="i" :value="i">
@@ -32,10 +32,10 @@
         </option>
       </select>
     </FormGroup>
-    <FormGroup :show="!isTBA" :label-type="LabelType.LabelTag" id="team-number-input" name="Team Number">
-      <input type="number" v-model="teamNumberManual">
+    <FormGroup :show="!isTBA || currentMatch === null" :label-type="LabelType.LabelTag" id="team-number-input" name="Team Number">
+      <input type="number" v-model="teamNumberManual" :min="1">
     </FormGroup>
-    <FormGroup :show="!isTBA" :label-type="LabelType.LabelTag" id="team-color-input" name="Team Color">
+    <FormGroup :show="!isTBA || currentMatch === null" :label-type="LabelType.LabelTag" id="team-color-input" name="Team Color">
       <select id="team-color-input" v-model="teamColorManual">
         <option value="Red" selected>Red</option>
         <option value="Blue">Blue</option>
@@ -73,7 +73,7 @@ const matchLevel = $ref(0);
 const matchNumber = $ref(1);
 let selectedTeam = $ref(0);
 
-const teamNumberManual = $ref(0);
+const teamNumberManual = $ref(1);
 const teamColorManual = $ref("Red");
 
 let teamsLoadStatus = $ref("");
@@ -126,7 +126,7 @@ const teamsList = $computed(() => {
 
 // The exported team information
 const teamData = $computed(() => {
-  if (isTBA) return teamsList[selectedTeam] ? Object.values(teamsList[selectedTeam]).join() : "";
+  if (isTBA && teamsList[selectedTeam]) return Object.values(teamsList[selectedTeam]).join();
   else return `${teamColorManual},0,${teamNumberManual},(no name available)`;
 });
 
@@ -165,7 +165,7 @@ function loadTBAData() {
 }
 
 function onLevelChange() {
-  selectedTeam = matchLevel !== 4 ? widgets.teamSelectionConfig.selectedTeam : -1;
+  selectedTeam = matchLevel !== 3 ? widgets.teamSelectionConfig.selectedTeam : -1;
 }
 
 </script>
