@@ -4,8 +4,8 @@
     <button @click="start">{{ data.startLabel ?? "Start" }}</button>
     <button @click="stop">{{ data.stopLabel ?? "Stop" }}</button>
     <button @click="undo">{{ data.undoLabel ?? "Undo" }}</button>
-    <span>Average: {{ averageTime }}</span>
   </div>
+  <span>Average: {{ averageTime }}</span>
 </template>
 
 <script setup lang="ts">

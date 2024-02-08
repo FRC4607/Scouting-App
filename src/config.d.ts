@@ -8,6 +8,7 @@
 export type Widget = {
   type:
     | "dropdown"
+    | "dropdownwithpictures"
     | "heading"
     | "label"
     | "text"
@@ -45,6 +46,7 @@ export type Validation = {
 export type Validation1 = ValidationInequality | ValidationRange;
 export type Widget1 =
   | WidgetDropdown
+  | WidgetDropdownWithPictures
   | WidgetHeading
   | WidgetLabel
   | WidgetText
@@ -90,6 +92,13 @@ export interface WidgetDropdown {
   type?: "dropdown";
   defaultOption?: boolean;
   options: string[];
+  [k: string]: unknown;
+}
+export interface WidgetDropdownWithPictures {
+  type?: "dropdownwithpictures";
+  defaultOption?: boolean;
+  options: string[];
+  files: string[];
   [k: string]: unknown;
 }
 export interface WidgetHeading {

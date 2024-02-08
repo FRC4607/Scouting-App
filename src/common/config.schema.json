@@ -75,6 +75,22 @@
       },
       "required": ["name", "options"]
     },
+    "widgetDropdownWithPictures": {
+      "type": "object",
+      "properties": {
+        "type": { "const": "dropdownwithpictures" },
+        "defaultOption": { "type": "boolean" },
+        "options": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["name", "options", "files"]
+    },
     "widgetHeading": {
       "type": "object",
       "properties": {
@@ -249,7 +265,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["dropdown", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "averagestopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
+          "enum": ["dropdown", "dropdownwithpictures", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "averagestopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
         },
         "prefix": { "type": "string" },
         "name": { "type": "string" },
@@ -269,6 +285,7 @@
       "required": ["type"],
       "oneOf": [
         { "$ref": "#/$defs/widgetDropdown" },
+        { "$ref": "#/$defs/widgetDropdownWithPictures" },
         { "$ref": "#/$defs/widgetHeading" },
         { "$ref": "#/$defs/widgetLabel" },
         { "$ref": "#/$defs/widgetText" },
