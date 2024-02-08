@@ -7,7 +7,8 @@
             "description": "The table to insert the request into",
             "type": "string",
             "enum": [
-                "pits"
+                "pits",
+                "matches"
             ]
         }
     },
@@ -74,6 +75,84 @@
                             "type": "array",
                             "minItems": 33,
                             "maxItems": 33,
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "header",
+                    "values"
+                ]
+            }
+        },
+        {
+            "if": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "const": "matches"
+                    }
+                },
+                "required": [
+                    "title"
+                ]
+            },
+            "then": {
+                "properties": {
+                    "header": {
+                        "description": "The headers of the columns of the scouting entries",
+                        "type": "array",
+                        "const": [
+                            "event_key",
+                            "match_level",
+                            "match_number",
+                            "team_data",
+                            "scouter_name",
+                            "starting_pos",
+                            "mobility",
+                            "auto_amp",
+                            "zone1_shot_made_auto",
+                            "zone1_shot_miss_auto",
+                            "zone2_shot_made_auto",
+                            "zone2_shot_miss_auto",
+                            "under_stage",
+                            "defense",
+                            "pickup_method",
+                            "zone1_shot_made",
+                            "zone1_shot_miss",
+                            "zone2_shot_made",
+                            "zone2_shot_miss",
+                            "zone3_shot_made",
+                            "zone3_shot_miss",
+                            "zone4_shot_made",
+                            "zone4_shot_miss",
+                            "teleop_amp",
+                            "piece_stolen",
+                            "wait_time",
+                            "climb_fail",
+                            "rob_onstage",
+                            "climb_order",
+                            "trap_note_pos",
+                            "spot_try",
+                            "spot_made",
+                            "rsl_solid",
+                            "rsl_off",
+                            "brown_out",
+                            "comments",
+                            "ScoutedTime"
+                        ]
+                    },
+                    "values": {
+                        "description": "The list of entries to be added into the database",
+                        "type": "array",
+                        "minItems": 1,
+                        "uniqueItems": true,
+                        "items": {
+                            "type": "array",
+                            "minItems": 37,
+                            "maxItems": 37,
                             "items": {
                                 "type": "string"
                             }

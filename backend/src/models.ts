@@ -131,3 +131,50 @@ export class PitScoutEntry extends Model {
         return this.photoSplit(this.misc_pics)
     }
 }
+
+export class MatchScoutEntry extends Model {
+    event_key!: string;
+    match_level!: number;
+    match_number!: number;
+    is_blue!: boolean;
+    ds_position!: number;
+    team_number!: number;
+    scouter_name!: string;
+    starting_pos!: number;
+    mobility!: boolean;
+    auto_amp!: number;
+    zone1_shot_made_auto!: number;
+    zone1_shot_miss_auto!: number;
+    zone2_shot_made_auto!: number;
+    zone2_shot_miss_auto!: number;
+    under_stage!: boolean;
+    defense!: boolean;
+    pickup_method_ground!: boolean;
+    pickup_method_source!: boolean;
+    zone1_shot_made!: number;
+    zone1_shot_miss!: number;
+    zone2_shot_made!: number;
+    zone2_shot_miss!: number;
+    zone3_shot_made!: number;
+    zone3_shot_miss!: number;
+    zone4_shot_made!: number;
+    zone4_shot_miss!: number;
+    teleop_amp!: number;
+    piece_stolen!: number;
+    wait_time!: number;
+    climb_fail!: boolean;
+    rob_onstage!: number;
+    climb_order!: number;
+    trap_note_pos_amp!: boolean;
+    trap_note_pos_source!: boolean;
+    trap_note_pos_center!: boolean;
+    spot_try!: number;
+    spot_made_amp!: boolean;
+    spot_made_source!: boolean;
+    spot_made_center!: boolean;
+    rsl_solid!: boolean;
+    rsl_off!: boolean;
+    brown_out!: boolean;
+    comments!: string;
+    ScoutedTime!: string;
+  }
