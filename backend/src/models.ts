@@ -1,6 +1,8 @@
 import { Model } from "objection";
 import { readFileSync } from "fs";
-const PitScoutSchema = JSON.parse(readFileSync("schemas/pit_scout_entry.schema.json").toString())
+
+const PitScoutSchema = JSON.parse(readFileSync("schemas/pit_scout_entry.schema.json").toString());
+const MatchScoutSchema = JSON.parse(readFileSync("schemas/match_scout_entry.schema.json").toString());
 
 export class PitScoutEntry extends Model {
     scouter_name!: string;
@@ -177,4 +179,55 @@ export class MatchScoutEntry extends Model {
     brown_out!: boolean;
     comments!: string;
     ScoutedTime!: string;
-  }
+
+    static override get tableName() {
+        return "match_scouting_entries";
+    }
+
+    static override get jsonSchema() {
+        return MatchScoutSchema;
+    }
+
+    get mappedMatchLevel() {
+        return [
+            "Qualifications",
+            "Playoffs",
+            "Finals",
+            "Practice"
+        ][this.match_level];
+    }
+
+    get mappedStartingPosition() {
+        return [
+            "Subwoofer: Amp",
+            "Subwoofer: Speaker",
+            "Subwoofer: Podium",
+            "Amp Note",
+            "Speaker Note",
+            "Podium Note",
+            "Between Amp and Speaker Notes",
+            "Between Speaker and Podium Notes",
+            "Note Closest to Source",
+            "Note 2nd Closest to Source",
+            "Other"
+        ][this.starting_pos];
+    }
+
+    get mappedRobotOnstage() {
+        return [
+            "N/A",
+            "Stage Left",
+            "Stage Right",
+            "Center Stage"
+        ][this.rob_onstage];
+    }
+
+    get mappedClimbOrder() {
+        return [
+            "No Climb",
+            "First",
+            "Second",
+            "Third"
+        ][this.climb_order];
+    }
+}

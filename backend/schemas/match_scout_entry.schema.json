@@ -20,7 +20,7 @@
         },
         "ds_position": {
             "type": "number",
-            "minimum": 1,
+            "minimum": 0,
             "maximum": 3
         },
         "team_number": {

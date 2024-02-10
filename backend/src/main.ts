@@ -9,8 +9,8 @@ import config from "./../knexfile";
 import { validate } from "jsonschema";
 import { env } from "process";
 import { ApiRequest } from "../schemas/ApiRequest";
-import { PitScoutEntry } from "./models";
-import { convertPitScout } from "./conversions";
+import { MatchScoutEntry, PitScoutEntry } from "./models";
+import { convertMatchScout, convertPitScout } from "./conversions";
 
 const knex = Knex(config[env["NODE_ENV"] ? env["NODE_ENV"] : "development"])
 Model.knex(knex);
@@ -94,7 +94,7 @@ const app: http.RequestListener = async (req, res) => {
                     let result = validate(bodyObj, apiSchema);
                     if (result.valid) {
                         switch (bodyObj.title) {
-                            case "pits":
+                            case "pits": {
                                 let records = convertPitScout(bodyObj);
                                 for await (let record of records) {
                                     console.log("Adding pit scouting entry by " + record["scouter_name"] + " of team " + record["team_number"]);
@@ -104,11 +104,24 @@ const app: http.RequestListener = async (req, res) => {
                                 res.writeHead(200);
                                 res.end();
                                 break;
-                            default:
+                            }
+                            case "matches": {
+                                let records = convertMatchScout(bodyObj);
+                                for await (let record of records) {
+                                    console.log("Adding match scouting entry by " + record["scouter_name"] + " of team " + record["team_number"]);
+                                    await MatchScoutEntry.query().insert(record);
+                                }
+                                res.setHeader("Access-Control-Allow-Origin", "*");
+                                res.writeHead(200);
+                                res.end();
+                                break;
+                            }
+                            default: {
                                 res.setHeader("Access-Control-Allow-Origin", "*");
                                 res.writeHead(400);
                                 res.end("Invalid Table")
                                 break;
+                            }
                         }
                     }
                     else {

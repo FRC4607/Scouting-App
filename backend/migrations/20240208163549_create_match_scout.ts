@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     return knex.schema
         .createTable("match_scouting_entries", (table) => {
             table.increments("id").notNullable();
-            table.text("match_key").notNullable();
+            table.text("event_key").notNullable();
             table.tinyint("match_level").notNullable().unsigned();
             table.tinyint("match_number").notNullable().unsigned();
             table.boolean("is_blue").notNullable();
