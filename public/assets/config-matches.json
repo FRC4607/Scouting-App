@@ -222,9 +222,9 @@
           "type": "radio",
           "options": [
             "N/A",
-            "Stage Left",
-            "Stage Right",
-            "Center Stage"
+            "Amp",
+            "Source",
+            "Center"
           ]
         },
         {
