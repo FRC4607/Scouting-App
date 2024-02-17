@@ -4,7 +4,8 @@
     "run": "node ./build/src/main.js",
     "buildAndRun": "npm run build && npm run run",
     "installModules": "npm install",
-    "generateSchema": "json2ts schemas/match_scout_entry.schema.json schemas/MatchScoutEntry.d.ts &&json2ts schemas/pit_scout_entry.schema.json schemas/PitScoutEntry.d.ts && json2ts schemas/api_request.schema.json schemas/ApiRequest.d.ts"
+    "generateSchema": "json2ts schemas/match_scout_entry.schema.json schemas/MatchScoutEntry.d.ts &&json2ts schemas/pit_scout_entry.schema.json schemas/PitScoutEntry.d.ts && json2ts schemas/api_request.schema.json schemas/ApiRequest.d.ts",
+    "runMigrations": "knex migrate:latest"
   },
   "dependencies": {
     "@types/node": "^18.15.0",
