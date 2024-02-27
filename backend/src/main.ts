@@ -21,11 +21,11 @@ const apiSchema = JSON.parse(fs.readFileSync("../schemas/api_request.schema.json
 const app: http.RequestListener = async (req, res) => {
   try {
     if (req.method === "GET") {
-      let url = path.normalize(path.join(__dirname, '..', `/static${req.url}`));
-      console.log(url)
+      let url = path.normalize(path.join(__dirname, "..", `/static${req.url}`));
+      console.log(url);
       if (req.url == "/") url += "index.html";
       // Path Filtering
-      if (path.parse(url).dir.match(path.join(__dirname, '..')) == null) {
+      if (path.parse(url).dir.match(path.join(__dirname, "..")) == null) {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHead(403);
         res.end();

@@ -8,7 +8,7 @@ import postcssPresetEnv from "postcss-preset-env";
 import ReactivityTransform from "@vue-macros/reactivity-transform/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
-import { hash } from "utilFunctions.js";
+import { hash } from "./utilFunctions.js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
