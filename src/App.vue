@@ -23,7 +23,6 @@ onErrorCaptured(obj => {
 </script>
 
 <style>
-
 @font-face {
   font-family: "Toxigenesis";
   src: local("Toxigenesis"), url("/assets/fonts/toxigenesis.ttf");
@@ -64,6 +63,7 @@ button {
 input+button {
   border-radius: 0 15px 15px 0;
 }
+
 .widget button:first-child:nth-last-of-type(2) {
   border-radius: 15px 0 0 15px;
 }

@@ -1,8 +1,8 @@
 import { Model } from "objection";
 import { readFileSync } from "fs";
 
-const PitScoutSchema = JSON.parse(readFileSync("schemas/pit_scout_entry.schema.json").toString());
-const MatchScoutSchema = JSON.parse(readFileSync("schemas/match_scout_entry.schema.json").toString());
+const PitScoutSchema = JSON.parse(readFileSync("../schemas/pit_scout_entry.schema.json").toString());
+const MatchScoutSchema = JSON.parse(readFileSync("../schemas/match_scout_entry.schema.json").toString());
 
 export class PitScoutEntry extends Model {
     scouter_name!: string;
@@ -126,11 +126,11 @@ export class PitScoutEntry extends Model {
     }
 
     get radioLocationPictures() {
-        return this.photoSplit(this.radio_loc)
+        return this.photoSplit(this.radio_loc);
     }
 
     get miscPictures() {
-        return this.photoSplit(this.misc_pics)
+        return this.photoSplit(this.misc_pics);
     }
 }
 

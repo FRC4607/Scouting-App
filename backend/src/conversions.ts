@@ -1,5 +1,5 @@
 import { ApiRequest } from "../schemas/ApiRequest";
-import { PitScoutEntry } from "./models";
+//import { PitScoutEntry } from "./models";
 
 interface TeamData {
     isBlue: boolean;
@@ -19,11 +19,11 @@ function stringToBool(s: string): boolean {
     return s === "true" ? true : false;
 }
 
-function enumToNumber(values: string[]): (s: string) => number {
-    return (s: string) => {
-        return values.indexOf(s);
-    }
-}
+// function enumToNumber(values: string[]): (s: string) => number {
+//     return (s: string) => {
+//         return values.indexOf(s);
+//     };
+// }
 
 function reformatISO(t: string): string {
     return new Date(t).toISOString();
@@ -34,7 +34,7 @@ function identity<T>(value: T): T {
 }
 
 function multicheckboxToBooleanArray(v: string, numValues: number): boolean[] {
-    let result: boolean[] = [];
+    const result: boolean[] = [];
     const trues = v.split(" ").map((e) => Number.parseInt(e));
     for (const value of trues) {
         result[value] = true;
@@ -55,7 +55,7 @@ function parseTeamData(teamData: string): TeamData {
 }
 
 export function convertPitScout(r: ApiRequest): Record<string, boolean | number | string>[] {
-    let entries: Record<string, boolean | number | string>[] = [];
+    const entries: Record<string, boolean | number | string>[] = [];
     const operations: Record<string, (s: string) => boolean | number | string> = {
         scouter_name: identity,
         team_number: stringToInt,
@@ -92,7 +92,7 @@ export function convertPitScout(r: ApiRequest): Record<string, boolean | number 
         ScoutedTime: reformatISO
     };
     r.values.forEach((entry: string[]) => {
-        let obj: Record<string, boolean | number | string> = {};
+        const obj: Record<string, boolean | number | string> = {};
         for (let i = 0; i < r.header.length; i++) {
             obj[r.header[i]] = operations[r.header[i]](entry[i]);
         }
@@ -102,7 +102,7 @@ export function convertPitScout(r: ApiRequest): Record<string, boolean | number 
 }
 
 export function convertMatchScout(r: ApiRequest): Record<string, boolean | number | string>[] {
-    let entries: Record<string, boolean | number | string>[] = [];
+    const entries: Record<string, boolean | number | string>[] = [];
     const operations: Record<string, (s: string) => boolean | number | string> = {
         event_key: identity,
         match_level: stringToInt,
@@ -139,7 +139,7 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
         ScoutedTime: reformatISO
     };
     r.values.forEach((entry: string[]) => {
-        let obj: Record<string, boolean | number | string> = {};
+        const obj: Record<string, boolean | number | string> = {};
         for (let i = 0; i < r.header.length; i++) {
             if (!operations[r.header[i]]) continue;
             obj[r.header[i]] = operations[r.header[i]](entry[i]);

@@ -35,7 +35,7 @@ export async function up(knex: Knex): Promise<void> {
             table.text("batt_con").notNullable();
             table.text("powersw_loc").notNullable();
             table.text("radio_loc").notNullable();
-            table.text("misc_pics").notNullable()
+            table.text("misc_pics").notNullable();
             table.text("comments").notNullable();
             table.datetime("ScoutedTime").notNullable();
         });

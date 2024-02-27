@@ -1,29 +1,31 @@
 /* eslint-disable no-console */
-import fs from "fs"
+import fs from "fs";
 import fsAsync from "fs/promises";
 import http from "http";
 import path from "path";
 import Knex from "knex";
 import { Model } from "objection";
-import config from "./../knexfile";
+import config from "../knexfile";
 import { validate } from "jsonschema";
 import { env } from "process";
 import { ApiRequest } from "../schemas/ApiRequest";
 import { MatchScoutEntry, PitScoutEntry } from "./models";
 import { convertMatchScout, convertPitScout } from "./conversions";
 
-const knex = Knex(config[env["NODE_ENV"] ? env["NODE_ENV"] : "development"])
+const knex = Knex(config[env["NODE_ENV"] ? env["NODE_ENV"] : "development"]);
+console.log("Starting Knex using " + env["NODE_ENV"] ? env["NODE_ENV"] : "development" + " environment");
 Model.knex(knex);
 
-const apiSchema = JSON.parse(fs.readFileSync("schemas/api_request.schema.json").toString());
+const apiSchema = JSON.parse(fs.readFileSync("../schemas/api_request.schema.json").toString());
 
 const app: http.RequestListener = async (req, res) => {
     try {
         if (req.method === "GET") {
-            let url = path.normalize(`${__dirname}/static${req.url}`)
+            let url = path.normalize(path.join(__dirname, '..', `/static${req.url}`));
+            console.log(url)
             if (req.url == "/") url += "index.html";
             // Path Filtering
-            if (path.parse(url).dir.match(__dirname) == null) {
+            if (path.parse(url).dir.match(path.join(__dirname, '..')) == null) {
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHead(403);
                 res.end();
@@ -90,13 +92,13 @@ const app: http.RequestListener = async (req, res) => {
             });
             req.on("end", async () => {
                 try {
-                    let bodyObj: ApiRequest = JSON.parse(body);
-                    let result = validate(bodyObj, apiSchema);
+                    const bodyObj: ApiRequest = JSON.parse(body);
+                    const result = validate(bodyObj, apiSchema);
                     if (result.valid) {
                         switch (bodyObj.title) {
                             case "pits": {
-                                let records = convertPitScout(bodyObj);
-                                for await (let record of records) {
+                                const records = convertPitScout(bodyObj);
+                                for await (const record of records) {
                                     console.log("Adding pit scouting entry by " + record["scouter_name"] + " of team " + record["team_number"]);
                                     await PitScoutEntry.query().insert(record);
                                 }
@@ -106,8 +108,8 @@ const app: http.RequestListener = async (req, res) => {
                                 break;
                             }
                             case "matches": {
-                                let records = convertMatchScout(bodyObj);
-                                for await (let record of records) {
+                                const records = convertMatchScout(bodyObj);
+                                for await (const record of records) {
                                     console.log("Adding match scouting entry by " + record["scouter_name"] + " of team " + record["team_number"]);
                                     await MatchScoutEntry.query().insert(record);
                                 }
@@ -119,7 +121,7 @@ const app: http.RequestListener = async (req, res) => {
                             default: {
                                 res.setHeader("Access-Control-Allow-Origin", "*");
                                 res.writeHead(400);
-                                res.end("Invalid Table")
+                                res.end("Invalid Table");
                                 break;
                             }
                         }
@@ -127,9 +129,9 @@ const app: http.RequestListener = async (req, res) => {
                     else {
                         res.setHeader("Access-Control-Allow-Origin", "*");
                         res.writeHead(400);
-                        let msg = "JSON did not pass validation:"
+                        let msg = "JSON did not pass validation:";
                         result.errors.forEach(error => {
-                            msg += "\n" + error
+                            msg += "\n" + error;
                         });
                         res.end(msg);
                     }
@@ -158,7 +160,7 @@ const app: http.RequestListener = async (req, res) => {
         console.error(error);
         return;
     }
-}
+};
 
 http.createServer(app).listen(4173, () => {
     console.log("Server started on port 4173");

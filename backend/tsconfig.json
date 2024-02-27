@@ -1,6 +1,23 @@
 {
     "extends": "@tsconfig/node20/tsconfig.json",
     "compilerOptions": {
-        "outDir": "build"
-    }
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "outDir": "build",
+        "resolveJsonModule": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.json",
+        "schemas/**/*.json"
+    ],
+    "exclude": [
+        "node_modules",
+        ".vscode"
+    ],
+    "esModuleInterop": true
 }

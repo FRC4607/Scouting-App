@@ -47,7 +47,7 @@ Portions from https://vuejs.org/examples/#modal
       <template #body>
         <p>Scan the following QR codes in order on the target device:</p>
         <div class="centered" v-for="index in qrStrings.length" :key="index">
-          <qrcode-vue :value=qrStrings[index-1] :size=windowSize/3 :margin=2 />
+          <qrcode-vue :value="qrStrings[index - 1]" :size="windowSize / 3" :margin="2" />
           <p>QR Code {{ index }}/{{ qrStrings.length }}</p>
         </div>
         <!--
@@ -88,9 +88,8 @@ import { useWidgetsStore } from "@/common/stores";
 import Modal from "./ModalComponent.vue";
 
 import QrcodeVue from "qrcode.vue"
-import { QRData } from "@/common/types";
 
-import { QrcodeStream } from "vue-qrcode-reader"
+import { QrcodeStream } from "vue-qrcode-reader";
 
 
 const windowSize = window.innerWidth
@@ -160,7 +159,7 @@ function showQRExportModal() {
   }
   const element = blob.slice(substr);
   qrStrings.push(element);
-  const header: QRData = {
+  const header = {
     config: entries[selectedIdx],
     codes: qrStrings.length,
     header: selectedEntry.header
@@ -187,7 +186,7 @@ function closeCameraModal() {
 function onDecode(s: any) {
   // If we haven't set up yet
   if (!showQrCount) {
-    let data: QRData;
+    let data;
     try {
       data = JSON.parse(s[0].rawValue);
     }
