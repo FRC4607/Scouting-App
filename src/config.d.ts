@@ -7,25 +7,25 @@
 
 export type Widget = {
   type:
-    | "dropdown"
-    | "dropdownwithpictures"
-    | "heading"
-    | "label"
-    | "text"
-    | "number"
-    | "checkbox"
-    | "multicheckbox"
-    | "picture"
-    | "positions"
-    | "radio"
-    | "spacer"
-    | "spinbox"
-    | "stopwatch"
-    | "averagestopwatch"
-    | "textarea"
-    | "togglegrid"
-    | "pictureupload"
-    | "checkboxgrid";
+  | "dropdown"
+  | "dropdownwithpictures"
+  | "heading"
+  | "label"
+  | "text"
+  | "number"
+  | "checkbox"
+  | "multicheckbox"
+  | "picture"
+  | "positions"
+  | "radio"
+  | "spacer"
+  | "spinbox"
+  | "stopwatch"
+  | "averagestopwatch"
+  | "textarea"
+  | "togglegrid"
+  | "pictureupload"
+  | "checkboxgrid";
   prefix?: string;
   name?: string;
   displayName?: string;

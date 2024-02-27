@@ -15,7 +15,7 @@ const props = defineProps<{
   currentId: string
 }>();
 
-const showImg = $computed(() => {return value > -1 && value < props.data.files.length ? `${import.meta.env.BASE_URL}assets/${props.data.files[value]}` : ''});
+const showImg = $computed(() => { return value > -1 && value < props.data.files.length ? `${import.meta.env.BASE_URL}assets/${props.data.files[value]}` : '' });
 
 const value = $ref(props.data.defaultOption ? -1 : 0);
 defineExpose({ index: useWidgetsStore().addWidgetValue(props.data, $$(value)) });

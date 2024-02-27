@@ -2,7 +2,7 @@
   "npm.enableRunFromFolder": true,
   "[typescript][vue][css]": {
     "editor.rulers": [
-      120
+      165
     ]
   },
   "css.format.newlineBetweenSelectors": false,

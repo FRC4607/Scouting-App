@@ -82,7 +82,8 @@ function checkboxClicked(index: number) {
     background-color: #464646;
   }
 
-  th, td {
+  th,
+  td {
     padding: 5px;
   }
 }

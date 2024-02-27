@@ -18,7 +18,7 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 library.add(faUserSecret, faCamera);
 
 createApp(App)
-    .use(router)
-    .use(createPinia())
-    .component("font-awesome-icon", FontAwesomeIcon)
-    .mount("#app");
+  .use(router)
+  .use(createPinia())
+  .component("font-awesome-icon", FontAwesomeIcon)
+  .mount("#app");

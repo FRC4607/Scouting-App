@@ -12,56 +12,56 @@ import { hash } from "utilFunctions.js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    css: {
-        postcss: {
-            plugins: [autoprefixer, postcssPresetEnv({ stage: 1 })]
-        }
-    },
-    define: {
-        APP_VERSION: JSON.stringify(process.env.npm_package_version)
-    },
-    plugins: [
-        ReactivityTransform(),
-        vue(),
-        VitePWA({
-            includeAssets: ["assets/*", "icons/*"],
-            manifest: {
-                name: "CIS Scouting",
-                short_name: "Scouting",
-                description: "A scouting app based off Black Hawks Scouting made by FRC Team 2834",
-                theme_color: "#292929",
-                background_color: "#292929",
-                icons: [
-                    {
-                        src: "icons/pwa-192x192.png",
-                        sizes: "192x192",
-                        type: "image/png"
-                    },
-                    {
-                        src: "icons/pwa-512x512.png",
-                        sizes: "512x512",
-                        type: "image/png"
-                    }
-                ]
-            }
-        }),
-        liveReload([
-            "public/"
-        ])
-    ],
-    resolve: {
-        alias: {
-            "@": fileURLToPath(new URL("./src", import.meta.url)),
-        },
-    },
-    build: {
-        // this adds a hash to the end of the file names to bust the cache and force the browser to re-fetch new files when the app is updated
-        rollupOptions: {
-            output: {
-                entryFileNames: "[name]" + hash + ".js",
-                chunkFileNames: "[name]" + hash + ".js",
-                assetFileNames: "[name]" + hash + ".[ext]"
-            }
-        }
+  css: {
+    postcss: {
+      plugins: [autoprefixer, postcssPresetEnv({ stage: 1 })]
     }
+  },
+  define: {
+    APP_VERSION: JSON.stringify(process.env.npm_package_version)
+  },
+  plugins: [
+    ReactivityTransform(),
+    vue(),
+    VitePWA({
+      includeAssets: ["assets/*", "icons/*"],
+      manifest: {
+        name: "CIS Scouting",
+        short_name: "Scouting",
+        description: "A scouting app based off Black Hawks Scouting made by FRC Team 2834",
+        theme_color: "#292929",
+        background_color: "#292929",
+        icons: [
+          {
+            src: "icons/pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "icons/pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png"
+          }
+        ]
+      }
+    }),
+    liveReload([
+      "public/"
+    ])
+  ],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  build: {
+    // this adds a hash to the end of the file names to bust the cache and force the browser to re-fetch new files when the app is updated
+    rollupOptions: {
+      output: {
+        entryFileNames: "[name]" + hash + ".js",
+        chunkFileNames: "[name]" + hash + ".js",
+        assetFileNames: "[name]" + hash + ".[ext]"
+      }
+    }
+  }
 });
