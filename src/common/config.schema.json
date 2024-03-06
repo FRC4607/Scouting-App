@@ -2,279 +2,606 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
   "properties": {
-    "heading": { "type": "string" },
-    "logo": { "type": "string" },
-    "skipTeamSelection": { "type": "boolean" },
-    "forceQualifiers": { "type": "boolean" },
+    "heading": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "string"
+    },
+    "skipTeamSelection": {
+      "type": "boolean"
+    },
+    "forceQualifiers": {
+      "type": "boolean"
+    },
     "pages": {
       "type": "array",
-      "items": { "$ref": "#/$defs/page" }
+      "items": {
+        "$ref": "#/$defs/page"
+      }
     }
   },
-  "required": ["pages"],
+  "required": [
+    "pages"
+  ],
   "$defs": {
     "page": {
       "type": "object",
       "properties": {
-        "name": { "type": "string" },
+        "name": {
+          "type": "string"
+        },
         "widgets": {
           "type": "array",
-          "items": { "$ref": "#/$defs/widget" }
+          "items": {
+            "$ref": "#/$defs/widget"
+          }
         }
       },
-      "required": ["name", "widgets"]
+      "required": [
+        "name",
+        "widgets"
+      ]
     },
     "validationInequality": {
       "type": "object",
       "properties": {
         "comparison": {
           "type": "string",
-          "enum": ["less", "lessOrEqual", "greater", "greaterOrEqual", "equal"]
+          "enum": [
+            "less",
+            "lessOrEqual",
+            "greater",
+            "greaterOrEqual",
+            "equal"
+          ]
         },
-        "value": { "type": "integer" }
+        "value": {
+          "type": "integer"
+        }
       },
-      "required": ["value"]
+      "required": [
+        "value"
+      ]
     },
     "validationRange": {
       "type": "object",
       "properties": {
         "comparison": {
           "type": "string",
-          "enum": ["inRange", "outOfRange"]
+          "enum": [
+            "inRange",
+            "outOfRange"
+          ]
         },
         "value": {
           "type": "array",
-          "items": { "type": "integer" }
+          "items": {
+            "type": "integer"
+          }
         }
       },
-      "required": ["value"]
+      "required": [
+        "value"
+      ]
     },
     "validation": {
       "type": "object",
       "properties": {
         "comparison": {
           "type": "string",
-          "enum": ["less", "lessOrEqual", "greater", "greaterOrEqual", "equal", "inRange", "outOfRange"]
+          "enum": [
+            "less",
+            "lessOrEqual",
+            "greater",
+            "greaterOrEqual",
+            "equal",
+            "inRange",
+            "outOfRange"
+          ]
         }
       },
-      "required": ["comparison"],
+      "required": [
+        "comparison"
+      ],
       "oneOf": [
-        { "$ref": "#/$defs/validationInequality" },
-        { "$ref": "#/$defs/validationRange" }
+        {
+          "$ref": "#/$defs/validationInequality"
+        },
+        {
+          "$ref": "#/$defs/validationRange"
+        }
       ]
     },
     "widgetDropdown": {
       "type": "object",
       "properties": {
-        "type": { "const": "dropdown" },
-        "defaultOption": { "type": "boolean" },
+        "type": {
+          "const": "dropdown"
+        },
+        "defaultOption": {
+          "type": "boolean"
+        },
         "options": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       },
-      "required": ["name", "options"]
+      "required": [
+        "name",
+        "options"
+      ]
+    },
+    "widgetDropdownWithPictures": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "dropdownwithpictures"
+        },
+        "defaultOption": {
+          "type": "boolean"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "options",
+        "files"
+      ]
     },
     "widgetHeading": {
       "type": "object",
       "properties": {
-        "type": { "const": "heading" }
+        "type": {
+          "const": "heading"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetLabel": {
       "type": "object",
       "properties": {
-        "type": { "const": "label" }
+        "type": {
+          "const": "label"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetText": {
       "type": "object",
       "properties": {
-        "type": { "const": "text" }
+        "type": {
+          "const": "text"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetNumber": {
       "type": "object",
       "properties": {
-        "type": { "const": "number" }
+        "type": {
+          "const": "number"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetCheckbox": {
       "type": "object",
       "properties": {
-        "type": { "const": "checkbox" }
+        "type": {
+          "const": "checkbox"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetMultiCheckbox": {
       "type": "object",
       "properties": {
-        "type": { "const": "multicheckbox" },
+        "type": {
+          "const": "multicheckbox"
+        },
         "options": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       },
-      "required": ["name", "options"]
+      "required": [
+        "name",
+        "options"
+      ]
     },
     "widgetPicture": {
       "type": "object",
       "properties": {
-        "type": { "const": "picture" },
-        "file": { "type": "string" },
-        "width": { "type": "integer" },
-        "height": { "type": "integer" }
+        "type": {
+          "const": "picture"
+        },
+        "file": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
       },
-      "required": ["file"]
+      "required": [
+        "file"
+      ]
     },
     "widgetPositions": {
       "type": "object",
       "properties": {
-        "type": { "const": "positions" },
-        "file": { "type": "string" },
-        "width": { "type": "integer" },
-        "height": { "type": "integer" },
-        "allowMultiple": { "type": "boolean" },
-        "selectRadius": { "type": "integer" },
-        "selectColor": { "type": "string" }
+        "type": {
+          "const": "positions"
+        },
+        "file": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "allowMultiple": {
+          "type": "boolean"
+        },
+        "selectRadius": {
+          "type": "integer"
+        },
+        "selectColor": {
+          "type": "string"
+        }
       },
-      "required": ["name", "file"]
+      "required": [
+        "name",
+        "file"
+      ]
     },
     "widgetRadio": {
       "type": "object",
       "properties": {
-        "type": { "const": "radio" },
+        "type": {
+          "const": "radio"
+        },
         "options": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "default": { "type": "integer" }
+        "default": {
+          "type": "integer"
+        }
       },
-      "required": ["name", "options"]
+      "required": [
+        "name",
+        "options"
+      ]
     },
     "widgetSpacer": {
       "type": "object",
       "properties": {
-        "type": { "const": "spacer" },
-        "width": { "type": "integer" },
-        "height": { "type": "integer" }
+        "type": {
+          "const": "spacer"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
       }
     },
     "widgetSpinbox": {
       "type": "object",
       "properties": {
-        "type": { "const": "spinbox" },
-        "min": { "type": "integer" },
-        "max": { "type": "integer" },
-        "allowKeyboardInput": { "type": "boolean" },
-        "buttonColor": { "type": "string" }
+        "type": {
+          "const": "spinbox"
+        },
+        "min": {
+          "type": "integer"
+        },
+        "max": {
+          "type": "integer"
+        },
+        "allowKeyboardInput": {
+          "type": "boolean"
+        },
+        "buttonColor": {
+          "type": "string"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetStopwatch": {
       "type": "object",
       "properties": {
-        "type": { "const": "stopwatch" },
-        "startLabel": { "type": "string" },
-        "lapLabel": { "type": "string" },
-        "stopLabel": { "type": "string" },
-        "maxLaps": { "type": "integer" }
+        "type": {
+          "const": "stopwatch"
+        },
+        "startLabel": {
+          "type": "string"
+        },
+        "lapLabel": {
+          "type": "string"
+        },
+        "stopLabel": {
+          "type": "string"
+        },
+        "maxLaps": {
+          "type": "integer"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
+    },
+    "widgetAverageStopwatch": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "averagestopwatch"
+        },
+        "startLabel": {
+          "type": "string"
+        },
+        "undoLabel": {
+          "type": "string"
+        },
+        "stopLabel": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
     },
     "widgetTextarea": {
       "type": "object",
       "properties": {
-        "type": { "const": "textarea" }
+        "type": {
+          "const": "textarea"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetToggleGrid": {
       "type": "object",
       "properties": {
-        "type": { "const": "togglegrid" },
-        "width": { "type": "integer" },
-        "height": { "type": "integer" },
+        "type": {
+          "const": "togglegrid"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
         "colors": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "rowColors": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "colColors": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       },
-      "required": ["name", "width", "height", "colors"]
+      "required": [
+        "name",
+        "width",
+        "height",
+        "colors"
+      ]
     },
     "widgetPictureUpload": {
       "type": "object",
       "properties": {
-        "type": { "const": "pictureupload" }
+        "type": {
+          "const": "pictureupload"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widgetCheckboxGrid": {
       "type": "object",
       "properties": {
-        "type": { "const": "checkboxgrid" },
-        "width": { "type": "integer" },
-        "height": { "type": "integer" },
-        "leftOffset": { "type": "integer" },
-        "rightOffset": { "type": "integer" },
-        "topOffset": { "type": "integer" },
-        "bottomOffset": { "type": "integer" }
+        "type": {
+          "const": "checkboxgrid"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "leftOffset": {
+          "type": "integer"
+        },
+        "rightOffset": {
+          "type": "integer"
+        },
+        "topOffset": {
+          "type": "integer"
+        },
+        "bottomOffset": {
+          "type": "integer"
+        }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "widget": {
       "type": "object",
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["dropdown", "heading", "label", "text", "number", "checkbox", "multicheckbox", "picture", "positions", "radio", "spacer", "spinbox", "stopwatch", "textarea", "togglegrid", "pictureupload", "checkboxgrid"]
+          "enum": [
+            "dropdown",
+            "dropdownwithpictures",
+            "heading",
+            "label",
+            "text",
+            "number",
+            "checkbox",
+            "multicheckbox",
+            "picture",
+            "positions",
+            "radio",
+            "spacer",
+            "spinbox",
+            "stopwatch",
+            "averagestopwatch",
+            "textarea",
+            "togglegrid",
+            "pictureupload",
+            "checkboxgrid"
+          ]
         },
-        "prefix": { "type": "string" },
-        "name": { "type": "string" },
-        "displayName": { "type": "string" },
+        "prefix": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
         "align": {
           "type": "string",
-          "enum": ["left", "center", "right"]
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ]
         },
-        "noLabel": { "type": "boolean" },
-        "row": { "type": "integer" },
-        "col": { "type": "integer" },
-        "rowspan": { "type": "integer" },
-        "colspan": { "type": "integer" },
-        "labelColspan": { "type": "integer" },
-        "validation": { "$ref": "#/$defs/validation" }
+        "noLabel": {
+          "type": "boolean"
+        },
+        "row": {
+          "type": "integer"
+        },
+        "col": {
+          "type": "integer"
+        },
+        "rowspan": {
+          "type": "integer"
+        },
+        "colspan": {
+          "type": "integer"
+        },
+        "labelColspan": {
+          "type": "integer"
+        },
+        "validation": {
+          "$ref": "#/$defs/validation"
+        }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "oneOf": [
-        { "$ref": "#/$defs/widgetDropdown" },
-        { "$ref": "#/$defs/widgetHeading" },
-        { "$ref": "#/$defs/widgetLabel" },
-        { "$ref": "#/$defs/widgetText" },
-        { "$ref": "#/$defs/widgetNumber" },
-        { "$ref": "#/$defs/widgetCheckbox" },
-        { "$ref": "#/$defs/widgetMultiCheckbox" },
-        { "$ref": "#/$defs/widgetPicture" },
-        { "$ref": "#/$defs/widgetPositions" },
-        { "$ref": "#/$defs/widgetRadio" },
-        { "$ref": "#/$defs/widgetSpacer" },
-        { "$ref": "#/$defs/widgetSpinbox" },
-        { "$ref": "#/$defs/widgetStopwatch" },
-        { "$ref": "#/$defs/widgetTextarea" },
-        { "$ref": "#/$defs/widgetToggleGrid" },
-        { "$ref": "#/$defs/widgetPictureUpload"},
-        { "$ref": "#/$defs/widgetCheckboxGrid"}
+        {
+          "$ref": "#/$defs/widgetDropdown"
+        },
+        {
+          "$ref": "#/$defs/widgetDropdownWithPictures"
+        },
+        {
+          "$ref": "#/$defs/widgetHeading"
+        },
+        {
+          "$ref": "#/$defs/widgetLabel"
+        },
+        {
+          "$ref": "#/$defs/widgetText"
+        },
+        {
+          "$ref": "#/$defs/widgetNumber"
+        },
+        {
+          "$ref": "#/$defs/widgetCheckbox"
+        },
+        {
+          "$ref": "#/$defs/widgetMultiCheckbox"
+        },
+        {
+          "$ref": "#/$defs/widgetPicture"
+        },
+        {
+          "$ref": "#/$defs/widgetPositions"
+        },
+        {
+          "$ref": "#/$defs/widgetRadio"
+        },
+        {
+          "$ref": "#/$defs/widgetSpacer"
+        },
+        {
+          "$ref": "#/$defs/widgetSpinbox"
+        },
+        {
+          "$ref": "#/$defs/widgetStopwatch"
+        },
+        {
+          "$ref": "#/$defs/widgetAverageStopwatch"
+        },
+        {
+          "$ref": "#/$defs/widgetTextarea"
+        },
+        {
+          "$ref": "#/$defs/widgetToggleGrid"
+        },
+        {
+          "$ref": "#/$defs/widgetPictureUpload"
+        },
+        {
+          "$ref": "#/$defs/widgetCheckboxGrid"
+        }
       ]
     }
   }

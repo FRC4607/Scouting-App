@@ -14,9 +14,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  errors: string[]
-}>();
+const props = defineProps({
+  errors: {
+    type: Array as () => string[],
+    required: true
+  }
+}) as { errors: string[] };
 
 const errorList = $ref<HTMLDialogElement>();
 const label = $computed(() => (props.errors.length === 1) ? "Error" : "Errors");

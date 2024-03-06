@@ -1,7 +1,7 @@
 <template>
   <div id="selectGrid" :style="{ backgroundImage: `url(${imagePath}`, aspectRatio: aspectRatio, padding: offsets }">
     <div v-for="i in width * height" :key="i">
-      <input type="checkbox" v-model="grid[(i - 1) % width][Math.floor((i -1) / width)]" />
+      <input type="checkbox" v-model="grid[(i - 1) % width][Math.floor((i - 1) / width)]" />
     </div>
   </div>
 </template>
@@ -36,7 +36,7 @@ useWidgetsStore().addWidgetValue(props.data as Widget, $$(value));
 
 
 const instanceWidgetStores: Array<WidgetValue> = useWidgetsStore().values;
-const stationColor = computed(() => {return instanceWidgetStores.find((widget: WidgetValue) => widget.name === "team_station")?.value.toString().match(/(BLUE)|(RED)/)?.[0] ?? "BLUE";})
+const stationColor = computed(() => { return instanceWidgetStores.find((widget: WidgetValue) => widget.name === "team_station")?.value.toString().match(/(BLUE)|(RED)/)?.[0] ?? "BLUE"; })
 
 console.log(stationColor);
 
@@ -74,10 +74,12 @@ function getImgSize(): Promise<{ width: number, height: number }> {
 const dimensions = await getImgSize();
 const aspectRatio = dimensions.width / dimensions.height
 
-const offsets = computed(() => { return (props.data.topOffset ?? 0) * (200 / dimensions.height) + "px " +
-  ((stationColor.value == "RED" ? props.data.leftOffset : props.data.rightOffset) ?? 0) * (200 / dimensions.width) + "px " +
-  (props.data.bottomOffset ?? 0) * (200 / dimensions.height) + "px " +
-  ((stationColor.value == "RED" ? props.data.rightOffset : props.data.leftOffset) ?? 0) * (200 / dimensions.width) + "px"});
+const offsets = computed(() => {
+  return (props.data.topOffset ?? 0) * (200 / dimensions.height) + "px " +
+    ((stationColor.value == "RED" ? props.data.leftOffset : props.data.rightOffset) ?? 0) * (200 / dimensions.width) + "px " +
+    (props.data.bottomOffset ?? 0) * (200 / dimensions.height) + "px " +
+    ((stationColor.value == "RED" ? props.data.rightOffset : props.data.leftOffset) ?? 0) * (200 / dimensions.width) + "px"
+});
 
 </script>
 

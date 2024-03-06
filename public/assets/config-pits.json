@@ -21,7 +21,10 @@
           "type": "number",
           "validation": {
             "comparison": "inRange",
-            "value": [1, 65535]
+            "value": [
+              1,
+              65535
+            ]
           }
         },
         {
@@ -30,7 +33,10 @@
           "type": "number",
           "validation": {
             "comparison": "inRange",
-            "value": [1, 120]
+            "value": [
+              1,
+              120
+            ]
           }
         },
         {
@@ -39,7 +45,10 @@
           "type": "number",
           "validation": {
             "comparison": "inRange",
-            "value": [1, 120]
+            "value": [
+              1,
+              120
+            ]
           }
         },
         {
@@ -90,7 +99,10 @@
           ],
           "validation": {
             "comparison": "inRange",
-            "value": [0, 255]
+            "value": [
+              0,
+              255
+            ]
           }
         },
         {
@@ -107,7 +119,10 @@
           ],
           "validation": {
             "comparison": "inRange",
-            "value": [0, 255]
+            "value": [
+              0,
+              255
+            ]
           }
         },
         {
@@ -124,7 +139,10 @@
           ],
           "validation": {
             "comparison": "inRange",
-            "value": [0, 255]
+            "value": [
+              0,
+              255
+            ]
           }
         },
         {
@@ -138,7 +156,10 @@
           "type": "number",
           "validation": {
             "comparison": "inRange",
-            "value": [1, 255]
+            "value": [
+              1,
+              255
+            ]
           }
         },
         {
@@ -151,7 +172,10 @@
           ],
           "validation": {
             "comparison": "inRange",
-            "value": [0, 255]
+            "value": [
+              0,
+              255
+            ]
           }
         },
         {
@@ -171,7 +195,10 @@
           ],
           "validation": {
             "comparison": "inRange",
-            "value": [0, 255]
+            "value": [
+              0,
+              255
+            ]
           }
         }
       ]
@@ -186,7 +213,10 @@
           "min": 1,
           "validation": {
             "comparison": "inRange",
-            "value": [1, 255]
+            "value": [
+              1,
+              255
+            ]
           }
         },
         {
@@ -220,7 +250,10 @@
           ],
           "validation": {
             "comparison": "inRange",
-            "value": [0, 255]
+            "value": [
+              0,
+              255
+            ]
           }
         },
         {

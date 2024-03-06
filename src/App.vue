@@ -12,6 +12,7 @@ const errors = $ref(new Array<string>());
 
 // Set handler to capture errors and push them to an array
 onErrorCaptured(obj => {
+  console.error(obj);
   const errorToString = (e: Error) => `${e.name}: ${e.message}`;
 
   if (Array.isArray(obj)) errors.push(...obj.map(errorToString));
@@ -22,7 +23,6 @@ onErrorCaptured(obj => {
 </script>
 
 <style>
-
 @font-face {
   font-family: "Toxigenesis";
   src: local("Toxigenesis"), url("/assets/fonts/toxigenesis.ttf");
@@ -63,6 +63,7 @@ button {
 input+button {
   border-radius: 0 15px 15px 0;
 }
+
 .widget button:first-child:nth-last-of-type(2) {
   border-radius: 15px 0 0 15px;
 }

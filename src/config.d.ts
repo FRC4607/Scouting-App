@@ -7,23 +7,25 @@
 
 export type Widget = {
   type:
-    | "dropdown"
-    | "heading"
-    | "label"
-    | "text"
-    | "number"
-    | "checkbox"
-    | "multicheckbox"
-    | "picture"
-    | "positions"
-    | "radio"
-    | "spacer"
-    | "spinbox"
-    | "stopwatch"
-    | "textarea"
-    | "togglegrid"
-    | "pictureupload"
-    | "checkboxgrid";
+  | "dropdown"
+  | "dropdownwithpictures"
+  | "heading"
+  | "label"
+  | "text"
+  | "number"
+  | "checkbox"
+  | "multicheckbox"
+  | "picture"
+  | "positions"
+  | "radio"
+  | "spacer"
+  | "spinbox"
+  | "stopwatch"
+  | "averagestopwatch"
+  | "textarea"
+  | "togglegrid"
+  | "pictureupload"
+  | "checkboxgrid";
   prefix?: string;
   name?: string;
   displayName?: string;
@@ -44,6 +46,7 @@ export type Validation = {
 export type Validation1 = ValidationInequality | ValidationRange;
 export type Widget1 =
   | WidgetDropdown
+  | WidgetDropdownWithPictures
   | WidgetHeading
   | WidgetLabel
   | WidgetText
@@ -56,6 +59,7 @@ export type Widget1 =
   | WidgetSpacer
   | WidgetSpinbox
   | WidgetStopwatch
+  | WidgetAverageStopwatch
   | WidgetTextarea
   | WidgetToggleGrid
   | WidgetPictureUpload
@@ -88,6 +92,13 @@ export interface WidgetDropdown {
   type?: "dropdown";
   defaultOption?: boolean;
   options: string[];
+  [k: string]: unknown;
+}
+export interface WidgetDropdownWithPictures {
+  type?: "dropdownwithpictures";
+  defaultOption?: boolean;
+  options: string[];
+  files: string[];
   [k: string]: unknown;
 }
 export interface WidgetHeading {
@@ -158,6 +169,13 @@ export interface WidgetStopwatch {
   lapLabel?: string;
   stopLabel?: string;
   maxLaps?: number;
+  [k: string]: unknown;
+}
+export interface WidgetAverageStopwatch {
+  type?: "averagestopwatch";
+  startLabel?: string;
+  undoLabel?: string;
+  stopLabel?: string;
   [k: string]: unknown;
 }
 export interface WidgetTextarea {

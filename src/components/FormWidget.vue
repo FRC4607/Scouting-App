@@ -23,10 +23,12 @@ import WidgetRadio from "@/components/WidgetRadio.vue";
 import WidgetSpacer from "@/components/WidgetSpacer.vue";
 import WidgetSpinbox from "@/components/WidgetSpinbox.vue";
 import WidgetStopwatch from "@/components/WidgetStopwatch.vue";
+import WidgetAverageStopwatch from "@/components/WidgetAverageStopwatch.vue";
 import WidgetTextarea from "@/components/WidgetTextarea.vue";
 import WidgetCheckboxGrid from "./WidgetCheckboxGrid.vue";
 import WidgetPictureUpload from "./WidgetPictureUpload.vue";
 import WidgetToggleGrid from "@/components/WidgetToggleGrid.vue";
+import WidgetDropdownWithPictures from "./WidgetDropdownWithPictures.vue";
 
 const props = defineProps<{
   id: string,
@@ -47,6 +49,7 @@ let border = $ref("none");
 // Table containing metadata for each widget type
 const info = {
   dropdown:      { class: WidgetDropdown,      label: LabelType.LabelTag  },
+  dropdownwithpictures: { class: WidgetDropdownWithPictures, label: LabelType.LabelTag },
   heading:       { class: WidgetHeading,       label: LabelType.None,     },
   label:         { class: WidgetLabel,         label: LabelType.None,     },
   text:          { class: WidgetInput,         label: LabelType.LabelTag  },
@@ -59,6 +62,7 @@ const info = {
   spacer:        { class: WidgetSpacer,        label: LabelType.None      },
   spinbox:       { class: WidgetSpinbox,       label: LabelType.LabelTag  },
   stopwatch:     { class: WidgetStopwatch,     label: LabelType.PlainText },
+  averagestopwatch:     { class: WidgetAverageStopwatch,     label: LabelType.PlainText },
   textarea:      { class: WidgetTextarea,      label: LabelType.LabelTag  },
   togglegrid:    { class: WidgetToggleGrid,    label: LabelType.PlainText },
   pictureupload: { class: WidgetPictureUpload, label: LabelType.LabelTag},

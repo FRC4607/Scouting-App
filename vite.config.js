@@ -8,6 +8,7 @@ import postcssPresetEnv from "postcss-preset-env";
 import ReactivityTransform from "@vue-macros/reactivity-transform/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
+import { hash } from "./utilFunctions.js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -52,5 +53,15 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
+  },
+  build: {
+    // this adds a hash to the end of the file names to bust the cache and force the browser to re-fetch new files when the app is updated
+    rollupOptions: {
+      output: {
+        entryFileNames: "[name]" + hash + ".js",
+        chunkFileNames: "[name]" + hash + ".js",
+        assetFileNames: "[name]" + hash + ".[ext]"
+      }
+    }
   }
 });

@@ -1,4 +1,6 @@
-<template>{{ data.displayName ?? data.name }}</template>
+<template>
+  {{ data.displayName ?? data.name }}
+</template>
 
 <script setup lang="ts">
 import { Widget, WidgetLabel } from "@/config";

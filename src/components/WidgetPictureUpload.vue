@@ -1,10 +1,8 @@
 <template>
-
   <label :for="currentId" class="custom-file-upload">
     <i></i><font-awesome-icon icon="fa-solid fa-camera" /> {{ buttonText }}
   </label>
   <input :id="currentId" type="file" accept="image/*,video/*" ref="upload" @change="uploadImage" />
-
 </template>
 
 
@@ -73,7 +71,7 @@ function uploadImage(e: any) {
   const buttonTextPrev = buttonText;
   buttonText = "Uploading...";
   const image = e.target.files[0];
-  if (!image){
+  if (!image) {
     buttonText = buttonTextPrev;
     return; // no image was selected or taken, just a button click (user cancelled probably)
   }
@@ -87,7 +85,7 @@ function uploadImage(e: any) {
       imageRawBase64 = e.target.result;
       // remove the metadata from the beginning of the base64 string, ex: data:image/png;base64,
       imageCorrectedBase64 = imageRawBase64.split(",").pop();
-      if(!imageCorrectedBase64) {
+      if (!imageCorrectedBase64) {
         console.log("Issue with base64 encoding, raw base64 below:");
         console.log(imageRawBase64);
         buttonText = "Failure.. try again";
@@ -99,7 +97,7 @@ function uploadImage(e: any) {
       // convert to buffer
       imageBinary = Buffer.from(imageCorrectedBase64, "base64");
       const result = await client.putFileContents(fileName, imageBinary, {
-        onUploadProgress: (progress : any) => {
+        onUploadProgress: (progress: any) => {
           // get upload progress as percentage and update button text as upload progresses
           const percentage = Math.round((progress.loaded * 100) / progress.total);
           console.log(`Uploaded ${percentage}%`);

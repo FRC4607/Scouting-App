@@ -1,6 +1,6 @@
 <template>
   <h1>C.I.S Scouting</h1>
-  <img :src="logoPath" />
+  <RouterLink :to="{ name: 'home' }"><img :src="logoPath" /></RouterLink>
   <h2>Form Selection</h2>
   <ul v-if="list.length > 0" class="link-list">
     <li v-for="[i, name] of list.entries()" :key="i">
