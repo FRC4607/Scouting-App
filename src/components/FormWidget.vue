@@ -29,6 +29,7 @@ import WidgetCheckboxGrid from "./WidgetCheckboxGrid.vue";
 import WidgetPictureUpload from "./WidgetPictureUpload.vue";
 import WidgetToggleGrid from "@/components/WidgetToggleGrid.vue";
 import WidgetDropdownWithPictures from "./WidgetDropdownWithPictures.vue";
+import WidgetTeamRanking from "./WidgetTeamRanking.vue";
 
 const props = defineProps<{
   id: string,
@@ -65,8 +66,9 @@ const info = {
   averagestopwatch:     { class: WidgetAverageStopwatch,     label: LabelType.PlainText },
   textarea:      { class: WidgetTextarea,      label: LabelType.LabelTag  },
   togglegrid:    { class: WidgetToggleGrid,    label: LabelType.PlainText },
-  pictureupload: { class: WidgetPictureUpload, label: LabelType.LabelTag},
-  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.LabelTag}
+  pictureupload: { class: WidgetPictureUpload, label: LabelType.LabelTag  },
+  checkboxgrid:  { class: WidgetCheckboxGrid,  label: LabelType.LabelTag  },
+  teamranking:   { class: WidgetTeamRanking,   label: LabelType.LabelTag  },
 }[props.data.type];
 
 // Props to pass from the widget data to the sub-components
