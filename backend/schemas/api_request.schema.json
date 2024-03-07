@@ -111,6 +111,7 @@
               "team_data",
               "scouter_name",
               "starting_pos",
+              "pre_load_score",
               "mobility",
               "auto_amp",
               "zone1_shot_made_auto",
@@ -129,14 +130,11 @@
               "zone4_shot_made",
               "zone4_shot_miss",
               "teleop_amp",
-              "piece_stolen",
-              "wait_time",
+              "parked",
               "climb_fail",
               "rob_onstage",
-              "climb_order",
+              "harmony",
               "trap_note_pos",
-              "spot_try",
-              "spot_made",
               "rsl_solid",
               "rsl_off",
               "brown_out",
@@ -151,8 +149,8 @@
             "uniqueItems": true,
             "items": {
               "type": "array",
-              "minItems": 37,
-              "maxItems": 37,
+              "minItems": 35,
+              "maxItems": 35,
               "items": {
                 "type": "string"
               }

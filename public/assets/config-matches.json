@@ -192,30 +192,17 @@
           "type": "spinbox",
           "min": 0,
           "max": 255
-        },
-        {
-          "name": "Human Player",
-          "type": "heading",
-          "colspan": 2,
-          "align": "center"
-        },
-        {
-          "displayName": "Pieces Stolen",
-          "name": "piece_stolen",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Robot Wait Time",
-          "name": "wait_time",
-          "type": "averagestopwatch"
         }
       ]
     },
     {
       "name": "Endgame",
       "widgets": [
+        {
+          "displayName": "Parked",
+          "name": "parked",
+          "type": "checkbox"
+        },
         {
           "displayName": "Failed Climb",
           "name": "climb_fail",
@@ -246,30 +233,6 @@
             "Source",
             "Center"
           ]
-        },
-        {
-          "displayName": "Spotlight Tried",
-          "name": "spot_try",
-          "type": "spinbox",
-          "min": 0,
-          "max": 3
-        },
-        {
-          "displayName": "Spotlight Made",
-          "name": "spot_made",
-          "type": "multicheckbox",
-          "options": [
-            "Amp",
-            "Source",
-            "Center"
-          ]
-        },
-        {
-          "displayName": "Parked",
-          "name": "parked",
-          "type": "checkbox"
-
-
         },
         {
           "type": "picture",
