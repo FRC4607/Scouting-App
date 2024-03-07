@@ -46,6 +46,11 @@
       "name": "Autonomous",
       "widgets": [
         {
+          "displayName": "Pre Load Scoring",
+          "name": "pre_load_score",
+          "type": "checkbox"
+        },
+        {
           "displayName": "Left Starting Zone",
           "name": "mobility",
           "type": "checkbox"
@@ -228,15 +233,9 @@
           ]
         },
         {
-          "displayName": "Climb Order",
-          "name": "climb_order",
-          "type": "radio",
-          "options": [
-            "No Climb",
-            "First",
-            "Second",
-            "Third"
-          ]
+          "displayName": "Harmony",
+          "name": "harmony",
+          "type": "checkbox"
         },
         {
           "displayName": "Trap Note Positions",
@@ -264,6 +263,13 @@
             "Source",
             "Center"
           ]
+        },
+        {
+          "displayName": "Parked",
+          "name": "parked",
+          "type": "checkbox"
+
+
         },
         {
           "type": "picture",
