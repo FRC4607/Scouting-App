@@ -8,7 +8,8 @@
       "type": "string",
       "enum": [
         "pits",
-        "matches"
+        "matches",
+        "ranking"
       ]
     }
   },
@@ -153,6 +154,51 @@
               "type": "array",
               "minItems": 37,
               "maxItems": 37,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "header",
+          "values"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "ranking"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "then": {
+        "properties": {
+          "header": {
+            "description": "The headers of the columns of the scouting entries",
+            "type": "array",
+            "const": [
+              "match",
+              "red",
+              "blue",
+              "ScoutedTime"
+            ]
+          },
+          "values": {
+            "description": "The list of entries to be added into the database",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
               "items": {
                 "type": "string"
               }

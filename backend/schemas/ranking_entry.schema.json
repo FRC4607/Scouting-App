@@ -1,0 +1,42 @@
+{
+  "title": "Ranking Entry Interface",
+  "description": "A single ranking in the database",
+  "type": "object",
+  "properties": {
+    "better": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 32767
+    },
+    "worse": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 32767
+    },
+    "diff": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 32767
+    },
+    "match": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 32767
+    },
+    "incap": {
+      "type": "boolean"
+    },
+    "ScoutedTime": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "better",
+    "worse",
+    "diff",
+    "match",
+    "incap",
+    "ScoutedTime"
+  ]
+}

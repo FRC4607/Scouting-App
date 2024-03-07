@@ -1,8 +1,11 @@
 import { Model } from "objection";
 import { readFileSync } from "fs";
+import { env } from "process";
 
-const PitScoutSchema = JSON.parse(readFileSync("../schemas/pit_scout_entry.schema.json").toString());
-const MatchScoutSchema = JSON.parse(readFileSync("../schemas/match_scout_entry.schema.json").toString());
+const prefix = env["NODE_ENV"] == "production" ? "../" : "";
+const PitScoutSchema = JSON.parse(readFileSync(prefix + "schemas/pit_scout_entry.schema.json").toString());
+const MatchScoutSchema = JSON.parse(readFileSync(prefix + "schemas/match_scout_entry.schema.json").toString());
+const RankingSchema = JSON.parse(readFileSync(prefix + "schemas/ranking_entry.schema.json").toString());
 
 export class PitScoutEntry extends Model {
   scouter_name!: string;
@@ -229,5 +232,23 @@ export class MatchScoutEntry extends Model {
       "Second",
       "Third"
     ][this.climb_order];
+  }
+}
+
+export class RankingEntry extends Model {
+  better!: number;
+  worse!: number;
+  diff!: number;
+  match!: number;
+  incap!: boolean;
+  ScoutedTime!: string;
+
+
+  static override get tableName() {
+    return "ranking_entries";
+  }
+
+  static override get jsonSchema() {
+    return RankingSchema;
   }
 }
