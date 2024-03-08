@@ -20,6 +20,7 @@ export async function down(knex: Knex): Promise<void> {
     await knex.schema.alterTable("match_scouting_entries", (table) => {
         table.tinyint("piece_stolen").notNullable().unsigned().defaultTo(0);
         table.double("wait_time").notNullable().unsigned().defaultTo(0.0);
+        table.tinyint("climb_order").notNullable().unsigned().defaultTo(0);
         table.tinyint("spot_try").notNullable().unsigned().defaultTo(0.0);
         table.boolean("spot_made_amp").notNullable().defaultTo(false);
         table.boolean("spot_made_source").notNullable().defaultTo(false);
