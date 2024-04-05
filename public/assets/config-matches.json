@@ -58,6 +58,11 @@
           "max": 255
         },
         {
+          "displayName": "pre_load_score",
+          "name": "Pre Load Scoring",
+          "type": "checkbox"
+        },
+        {
           "type": "picture",
           "file": "2160xDarkCroppedFixed.png",
           "rowspan": 2,
@@ -228,15 +233,9 @@
           ]
         },
         {
-          "displayName": "Climb Order",
-          "name": "climb_order",
-          "type": "radio",
-          "options": [
-            "No Climb",
-            "First",
-            "Second",
-            "Third"
-          ]
+         "displayName": "harmony",
+         "name": "Harmony",
+         "type": "checkbox"
         },
         {
           "displayName": "Trap Note Positions",
@@ -264,6 +263,11 @@
             "Source",
             "Center"
           ]
+        },
+        { 
+          "displayName": "parked",
+          "name": "Parked",
+          "type": "checkbox"
         },
         {
           "type": "picture",
