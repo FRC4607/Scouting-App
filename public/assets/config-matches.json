@@ -129,7 +129,7 @@
         },
         {
           "type": "picture",
-          "file": "2160xDarkCroppedFixed.png",
+          "file": "newzones.png",
           "rowspan": 2,
           "colspan": 2,
           "col": 1,
@@ -164,39 +164,16 @@
           "max": 255
         },
         {
-          "displayName": "Zone 3 Shots Made",
-          "name": "zone3_shot_made",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Zone 3 Shots Miss",
-          "name": "zone3_shot_miss",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Zone 4 Shots Made",
-          "name": "zone4_shot_made",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Zone 4 Shots Miss",
-          "name": "zone4_shot_miss",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
           "displayName": "Amp Notes",
           "name": "teleop_amp",
           "type": "spinbox",
           "min": 0,
           "max": 255
+        },
+        {
+          "displayName": "Amp Missed",
+          "name": "amp_miss",
+          "type": "spinbox"
         }
       ]
     },
