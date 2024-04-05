@@ -46,6 +46,11 @@
       "name": "Autonomous",
       "widgets": [
         {
+          "displayName": "Pre Load Scoring",
+          "name": "pre_load_score",
+          "type": "checkbox"
+        },
+        {
           "displayName": "Left Starting Zone",
           "name": "mobility",
           "type": "checkbox"
@@ -192,30 +197,17 @@
           "type": "spinbox",
           "min": 0,
           "max": 255
-        },
-        {
-          "name": "Human Player",
-          "type": "heading",
-          "colspan": 2,
-          "align": "center"
-        },
-        {
-          "displayName": "Pieces Stolen",
-          "name": "piece_stolen",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Robot Wait Time",
-          "name": "wait_time",
-          "type": "averagestopwatch"
         }
       ]
     },
     {
       "name": "Endgame",
       "widgets": [
+        {
+          "displayName": "Parked",
+          "name": "parked",
+          "type": "checkbox"
+        },
         {
           "displayName": "Failed Climb",
           "name": "climb_fail",

@@ -16,7 +16,9 @@ const knex = Knex(config[env["NODE_ENV"] ? env["NODE_ENV"] : "development"]);
 console.log("Starting Knex using " + env["NODE_ENV"] ? env["NODE_ENV"] : "development" + " environment");
 Model.knex(knex);
 
-const apiSchema = JSON.parse(fs.readFileSync("../schemas/api_request.schema.json").toString());
+
+const prefix = env["NODE_ENV"] == "production" ? "../" : "";
+const apiSchema = JSON.parse(fs.readFileSync(prefix + "schemas/api_request.schema.json").toString());
 
 const app: http.RequestListener = async (req, res) => {
   try {

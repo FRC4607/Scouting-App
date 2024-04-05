@@ -109,6 +109,7 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     match_number: stringToInt,
     scouter_name: identity,
     starting_pos: stringToInt,
+    pre_load_score: stringToBool,
     mobility: stringToBool,
     auto_amp: stringToInt,
     zone1_shot_made_auto: stringToInt,
@@ -126,12 +127,10 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     zone4_shot_made: stringToInt,
     zone4_shot_miss: stringToInt,
     teleop_amp: stringToInt,
-    piece_stolen: stringToInt,
-    wait_time: stringToFloat,
+    parked: stringToBool,
     climb_fail: stringToBool,
     rob_onstage: stringToInt,
-    climb_order: stringToInt,
-    spot_try: stringToInt,
+    harmony: stringToBool,
     rsl_solid: stringToBool,
     rsl_off: stringToBool,
     brown_out: stringToBool,
@@ -144,17 +143,13 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
       if (!operations[r.header[i]]) continue;
       obj[r.header[i]] = operations[r.header[i]](entry[i]);
     }
-    const pickupMethods = multicheckboxToBooleanArray(entry[14], 2); // pickup_method
+    const pickupMethods = multicheckboxToBooleanArray(entry[15], 2); // pickup_method
     obj["pickup_method_ground"] = pickupMethods[0];
     obj["pickup_method_source"] = pickupMethods[1];
     const trapNotePositions = multicheckboxToBooleanArray(entry[29], 3); // trap_note_pos
     obj["trap_note_pos_amp"] = trapNotePositions[0];
     obj["trap_note_pos_source"] = trapNotePositions[1];
     obj["trap_note_pos_center"] = trapNotePositions[2];
-    const spotlightPositions = multicheckboxToBooleanArray(entry[31], 3); // spot_made
-    obj["spot_made_amp"] = spotlightPositions[0];
-    obj["spot_made_source"] = spotlightPositions[1];
-    obj["spot_made_center"] = spotlightPositions[2];
     const parsedTeamData = parseTeamData(entry[3]); // team_data
     obj["is_blue"] = parsedTeamData.isBlue;
     obj["ds_position"] = parsedTeamData.dsPosition;

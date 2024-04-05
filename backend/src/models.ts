@@ -1,8 +1,10 @@
 import { Model } from "objection";
 import { readFileSync } from "fs";
+import { env } from "process";
 
-const PitScoutSchema = JSON.parse(readFileSync("../schemas/pit_scout_entry.schema.json").toString());
-const MatchScoutSchema = JSON.parse(readFileSync("../schemas/match_scout_entry.schema.json").toString());
+const prefix = env["NODE_ENV"] == "production" ? "../" : "";
+const PitScoutSchema = JSON.parse(readFileSync(prefix + "schemas/pit_scout_entry.schema.json").toString());
+const MatchScoutSchema = JSON.parse(readFileSync(prefix + "schemas/match_scout_entry.schema.json").toString());
 
 export class PitScoutEntry extends Model {
   scouter_name!: string;
@@ -143,6 +145,7 @@ export class MatchScoutEntry extends Model {
   team_number!: number;
   scouter_name!: string;
   starting_pos!: number;
+  pre_load_score!: boolean;
   mobility!: boolean;
   auto_amp!: number;
   zone1_shot_made_auto!: number;
@@ -162,18 +165,13 @@ export class MatchScoutEntry extends Model {
   zone4_shot_made!: number;
   zone4_shot_miss!: number;
   teleop_amp!: number;
-  piece_stolen!: number;
-  wait_time!: number;
+  parked!: boolean;
   climb_fail!: boolean;
   rob_onstage!: number;
-  climb_order!: number;
   trap_note_pos_amp!: boolean;
   trap_note_pos_source!: boolean;
   trap_note_pos_center!: boolean;
-  spot_try!: number;
-  spot_made_amp!: boolean;
-  spot_made_source!: boolean;
-  spot_made_center!: boolean;
+  harmony!: boolean;
   rsl_solid!: boolean;
   rsl_off!: boolean;
   brown_out!: boolean;
@@ -220,14 +218,5 @@ export class MatchScoutEntry extends Model {
       "Stage Right",
       "Center Stage"
     ][this.rob_onstage];
-  }
-
-  get mappedClimbOrder() {
-    return [
-      "No Climb",
-      "First",
-      "Second",
-      "Third"
-    ][this.climb_order];
   }
 }
