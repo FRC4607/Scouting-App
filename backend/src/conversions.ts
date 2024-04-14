@@ -149,11 +149,9 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     zone1_shot_miss: stringToInt,
     zone2_shot_made: stringToInt,
     zone2_shot_miss: stringToInt,
-    zone3_shot_made: stringToInt,
-    zone3_shot_miss: stringToInt,
-    zone4_shot_made: stringToInt,
-    zone4_shot_miss: stringToInt,
     teleop_amp: stringToInt,
+    amp_miss: stringToInt,
+    pass_note: stringToInt,
     parked: stringToBool,
     climb_fail: stringToBool,
     rob_onstage: stringToInt,
@@ -173,7 +171,7 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     const pickupMethods = multicheckboxToBooleanArray(entry[15], 2); // pickup_method
     obj["pickup_method_ground"] = pickupMethods[0];
     obj["pickup_method_source"] = pickupMethods[1];
-    const trapNotePositions = multicheckboxToBooleanArray(entry[29], 3); // trap_note_pos
+    const trapNotePositions = multicheckboxToBooleanArray(entry[27], 3); // trap_note_pos
     obj["trap_note_pos_amp"] = trapNotePositions[0];
     obj["trap_note_pos_source"] = trapNotePositions[1];
     obj["trap_note_pos_center"] = trapNotePositions[2];

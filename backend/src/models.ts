@@ -161,11 +161,9 @@ export class MatchScoutEntry extends Model {
   zone1_shot_miss!: number;
   zone2_shot_made!: number;
   zone2_shot_miss!: number;
-  zone3_shot_made!: number;
-  zone3_shot_miss!: number;
-  zone4_shot_made!: number;
-  zone4_shot_miss!: number;
   teleop_amp!: number;
+  amp_miss!: number;
+  notes_passed!: number;
   parked!: boolean;
   climb_fail!: boolean;
   rob_onstage!: number;
