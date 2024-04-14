@@ -89,23 +89,15 @@
       "type": "integer",
       "minimum": 0
     },
-    "zone3_shot_made": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone3_shot_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone4_shot_made": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone4_shot_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
     "teleop_amp": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "amp_miss": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "pass_note": {
       "type": "integer",
       "minimum": 0
     },

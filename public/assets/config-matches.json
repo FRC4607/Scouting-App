@@ -63,13 +63,8 @@
           "max": 255
         },
         {
-          "displayName": "pre_load_score",
-          "name": "Pre Load Scoring",
-          "type": "checkbox"
-        },
-        {
           "type": "picture",
-          "file": "2160xDarkCroppedFixed.png",
+          "file": "newzones.png",
           "rowspan": 2,
           "colspan": 2,
           "col": 1,
@@ -207,8 +202,8 @@
           ]
         },
         {
-         "displayName": "harmony",
-         "name": "Harmony",
+         "displayName": "Harmony",
+         "name": "harmony",
          "type": "checkbox"
         },
         {
@@ -222,28 +217,6 @@
           ]
         },
         {
-          "displayName": "Spotlight Tried",
-          "name": "spot_try",
-          "type": "spinbox",
-          "min": 0,
-          "max": 3
-        },
-        {
-          "displayName": "Spotlight Made",
-          "name": "spot_made",
-          "type": "multicheckbox",
-          "options": [
-            "Amp",
-            "Source",
-            "Center"
-          ]
-        },
-        { 
-          "displayName": "parked",
-          "name": "Parked",
-          "type": "checkbox"
-        },
-        {
           "type": "picture",
           "file": "evan.jpg",
           "colspan": 2,
@@ -254,11 +227,6 @@
     {
       "name": "Issues/Comments",
       "widgets": [
-        {
-          "name": "Note: These checkboxes will send an alert to event CSAs when uploaded. Be careful and make sure to upload after checking the box!",
-          "type": "label",
-          "colspan": 2
-        },
         {
           "displayName": "RSL Solid",
           "name": "rsl_solid",
