@@ -446,6 +446,20 @@
         "name"
       ]
     },
+    "widgetTeamRanking": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "teamranking"
+        },
+        "alliance": {
+          "enum": ["red", "blue"]
+        }
+      },
+      "required": [
+        "alliance"
+      ]
+    },
     "widgetCheckboxGrid": {
       "type": "object",
       "properties": {
@@ -499,7 +513,8 @@
             "textarea",
             "togglegrid",
             "pictureupload",
-            "checkboxgrid"
+            "checkboxgrid",
+            "teamranking"
           ]
         },
         "prefix": {
@@ -601,6 +616,9 @@
         },
         {
           "$ref": "#/$defs/widgetCheckboxGrid"
+        },
+        {
+          "$ref": "#/$defs/widgetTeamRanking"
         }
       ]
     }

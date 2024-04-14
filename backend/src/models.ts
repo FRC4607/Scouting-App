@@ -5,6 +5,7 @@ import { env } from "process";
 const prefix = env["NODE_ENV"] == "production" ? "../" : "";
 const PitScoutSchema = JSON.parse(readFileSync(prefix + "schemas/pit_scout_entry.schema.json").toString());
 const MatchScoutSchema = JSON.parse(readFileSync(prefix + "schemas/match_scout_entry.schema.json").toString());
+const RankingSchema = JSON.parse(readFileSync(prefix + "schemas/ranking_entry.schema.json").toString());
 
 export class PitScoutEntry extends Model {
   scouter_name!: string;
@@ -218,5 +219,23 @@ export class MatchScoutEntry extends Model {
       "Stage Right",
       "Center Stage"
     ][this.rob_onstage];
+  }
+}
+
+export class RankingEntry extends Model {
+  better!: number;
+  worse!: number;
+  diff!: number;
+  match!: number;
+  incap!: boolean;
+  ScoutedTime!: string;
+
+
+  static override get tableName() {
+    return "ranking_entries";
+  }
+
+  static override get jsonSchema() {
+    return RankingSchema;
   }
 }

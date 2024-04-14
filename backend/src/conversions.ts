@@ -1,10 +1,20 @@
 import { ApiRequest } from "../schemas/ApiRequest";
+import { RankingEntry } from "./models";
 //import { PitScoutEntry } from "./models";
 
 interface TeamData {
   isBlue: boolean;
   dsPosition: number;
   teamNumber: number;
+}
+
+interface Ranking {
+  better: number;
+  worse: number;
+  diff: number;
+  match: number;
+  incap: boolean;
+  ScoutedTime: string;
 }
 
 function stringToInt(s: string): number {
@@ -52,6 +62,23 @@ function parseTeamData(teamData: string): TeamData {
     dsPosition: stringToInt(teamDataSplit[1]),
     teamNumber: stringToInt(teamDataSplit[2])
   };
+}
+
+function parseRanking(teamData: string, match: string, time: string): Ranking[] {
+  let result: Ranking[] = [];
+  const teamDataSplit = teamData.split(" ");
+  for (const comparison of teamDataSplit) {
+    const values = comparison.split(",");
+    result.push({
+      better: stringToInt(values[0]),
+      worse: stringToInt(values[1]),
+      diff: stringToInt(values[2]),
+      match: stringToInt(match),
+      incap: stringToBool(values[3]),
+      ScoutedTime: reformatISO(time)
+    });
+  }
+  return result;
 }
 
 export function convertPitScout(r: ApiRequest): Record<string, boolean | number | string>[] {
@@ -156,5 +183,14 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     obj["team_number"] = parsedTeamData.teamNumber;
     entries.push(obj);
   });
+  return entries;
+}
+
+export function convertRanking(r: ApiRequest): Ranking[] {
+  let entries: Ranking[] = [];
+  for (const entry of r.values) {
+    entries = entries.concat(parseRanking(entry[1], entry[0], entry[3]));
+    entries = entries.concat(parseRanking(entry[2], entry[0], entry[3]));
+  }
   return entries;
 }

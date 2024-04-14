@@ -9,13 +9,12 @@ import config from "../knexfile";
 import { validate } from "jsonschema";
 import { env } from "process";
 import { ApiRequest } from "../schemas/ApiRequest";
-import { MatchScoutEntry, PitScoutEntry } from "./models";
-import { convertMatchScout, convertPitScout } from "./conversions";
+import { MatchScoutEntry, PitScoutEntry, RankingEntry } from "./models";
+import { convertMatchScout, convertPitScout, convertRanking } from "./conversions";
 
 const knex = Knex(config[env["NODE_ENV"] ? env["NODE_ENV"] : "development"]);
 console.log("Starting Knex using " + env["NODE_ENV"] ? env["NODE_ENV"] : "development" + " environment");
 Model.knex(knex);
-
 
 const prefix = env["NODE_ENV"] == "production" ? "../" : "";
 const apiSchema = JSON.parse(fs.readFileSync(prefix + "schemas/api_request.schema.json").toString());
@@ -114,6 +113,17 @@ const app: http.RequestListener = async (req, res) => {
                 for await (const record of records) {
                   console.log("Adding match scouting entry by " + record["scouter_name"] + " of team " + record["team_number"]);
                   await MatchScoutEntry.query().insert(record);
+                }
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.writeHead(200);
+                res.end();
+                break;
+              }
+              case "ranking": {
+                const records = convertRanking(bodyObj);
+                for await (const record of records) {
+                  console.log("Adding comparison: " + record.better + " beats " + record.worse + " by " + record.diff + " in match " + record.match + ".");
+                  await RankingEntry.query().insert(record);
                 }
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHead(200);

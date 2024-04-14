@@ -1,0 +1,40 @@
+{
+    "heading": "Crescendo - 2024 (Team Ranking)",
+    "logo": "logo.png",
+    "skipTeamSelection": true,
+    "pages": [
+        {
+            "name": "Ranking",
+            "widgets": [
+                {
+                    "displayName": "Match Number",
+                    "name": "match",
+                    "type": "number",
+                    "validation": {
+                        "comparison": "greaterOrEqual",
+                        "value": 1
+                    }
+                },
+                {
+                    "name": "Note: It's OK to give teams the same rank!",
+                    "type": "label",
+                    "col": 2,
+                    "colspan": 2,
+                    "labelColspan": 2
+                },
+                {
+                    "displayName": "Red Alliance Ranking",
+                    "name": "red",
+                    "type": "teamranking",
+                    "alliance": "red"
+                },
+                {
+                    "displayName": "Blue Alliance Ranking",
+                    "name": "blue",
+                    "type": "teamranking",
+                    "alliance": "blue"
+                }
+            ]
+        }
+    ]
+}

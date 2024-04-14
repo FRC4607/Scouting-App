@@ -7,25 +7,26 @@
 
 export type Widget = {
   type:
-  | "dropdown"
-  | "dropdownwithpictures"
-  | "heading"
-  | "label"
-  | "text"
-  | "number"
-  | "checkbox"
-  | "multicheckbox"
-  | "picture"
-  | "positions"
-  | "radio"
-  | "spacer"
-  | "spinbox"
-  | "stopwatch"
-  | "averagestopwatch"
-  | "textarea"
-  | "togglegrid"
-  | "pictureupload"
-  | "checkboxgrid";
+    | "dropdown"
+    | "dropdownwithpictures"
+    | "heading"
+    | "label"
+    | "text"
+    | "number"
+    | "checkbox"
+    | "multicheckbox"
+    | "picture"
+    | "positions"
+    | "radio"
+    | "spacer"
+    | "spinbox"
+    | "stopwatch"
+    | "averagestopwatch"
+    | "textarea"
+    | "togglegrid"
+    | "pictureupload"
+    | "checkboxgrid"
+    | "teamranking";
   prefix?: string;
   name?: string;
   displayName?: string;
@@ -63,7 +64,8 @@ export type Widget1 =
   | WidgetTextarea
   | WidgetToggleGrid
   | WidgetPictureUpload
-  | WidgetCheckboxGrid;
+  | WidgetCheckboxGrid
+  | WidgetTeamRanking;
 
 export interface ConfigSchema {
   heading?: string;
@@ -203,5 +205,10 @@ export interface WidgetCheckboxGrid {
   rightOffset?: number;
   topOffset?: number;
   bottomOffset?: number;
+  [k: string]: unknown;
+}
+export interface WidgetTeamRanking {
+  type?: "teamranking";
+  alliance: "red" | "blue";
   [k: string]: unknown;
 }
