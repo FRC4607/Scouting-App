@@ -126,11 +126,9 @@
               "zone1_shot_miss",
               "zone2_shot_made",
               "zone2_shot_miss",
-              "zone3_shot_made",
-              "zone3_shot_miss",
-              "zone4_shot_made",
-              "zone4_shot_miss",
               "teleop_amp",
+              "amp_miss",
+              "pass_note",
               "parked",
               "climb_fail",
               "rob_onstage",
@@ -150,8 +148,53 @@
             "uniqueItems": true,
             "items": {
               "type": "array",
-              "minItems": 35,
-              "maxItems": 35,
+              "minItems": 33,
+              "maxItems": 33,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "header",
+          "values"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "ranking"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "then": {
+        "properties": {
+          "header": {
+            "description": "The headers of the columns of the scouting entries",
+            "type": "array",
+            "const": [
+              "match",
+              "red",
+              "blue",
+              "ScoutedTime"
+            ]
+          },
+          "values": {
+            "description": "The list of entries to be added into the database",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
               "items": {
                 "type": "string"
               }
