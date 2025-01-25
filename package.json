@@ -1,9 +1,9 @@
 {
   "name": "cis-scouting",
-  "version": "2024.3.0",
+  "version": "2025.0.0-beta",
   "private": true,
   "engine": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "serve": "vite preview --host",

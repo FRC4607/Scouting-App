@@ -1,6 +1,4 @@
 import { ApiRequest } from "../schemas/ApiRequest";
-import { RankingEntry } from "./models";
-//import { PitScoutEntry } from "./models";
 
 interface TeamData {
   isBlue: boolean;
@@ -21,9 +19,9 @@ function stringToInt(s: string): number {
   return Number.parseInt(s);
 }
 
-function stringToFloat(s: string): number {
-  return Number.parseFloat(s);
-}
+// function stringToFloat(s: string): number {
+//   return Number.parseFloat(s);
+// }
 
 function stringToBool(s: string): boolean {
   return s === "true" ? true : false;
@@ -65,7 +63,7 @@ function parseTeamData(teamData: string): TeamData {
 }
 
 function parseRanking(teamData: string, match: string, time: string): Ranking[] {
-  let result: Ranking[] = [];
+  const result: Ranking[] = [];
   const teamDataSplit = teamData.split(" ");
   for (const comparison of teamDataSplit) {
     const values = comparison.split(",");

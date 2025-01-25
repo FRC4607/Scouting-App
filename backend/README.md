@@ -1,8 +1,10 @@
 # Back End Data Handler for the Scouting app
 
-## Setup 
+## Setup
+
 1. HTTPS certificate / key
 2. MySQL login / config
+
 ```json
 {
     "host": "localhost",
