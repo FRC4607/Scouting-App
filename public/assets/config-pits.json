@@ -74,6 +74,11 @@
           "displayName": "Spare Parts",
           "name": "spareparts",
           "type": "checkbox"
+        },
+        {
+          "displayName": "Component Protection",
+          "name": "component_prot",
+          "type": "checkbox"
         }
         
       ]
