@@ -102,8 +102,8 @@
           "type": "spinbox"
         },
         {
-          "displayName": "Processer Scored",
-          "name": "processer_scored",
+          "displayName": "Processor Scored",
+          "name": "processor_scored",
           "type": "spinbox"
         }
       ]

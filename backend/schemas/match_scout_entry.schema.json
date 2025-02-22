@@ -35,102 +35,10 @@
       "minimum": 0,
       "maximum": 10
     },
-    "pre_load_score": {
-      "type": "boolean"
-    },
     "mobility": {
       "type": "boolean"
     },
-    "auto_amp": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone1_shot_made_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone1_shot_miss_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_made_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_miss_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "under_stage": {
-      "type": "boolean"
-    },
     "defense": {
-      "type": "boolean"
-    },
-    "pickup_method_ground": {
-      "type": "boolean"
-    },
-    "pickup_method_source": {
-      "type": "boolean"
-    },
-    "zone1_shot_made": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone1_shot_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_made": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "teleop_amp": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "amp_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "pass_note": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "parked": {
-      "type": "boolean"
-    },
-    "climb_fail": {
-      "type": "boolean"
-    },
-    "rob_onstage": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 3
-    },
-    "trap_note_pos_amp": {
-      "type": "boolean"
-    },
-    "trap_note_pos_source": {
-      "type": "boolean"
-    },
-    "trap_note_pos_center": {
-      "type": "boolean"
-    },
-    "harmony": {
-      "type": "boolean"
-    },
-    "rsl_solid": {
-      "type": "boolean"
-    },
-    "rsl_off": {
-      "type": "boolean"
-    },
-    "brown_out": {
       "type": "boolean"
     },
     "comments": {
@@ -182,7 +90,7 @@
       "type": "integer",
       "minimum": 0
     },
-    "processer_scored": {
+    "processor_scored": {
       "type": "integer",
       "minimum": 0
     },
@@ -216,34 +124,8 @@
     "team_number",
     "scouter_name",
     "starting_pos",
-    "pre_load_score",
     "mobility",
-    "auto_amp",
-    "zone1_shot_made_auto",
-    "zone1_shot_miss_auto",
-    "zone2_shot_made_auto",
-    "zone2_shot_miss_auto",
-    "under_stage",
     "defense",
-    "pickup_method_ground",
-    "pickup_method_source",
-    "zone1_shot_made",
-    "zone1_shot_miss",
-    "zone2_shot_made",
-    "zone2_shot_miss",
-    "teleop_amp",
-    "amp_miss",
-    "pass_note",
-    "parked",
-    "climb_fail",
-    "rob_onstage",
-    "harmony",
-    "trap_note_pos_amp",
-    "trap_note_pos_source",
-    "trap_note_pos_center",
-    "rsl_solid",
-    "rsl_off",
-    "brown_out",
     "comments",
     "ScoutedTime",
     "Level1",
