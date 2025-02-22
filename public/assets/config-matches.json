@@ -19,21 +19,21 @@
           "name": "starting_pos",
           "type": "dropdown",
           "options": [
-            "Blue Processer",
+            "Blue Processor",
             "Middle",
-            "Red Processer"
+            "Red Processor"
           ]
         },
         {
-          "displayName": "Auto Leave",
-          "name": "auto_leave",
+          "displayName": "Mobility",
+          "name": "mobility",
           "type": "checkbox"
         },
         {
           "heading": "Auto Coral",
           "name": "Auto Coral",
           "type": "heading",
-          "align":"right"
+          "align": "right"
         },
         {
           "displayName": "L1",
@@ -61,94 +61,91 @@
           "type": "spinbox"
         }
       ]
-      },
-      {
-        "name": "Teleop",
-        "widgets": [
-          {
-            "displayName": "Teleop Algae",
-            "name": "tele_algae",
-            "type": "checkbox"
-          },
-          {
-            "heading": "Teleop Coral",
-            "name": "Teleop Coral",
-            "type": "heading",
-            "align":"right"
-          },
-          {
-            "displayName": "L1",
-            "name": "tele_Level1",
-            "type": "spinbox"
-          },
-          {
-            "displayName": "L2",
-            "name": "tele_Level2",
-            "type": "spinbox"
-          },
-          {
-            "displayName": "L3",
-            "name": "tele_Level3",
-            "type": "spinbox"
-          },
-          {
-            "displayName": "L4",
-            "name": "tele_Level4",
-            "type": "spinbox"
-          },
-          {
-            "displayName": "Robot Barge Scored",
-            "name": "robo_barge_score",
-            "type": "spinbox"
-          },
-          {
-            "displayName": "Processer Scored",
-            "name": "processer_scored",
-            "type": "spinbox"
-          }
-        ]
-      },
-      {
-        "name": "Endgame",
-        "widgets": [
-          {
-            "displayName": "Climb",
-            "name": "climb",
-            "type": "multicheckbox",
-            "options": [
-             "Shallow Cage",
-             "Deep Cage",
-             "Parked"
-            ]
-          },
-          {
-            "displayName": "Defense",
-            "name": "defense",
-            "type": "spinbox",
-            "min": 0,
-             "max": 3 
-          },
-          {
-            "displayName": "Driver's Rank",
-            "name": "driver_rank",
-            "type": "spinbox",
-            "min": 1,
-            "max": 3
-          },
-          {
-            "displayName": "Breakdown",
-            "name": "breakdown",
-            "type": "checkbox"
-          },
-          {
-            "displayName": "Additional Comments",
-            "name": "comments",
-            "type": "textarea"
-          }
-        ]
-      }
+    },
+    {
+      "name": "Teleop",
+      "widgets": [
+        {
+          "displayName": "Teleop Algae",
+          "name": "tele_algae",
+          "type": "checkbox"
+        },
+        {
+          "heading": "Teleop Coral",
+          "name": "Teleop Coral",
+          "type": "heading",
+          "align": "right"
+        },
+        {
+          "displayName": "L1",
+          "name": "tele_Level1",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "L2",
+          "name": "tele_Level2",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "L3",
+          "name": "tele_Level3",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "L4",
+          "name": "tele_Level4",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Robot Barge Scored",
+          "name": "robo_barge_score",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Processer Scored",
+          "name": "processer_scored",
+          "type": "spinbox"
+        }
+      ]
+    },
+    {
+      "name": "Endgame",
+      "widgets": [
+        {
+          "displayName": "Climb",
+          "name": "climb",
+          "type": "multicheckbox",
+          "options": [
+            "Shallow Cage",
+            "Deep Cage",
+            "Parked"
+          ]
+        },
+        {
+          "displayName": "Defense",
+          "name": "defense",
+          "type": "spinbox",
+          "min": 0,
+          "max": 3
+        },
+        {
+          "displayName": "Driver's Rank",
+          "name": "driver_rank",
+          "type": "spinbox",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "displayName": "Breakdown",
+          "name": "breakdown",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Additional Comments",
+          "name": "comments",
+          "type": "textarea"
+        }
+      ]
+    }
   ]
 }
-  
-
-      

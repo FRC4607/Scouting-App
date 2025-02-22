@@ -138,6 +138,72 @@
     },
     "ScoutedTime": {
       "type": "string"
+    },
+    "Level1": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "Level2": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "Level3": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "Level4": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "auto_algae": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_algae": {
+      "type": "boolean"
+    },
+    "tele_Level1": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_Level2": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_Level3": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_Level4": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "robo_barge_score": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "processer_scored": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "climb": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Shallow Cage",
+          "Deep Cage",
+          "Parked"
+        ]
+      }
+    },
+    "driver_rank": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "breakdown": {
+      "type": "boolean"
     }
   },
   "additionalProperties": false,
@@ -179,6 +245,21 @@
     "rsl_off",
     "brown_out",
     "comments",
-    "ScoutedTime"
+    "ScoutedTime",
+    "Level1",
+    "Level2",
+    "Level3",
+    "Level4",
+    "auto_algae",
+    "tele_algae",
+    "tele_Level1",
+    "tele_Level2",
+    "tele_Level3",
+    "tele_Level4",
+    "robo_barge_score",
+    "processer_scored",
+    "climb",
+    "driver_rank",
+    "breakdown"
   ]
 }
