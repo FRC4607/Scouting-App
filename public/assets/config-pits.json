@@ -1,5 +1,5 @@
 {
-  "heading": "Crescendo - 2024 (Pit Scouting)",
+  "heading": "Reefscape - 2025 (Pit Scouting)",
   "logo": "logo.png",
   "skipTeamSelection": true,
   "pages": [
@@ -28,314 +28,54 @@
           }
         },
         {
-          "displayName": "Length",
-          "name": "length",
-          "type": "number",
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              120
-            ]
-          }
-        },
-        {
-          "displayName": "Width",
-          "name": "width",
-          "type": "number",
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              120
-            ]
-          }
-        },
-        {
-          "displayName": "Starting Height",
-          "name": "start_height",
-          "type": "number",
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              48
-            ]
-          }
-        },
-        {
-          "displayName": "Max Height",
-          "name": "max_height",
-          "type": "number",
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              48
-            ]
-          }
-        },
-        {
-          "displayName": "Weight",
-          "name": "weight",
-          "type": "number",
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              125
-            ]
-          }
-        },
-        {
-          "displayName": "Drivetrain Type",
-          "name": "dt_type",
-          "type": "dropdown",
-          "options": [
-            "Tank Drive",
-            "Mecanum",
-            "Swerve",
-            "Other"
-          ],
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              0,
-              255
-            ]
-          }
-        },
-        {
-          "displayName": "Drive Motor Type",
-          "name": "drive_motor",
-          "type": "dropdown",
-          "options": [
-            "Neo v1",
-            "Neo Vortex",
-            "Falcon",
-            "Kraken",
-            "CIM",
-            "Other"
-          ],
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              0,
-              255
-            ]
-          }
-        },
-        {
-          "displayName": "Swerve Type",
-          "name": "swerve_type",
-          "type": "dropdown",
-          "options": [
-            "No swerve",
-            "SDS Mk4(i)",
-            "Other SDS",
-            "WCP SwerveX(s)",
-            "REV MAXSwerve",
-            "Custom/Other"
-          ],
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              0,
-              255
-            ]
-          }
-        },
-        {
-          "displayName": "Wheel Replacement Frequency",
-          "name": "wheel_rep_freq",
-          "type": "text"
-        },
-        {
-          "displayName": "Bumper Height",
-          "name": "bumper_height",
-          "type": "number",
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              255
-            ]
-          }
-        },
-        {
-          "displayName": "CAN Bus Topology",
-          "name": "can_bus_top",
-          "type": "dropdown",
-          "options": [
-            "Dazychain",
-            "Star"
-          ],
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              0,
-              255
-            ]
-          }
-        },
-        {
-          "displayName": "Pneumatics",
-          "name": "pneumatics",
-          "type": "checkbox"
-        },
-        {
           "displayName": "Programming Language",
-          "name": "programming_language",
+          "name": "prog_lang",
           "type": "dropdown",
           "options": [
             "Java",
             "C++",
             "Python",
             "Labview"
-          ],
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              0,
-              255
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Processes",
-      "widgets": [
-        {
-          "displayName": "Number of Batteries",
-          "name": "num_batt",
-          "type": "number",
-          "min": 1,
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              255
-            ]
-          }
+          ]
         },
         {
-          "displayName": "Battery Maintenance",
-          "name": "does_batt_maint",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Battery Maintenance_text",
-          "name": "batt_maint_txt",
-          "noLabel": true,
-          "type": "text",
-          "col": 2
-        },
-        {
-          "displayName": "Batteries Get Tested",
-          "name": "batt_testing",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Main Battery Brand",
-          "name": "batt_brand",
+          "displayName": "Battery Brand",
+          "name": "bat_brand",
           "type": "dropdown",
           "options": [
             "MK",
-            "Interstate",
             "Duracell",
+            "Interstate",
             "Mighty Max",
             "Power Sonic",
-            "Other (comments)"
-          ],
+            "Other"
+          ]
+        },
+        {
+          "displayName": "Other Brand",
+          "name": "otherbrand",
+          "type": "textarea"
+        },
+        {
+          "displayName": "Amount of Batteries",
+          "name": "num_bat",
+          "type": "number",
           "validation": {
-            "comparison": "inRange",
-            "value": [
-              0,
-              255
-            ]
+            "comparison": "greaterOrEqual",
+            "value": 1
           }
         },
         {
-          "displayName": "Our batteries needed during playoffs",
-          "name": "batt_needed",
-          "type": "checkbox"
+          "displayName": "Battery Condition",
+          "name": "bat_condition",
+          "type": "textarea"
         },
         {
           "displayName": "Spare Parts",
-          "name": "spare_parts",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Pit Checklist",
-          "name": "pit_checklist",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Does Scouting",
-          "name": "does_scouting",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Willing to trade scouting data",
-          "name": "trade_scouting_data",
+          "name": "spareparts",
           "type": "checkbox"
         }
-      ]
-    },
-    {
-      "name": "Pictures and Comments",
-      "widgets": [
-        {
-          "name": "Note: You can upload multiple pictures/videos for each section!",
-          "type": "label",
-          "colspan": 2,
-          "labelColspan": 2
-        },
-        {
-          "displayName": "space",
-          "type": "spacer"
-        },
-        {
-          "displayName": "Battery Storage and Charging Area",
-          "name": "batt_storchrg",
-          "type": "pictureupload"
-        },
-        {
-          "displayName": "Battery Location On Robot",
-          "name": "batt_loc",
-          "type": "pictureupload"
-        },
-        {
-          "displayName": "Battery Connector Close Up",
-          "name": "batt_con",
-          "type": "pictureupload"
-        },
-        {
-          "displayName": "Main Power Switch Location",
-          "name": "powersw_loc",
-          "type": "pictureupload"
-        },
-        {
-          "displayName": "Radio Location",
-          "name": "radio_loc",
-          "type": "pictureupload"
-        },
-        {
-          "displayName": "Robot Close Ups and Features",
-          "name": "misc_pics",
-          "type": "pictureupload"
-        },
-        {
-          "displayName": "space",
-          "type": "spacer"
-        },
-        {
-          "displayName": "Comments",
-          "name": "comments",
-          "type": "textarea",
-          "colspan": 2
-        }
+        
       ]
     }
   ]
