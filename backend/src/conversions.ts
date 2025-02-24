@@ -35,6 +35,13 @@ function identity<T>(value: T): T {
   return value;
 }
 
+function parseTeamData(teamData: string, r: Record<string, boolean | number | string>) {
+  let parts: string[] = teamData.split(",");
+  r.is_blue = (parts[0] === "Blue");
+  r.ds_position = stringToInt(parts[1]);
+  r.team_number = stringToInt(parts[2]);
+}
+
 function parseRanking(teamData: string, match: string, time: string): Ranking[] {
   const result: Ranking[] = [];
   const teamDataSplit = teamData.split(" ");
@@ -105,9 +112,6 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     event_key: identity,
     match_level: stringToInt,
     match_number: stringToInt,
-    is_blue: stringToBool,
-    ds_position: stringToInt,
-    team_number: stringToInt,
     scouter_name: identity,
     starting_pos: stringToInt,
     mobility: stringToBool,
@@ -126,7 +130,7 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     tele_Level4: stringToInt,
     robo_barge_score: stringToInt,
     processor_scored: stringToInt,
-    climb: identity,
+    climb: stringToInt,
     driver_rank: stringToInt,
     breakdown: stringToBool
   };
@@ -136,8 +140,11 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
       if (!operations[r.header[i]]) continue;
       obj[r.header[i]] = operations[r.header[i]](entry[i]);
     }
+    // Handle special case of team_data
+    parseTeamData(entry[3], obj)
     entries.push(obj);
   });
+
   return entries;
 }
 

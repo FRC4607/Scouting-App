@@ -114,11 +114,12 @@
         {
           "displayName": "Climb",
           "name": "climb",
-          "type": "multicheckbox",
+          "type": "radio",
           "options": [
             "Shallow Cage",
             "Deep Cage",
-            "Parked"
+            "Parked",
+            "None"
           ]
         },
         {

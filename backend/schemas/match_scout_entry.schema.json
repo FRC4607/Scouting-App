@@ -95,15 +95,9 @@
       "minimum": 0
     },
     "climb": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": [
-          "Shallow Cage",
-          "Deep Cage",
-          "Parked"
-        ]
-      }
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
     },
     "driver_rank": {
       "type": "integer",
@@ -139,7 +133,7 @@
     "tele_Level3",
     "tele_Level4",
     "robo_barge_score",
-    "processer_scored",
+    "processor_scored",
     "climb",
     "driver_rank",
     "breakdown"
