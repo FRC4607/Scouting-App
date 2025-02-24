@@ -162,7 +162,7 @@ export class MatchScoutEntry extends Model {
   tele_Level4!: number;
   robo_barge_score!: number;
   processor_scored!: number;
-  climb!: string[];
+  climb!: number;
   driver_rank!: number;
   breakdown!: boolean;
 
@@ -189,6 +189,15 @@ export class MatchScoutEntry extends Model {
       "Middle",
       "Red Processor"
     ][this.starting_pos];
+  }
+
+  get mappedClimb() {
+    return [
+      "Shallow Cage",
+      "Deep Cage",
+      "Parked",
+      "None"
+    ][this.climb];
   }
 }
 

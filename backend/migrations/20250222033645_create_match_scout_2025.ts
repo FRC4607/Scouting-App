@@ -2,6 +2,7 @@ import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
+    .dropTableIfExists("match_scouting_entries")
     .createTable("match_scouting_entries", (table) => {
       table.increments("id").notNullable();
       table.text("event_key").notNullable();
@@ -28,7 +29,7 @@ export async function up(knex: Knex): Promise<void> {
       table.tinyint("tele_Level4").notNullable().unsigned();
       table.tinyint("robo_barge_score").notNullable().unsigned();
       table.tinyint("processor_scored").notNullable().unsigned();
-      table.specificType("climb", "text[]").notNullable();
+      table.tinyint("climb").notNullable().unsigned();
       table.tinyint("driver_rank").notNullable().unsigned();
       table.boolean("breakdown").notNullable();
     });
