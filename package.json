@@ -60,6 +60,7 @@
     "postcss-preset-env": "^10.1.5",
     "typescript": "~5.7.3",
     "vite": "^6.1.1",
+    "vite-plugin-html": "^3.2.2",
     "vite-plugin-live-reload": "^3.0.4",
     "vite-plugin-pwa": "^0.21.1"
   },

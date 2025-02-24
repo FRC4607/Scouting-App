@@ -15,8 +15,12 @@
     }
   ],
   "cSpell.words": [
+    "Executionpolicy",
     "fontawesome",
+    "noninteractive",
+    "noprofile",
     "qrcode",
-    "vueuse"
+    "vueuse",
+    "webdav"
   ]
 }
