@@ -9,7 +9,6 @@ import ReactivityTransform from "@vue-macros/reactivity-transform/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import vue from "@vitejs/plugin-vue";
 import { hash } from "./utilFunctions.js";
-import { createHtmlPlugin } from "vite-plugin-html";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -48,14 +47,7 @@ export default defineConfig({
     }),
     liveReload([
       "public/"
-    ]),
-    createHtmlPlugin({
-      inject: {
-        data: {
-          version: process.env.npm_package_version,
-        },
-      },
-    })
+    ])
   ],
   resolve: {
     alias: {
@@ -64,7 +56,6 @@ export default defineConfig({
   },
   build: {
     // this adds a hash to the end of the file names to bust the cache and force the browser to re-fetch new files when the app is updated
-    // the html plugin above also does helps do this by adding the version number to the file queries
     rollupOptions: {
       output: {
         entryFileNames: "[name]" + hash + ".js",
