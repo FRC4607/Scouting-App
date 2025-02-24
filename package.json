@@ -1,6 +1,6 @@
 {
   "name": "cis-scouting",
-  "version": "2025.0.1b",
+  "version": "2025.1.0",
   "private": true,
   "engine": {
     "node": ">=22.0.0"
@@ -53,11 +53,11 @@
     "eslint": "^8.57.1",
     "eslint-plugin-vue": "^9.32.0",
     "json-schema-to-typescript": "^15.0.4",
-    "npm-check-updates": "^17.1.14",
+    "npm-check-updates": "^17.1.15",
     "pm2": "^5.4.3",
     "postcss": "^8.5.3",
     "postcss-nested": "^7.0.2",
-    "postcss-preset-env": "^10.1.4",
+    "postcss-preset-env": "^10.1.5",
     "typescript": "~5.7.3",
     "vite": "^6.1.1",
     "vite-plugin-live-reload": "^3.0.4",
