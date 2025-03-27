@@ -1,6 +1,6 @@
 {
   "name": "cis-scouting",
-  "version": "2025.1.0",
+  "version": "2025.1.1",
   "private": true,
   "engine": {
     "node": ">=22.0.0"

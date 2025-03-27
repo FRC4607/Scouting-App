@@ -125,9 +125,7 @@
         {
           "displayName": "Defense",
           "name": "defense",
-          "type": "spinbox",
-          "min": 0,
-          "max": 3
+          "type": "checkbox"
         },
         {
           "displayName": "Driver's Rank",
