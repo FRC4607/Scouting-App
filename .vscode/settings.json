@@ -13,5 +13,10 @@
       ],
       "url": "./src/common/config.schema.json"
     }
+  ],
+  "cSpell.words": [
+    "fontawesome",
+    "qrcode",
+    "vueuse"
   ]
 }

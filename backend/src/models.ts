@@ -146,36 +146,25 @@ export class MatchScoutEntry extends Model {
   team_number!: number;
   scouter_name!: string;
   starting_pos!: number;
-  pre_load_score!: boolean;
   mobility!: boolean;
-  auto_amp!: number;
-  zone1_shot_made_auto!: number;
-  zone1_shot_miss_auto!: number;
-  zone2_shot_made_auto!: number;
-  zone2_shot_miss_auto!: number;
-  under_stage!: boolean;
   defense!: boolean;
-  pickup_method_ground!: boolean;
-  pickup_method_source!: boolean;
-  zone1_shot_made!: number;
-  zone1_shot_miss!: number;
-  zone2_shot_made!: number;
-  zone2_shot_miss!: number;
-  teleop_amp!: number;
-  amp_miss!: number;
-  notes_passed!: number;
-  parked!: boolean;
-  climb_fail!: boolean;
-  rob_onstage!: number;
-  trap_note_pos_amp!: boolean;
-  trap_note_pos_source!: boolean;
-  trap_note_pos_center!: boolean;
-  harmony!: boolean;
-  rsl_solid!: boolean;
-  rsl_off!: boolean;
-  brown_out!: boolean;
   comments!: string;
   ScoutedTime!: string;
+  Level1!: number;
+  Level2!: number;
+  Level3!: number;
+  Level4!: number;
+  auto_algae!: number;
+  tele_algae!: boolean;
+  tele_Level1!: number;
+  tele_Level2!: number;
+  tele_Level3!: number;
+  tele_Level4!: number;
+  robo_barge_score!: number;
+  processor_scored!: number;
+  climb!: number;
+  driver_rank!: number;
+  breakdown!: boolean;
 
   static override get tableName() {
     return "match_scouting_entries";
@@ -196,27 +185,19 @@ export class MatchScoutEntry extends Model {
 
   get mappedStartingPosition() {
     return [
-      "Subwoofer: Amp",
-      "Subwoofer: Speaker",
-      "Subwoofer: Podium",
-      "Amp Note",
-      "Speaker Note",
-      "Podium Note",
-      "Between Amp and Speaker Notes",
-      "Between Speaker and Podium Notes",
-      "Note Closest to Source",
-      "Note 2nd Closest to Source",
-      "Other"
+      "Blue Processor",
+      "Middle",
+      "Red Processor"
     ][this.starting_pos];
   }
 
-  get mappedRobotOnstage() {
+  get mappedClimb() {
     return [
-      "N/A",
-      "Stage Left",
-      "Stage Right",
-      "Center Stage"
-    ][this.rob_onstage];
+      "Shallow Cage",
+      "Deep Cage",
+      "Parked",
+      "None"
+    ][this.climb];
   }
 }
 

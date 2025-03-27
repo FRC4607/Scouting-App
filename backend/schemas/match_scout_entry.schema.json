@@ -35,102 +35,10 @@
       "minimum": 0,
       "maximum": 10
     },
-    "pre_load_score": {
-      "type": "boolean"
-    },
     "mobility": {
       "type": "boolean"
     },
-    "auto_amp": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone1_shot_made_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone1_shot_miss_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_made_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_miss_auto": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "under_stage": {
-      "type": "boolean"
-    },
     "defense": {
-      "type": "boolean"
-    },
-    "pickup_method_ground": {
-      "type": "boolean"
-    },
-    "pickup_method_source": {
-      "type": "boolean"
-    },
-    "zone1_shot_made": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone1_shot_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_made": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "zone2_shot_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "teleop_amp": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "amp_miss": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "pass_note": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "parked": {
-      "type": "boolean"
-    },
-    "climb_fail": {
-      "type": "boolean"
-    },
-    "rob_onstage": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 3
-    },
-    "trap_note_pos_amp": {
-      "type": "boolean"
-    },
-    "trap_note_pos_source": {
-      "type": "boolean"
-    },
-    "trap_note_pos_center": {
-      "type": "boolean"
-    },
-    "harmony": {
-      "type": "boolean"
-    },
-    "rsl_solid": {
-      "type": "boolean"
-    },
-    "rsl_off": {
-      "type": "boolean"
-    },
-    "brown_out": {
       "type": "boolean"
     },
     "comments": {
@@ -138,6 +46,66 @@
     },
     "ScoutedTime": {
       "type": "string"
+    },
+    "Level1": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "Level2": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "Level3": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "Level4": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "auto_algae": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_algae": {
+      "type": "boolean"
+    },
+    "tele_Level1": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_Level2": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_Level3": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "tele_Level4": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "robo_barge_score": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "processor_scored": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "climb": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "driver_rank": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "breakdown": {
+      "type": "boolean"
     }
   },
   "additionalProperties": false,
@@ -150,35 +118,24 @@
     "team_number",
     "scouter_name",
     "starting_pos",
-    "pre_load_score",
     "mobility",
-    "auto_amp",
-    "zone1_shot_made_auto",
-    "zone1_shot_miss_auto",
-    "zone2_shot_made_auto",
-    "zone2_shot_miss_auto",
-    "under_stage",
     "defense",
-    "pickup_method_ground",
-    "pickup_method_source",
-    "zone1_shot_made",
-    "zone1_shot_miss",
-    "zone2_shot_made",
-    "zone2_shot_miss",
-    "teleop_amp",
-    "amp_miss",
-    "pass_note",
-    "parked",
-    "climb_fail",
-    "rob_onstage",
-    "harmony",
-    "trap_note_pos_amp",
-    "trap_note_pos_source",
-    "trap_note_pos_center",
-    "rsl_solid",
-    "rsl_off",
-    "brown_out",
     "comments",
-    "ScoutedTime"
+    "ScoutedTime",
+    "Level1",
+    "Level2",
+    "Level3",
+    "Level4",
+    "auto_algae",
+    "tele_algae",
+    "tele_Level1",
+    "tele_Level2",
+    "tele_Level3",
+    "tele_Level4",
+    "robo_barge_score",
+    "processor_scored",
+    "climb",
+    "driver_rank",
+    "breakdown"
   ]
 }

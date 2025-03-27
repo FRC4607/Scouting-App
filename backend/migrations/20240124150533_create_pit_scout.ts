@@ -1,6 +1,5 @@
 import type { Knex } from "knex";
 
-
 export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable("pit_scouting_entries", (table) => {
@@ -41,8 +40,6 @@ export async function up(knex: Knex): Promise<void> {
     });
 }
 
-
 export async function down(knex: Knex): Promise<void> {
   return knex.schema.dropTable("pit_scouting_entries");
 }
-

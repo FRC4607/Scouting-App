@@ -7,18 +7,18 @@
     "runMigrations": "knex migrate:latest"
   },
   "dependencies": {
-    "@types/node": "^20.11.20",
-    "jsonschema": "^1.4.1",
+    "@types/node": "^22.13.5",
+    "jsonschema": "^1.5.0",
     "knex": "^3.1.0",
-    "objection": "^3.1.4",
-    "pg": "^8.11.3",
+    "objection": "^3.1.5",
+    "pg": "^8.13.3",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.2",
-    "@types/pg": "^8.11.2",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/pg": "^8.11.11",
     "json-schema-to-typescript": "^13.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.7.3"
   }
 }

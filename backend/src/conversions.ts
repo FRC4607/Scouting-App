@@ -1,12 +1,4 @@
 import { ApiRequest } from "../schemas/ApiRequest";
-import { RankingEntry } from "./models";
-//import { PitScoutEntry } from "./models";
-
-interface TeamData {
-  isBlue: boolean;
-  dsPosition: number;
-  teamNumber: number;
-}
 
 interface Ranking {
   better: number;
@@ -21,9 +13,9 @@ function stringToInt(s: string): number {
   return Number.parseInt(s);
 }
 
-function stringToFloat(s: string): number {
-  return Number.parseFloat(s);
-}
+// function stringToFloat(s: string): number {
+//   return Number.parseFloat(s);
+// }
 
 function stringToBool(s: string): boolean {
   return s === "true" ? true : false;
@@ -43,29 +35,15 @@ function identity<T>(value: T): T {
   return value;
 }
 
-function multicheckboxToBooleanArray(v: string, numValues: number): boolean[] {
-  const result: boolean[] = [];
-  const trues = v.split(" ").map((e) => Number.parseInt(e));
-  for (const value of trues) {
-    result[value] = true;
-  }
-  for (let i = 0; i < numValues; i++) {
-    result[i] = result[i] ? true : false;
-  }
-  return result;
-}
-
-function parseTeamData(teamData: string): TeamData {
-  const teamDataSplit = teamData.split(",");
-  return {
-    isBlue: teamDataSplit[0] === "Blue",
-    dsPosition: stringToInt(teamDataSplit[1]),
-    teamNumber: stringToInt(teamDataSplit[2])
-  };
+function parseTeamData(teamData: string, r: Record<string, boolean | number | string>) {
+  let parts: string[] = teamData.split(",");
+  r.is_blue = (parts[0] === "Blue");
+  r.ds_position = stringToInt(parts[1]);
+  r.team_number = stringToInt(parts[2]);
 }
 
 function parseRanking(teamData: string, match: string, time: string): Ranking[] {
-  let result: Ranking[] = [];
+  const result: Ranking[] = [];
   const teamDataSplit = teamData.split(" ");
   for (const comparison of teamDataSplit) {
     const values = comparison.split(",");
@@ -136,31 +114,25 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     match_number: stringToInt,
     scouter_name: identity,
     starting_pos: stringToInt,
-    pre_load_score: stringToBool,
     mobility: stringToBool,
-    auto_amp: stringToInt,
-    zone1_shot_made_auto: stringToInt,
-    zone1_shot_miss_auto: stringToInt,
-    zone2_shot_made_auto: stringToInt,
-    zone2_shot_miss_auto: stringToInt,
-    under_stage: stringToBool,
     defense: stringToBool,
-    zone1_shot_made: stringToInt,
-    zone1_shot_miss: stringToInt,
-    zone2_shot_made: stringToInt,
-    zone2_shot_miss: stringToInt,
-    teleop_amp: stringToInt,
-    amp_miss: stringToInt,
-    pass_note: stringToInt,
-    parked: stringToBool,
-    climb_fail: stringToBool,
-    rob_onstage: stringToInt,
-    harmony: stringToBool,
-    rsl_solid: stringToBool,
-    rsl_off: stringToBool,
-    brown_out: stringToBool,
     comments: identity,
-    ScoutedTime: reformatISO
+    ScoutedTime: reformatISO,
+    Level1: stringToInt,
+    Level2: stringToInt,
+    Level3: stringToInt,
+    Level4: stringToInt,
+    auto_algae: stringToInt,
+    tele_algae: stringToBool,
+    tele_Level1: stringToInt,
+    tele_Level2: stringToInt,
+    tele_Level3: stringToInt,
+    tele_Level4: stringToInt,
+    robo_barge_score: stringToInt,
+    processor_scored: stringToInt,
+    climb: stringToInt,
+    driver_rank: stringToInt,
+    breakdown: stringToBool
   };
   r.values.forEach((entry: string[]) => {
     const obj: Record<string, boolean | number | string> = {};
@@ -168,19 +140,11 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
       if (!operations[r.header[i]]) continue;
       obj[r.header[i]] = operations[r.header[i]](entry[i]);
     }
-    const pickupMethods = multicheckboxToBooleanArray(entry[15], 2); // pickup_method
-    obj["pickup_method_ground"] = pickupMethods[0];
-    obj["pickup_method_source"] = pickupMethods[1];
-    const trapNotePositions = multicheckboxToBooleanArray(entry[27], 3); // trap_note_pos
-    obj["trap_note_pos_amp"] = trapNotePositions[0];
-    obj["trap_note_pos_source"] = trapNotePositions[1];
-    obj["trap_note_pos_center"] = trapNotePositions[2];
-    const parsedTeamData = parseTeamData(entry[3]); // team_data
-    obj["is_blue"] = parsedTeamData.isBlue;
-    obj["ds_position"] = parsedTeamData.dsPosition;
-    obj["team_number"] = parsedTeamData.teamNumber;
+    // Handle special case of team_data
+    parseTeamData(entry[3], obj)
     entries.push(obj);
   });
+
   return entries;
 }
 

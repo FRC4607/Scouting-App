@@ -51,5 +51,7 @@ console.log(list)
 
 img {
   margin: auto;
+  max-width: 300px; /* Limit the logo size to 300px wide */
+  width: 100%; /* Ensure responsiveness */
 }
 </style>

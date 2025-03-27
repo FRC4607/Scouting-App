@@ -1,9 +1,9 @@
 {
-  "heading": "Crescendo - 2024",
+  "heading": "Reefscape -2025",
   "logo": "logo.png",
   "pages": [
     {
-      "name": "Setup",
+      "name": "Setup & Autonomous",
       "widgets": [
         {
           "displayName": "Scouter Name",
@@ -17,90 +17,48 @@
         {
           "displayName": "Robot Starting Position",
           "name": "starting_pos",
-          "type": "dropdownwithpictures",
+          "type": "dropdown",
           "options": [
-            "Subwoofer: Amp",
-            "Subwoofer: Speaker",
-            "Subwoofer: Podium",
-            "Amp Note",
-            "Speaker Note",
-            "Podium Note",
-            "Between Amp and Speaker Notes",
-            "Between Speaker and Podium Notes",
-            "Note Closest to Source",
-            "Note 2nd Closest to Source",
-            "Other"
-          ],
-          "files": [
-            "start_loc/sw_amp.png",
-            "start_loc/sw_speaker.png",
-            "start_loc/sw_podium.png",
-            "start_loc/note_amp.png",
-            "start_loc/note_speaker.png",
-            "start_loc/note_podium.png",
-            "start_loc/note_mid_amp.png",
-            "start_loc/note_mid_podium.png",
-            "start_loc/note_source_close.png",
-            "start_loc/note_source_far.png"
+            "Blue Processor",
+            "Middle",
+            "Red Processor"
           ]
-        }
-      ]
-    },
-    {
-      "name": "Autonomous",
-      "widgets": [
-        {
-          "displayName": "Pre Load Scoring",
-          "name": "pre_load_score",
-          "type": "checkbox"
         },
         {
-          "displayName": "Left Starting Zone",
+          "displayName": "Mobility",
           "name": "mobility",
           "type": "checkbox"
         },
         {
-          "displayName": "Amp Notes",
-          "name": "auto_amp",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
+          "heading": "Auto Coral",
+          "name": "Auto Coral",
+          "type": "heading",
+          "align": "right"
         },
         {
-          "type": "picture",
-          "file": "newzones.png",
-          "rowspan": 2,
-          "colspan": 2,
-          "col": 1,
-          "width": 600
+          "displayName": "L1",
+          "name": "Level1",
+          "type": "spinbox"
         },
         {
-          "displayName": "Zone 1 Shots Made",
-          "name": "zone1_shot_made_auto",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
+          "displayName": "L2",
+          "name": "Level2",
+          "type": "spinbox"
         },
         {
-          "displayName": "Zone 1 Shots Miss",
-          "name": "zone1_shot_miss_auto",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
+          "displayName": "L3",
+          "name": "Level3",
+          "type": "spinbox"
         },
         {
-          "displayName": "Zone 2 Shots Made",
-          "name": "zone2_shot_made_auto",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
+          "displayName": "L4",
+          "name": "Level4",
+          "type": "spinbox"
         },
         {
-          "displayName": "Zone 2 Shots Miss",
-          "name": "zone2_shot_miss_auto",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
+          "displayName": "Algae Auto",
+          "name": "auto_algae",
+          "type": "spinbox"
         }
       ]
     },
@@ -108,75 +66,44 @@
       "name": "Teleop",
       "widgets": [
         {
-          "displayName": "Can Go Under Stage",
-          "name": "under_stage",
+          "displayName": "Teleop Algae",
+          "name": "tele_algae",
           "type": "checkbox"
         },
         {
-          "displayName": "Defense",
-          "name": "defense",
-          "type": "checkbox"
+          "heading": "Teleop Coral",
+          "name": "Teleop Coral",
+          "type": "heading",
+          "align": "right"
         },
         {
-          "displayName": "Pickup Method",
-          "name": "pickup_method",
-          "type": "multicheckbox",
-          "options": [
-            "Ground",
-            "Source"
-          ]
-        },
-        {
-          "type": "picture",
-          "file": "newzones.png",
-          "rowspan": 2,
-          "colspan": 2,
-          "col": 1,
-          "width": 600
-        },
-        {
-          "displayName": "Zone 1 Shots Made",
-          "name": "zone1_shot_made",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Zone 1 Shots Miss",
-          "name": "zone1_shot_miss",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Zone 2 Shots Made",
-          "name": "zone2_shot_made",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Zone 2 Shots Miss",
-          "name": "zone2_shot_miss",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Amp Notes",
-          "name": "teleop_amp",
-          "type": "spinbox",
-          "min": 0,
-          "max": 255
-        },
-        {
-          "displayName": "Amp Missed",
-          "name": "amp_miss",
+          "displayName": "L1",
+          "name": "tele_Level1",
           "type": "spinbox"
         },
         {
-          "displayName": "Notes Passed",
-          "name": "pass_note",
+          "displayName": "L2",
+          "name": "tele_Level2",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "L3",
+          "name": "tele_Level3",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "L4",
+          "name": "tele_Level4",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Robot Barge Scored",
+          "name": "robo_barge_score",
+          "type": "spinbox"
+        },
+        {
+          "displayName": "Processor Scored",
+          "name": "processor_scored",
           "type": "spinbox"
         }
       ]
@@ -185,69 +112,35 @@
       "name": "Endgame",
       "widgets": [
         {
-          "displayName": "Parked",
-          "name": "parked",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Failed Climb",
-          "name": "climb_fail",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Robot Onstage",
-          "name": "rob_onstage",
+          "displayName": "Climb",
+          "name": "climb",
           "type": "radio",
           "options": [
-            "N/A",
-            "Amp",
-            "Source",
-            "Center"
+            "Shallow Cage",
+            "Deep Cage",
+            "Parked",
+            "None"
           ]
         },
         {
-         "displayName": "Harmony",
-         "name": "harmony",
-         "type": "checkbox"
-        },
-        {
-          "displayName": "Trap Note Positions",
-          "name": "trap_note_pos",
-          "type": "multicheckbox",
-          "options": [
-            "Amp",
-            "Source",
-            "Center"
-          ]
-        },
-        {
-          "type": "picture",
-          "file": "evan.jpg",
-          "colspan": 2,
-          "height": 1
-        }
-      ]
-    },
-    {
-      "name": "Issues/Comments",
-      "widgets": [
-        {
-          "displayName": "RSL Solid",
-          "name": "rsl_solid",
+          "displayName": "Defense",
+          "name": "defense",
           "type": "checkbox"
         },
         {
-          "displayName": "RSL Off",
-          "name": "rsl_off",
+          "displayName": "Driver's Rank",
+          "name": "driver_rank",
+          "type": "spinbox",
+          "min": 1,
+          "max": 3
+        },
+        {
+          "displayName": "Breakdown",
+          "name": "breakdown",
           "type": "checkbox"
         },
         {
-          "displayName": "Browning Out",
-          "name": "brown_out",
-          "type": "checkbox"
-        },
-        {
-          "displayName": "Comments",
+          "displayName": "Additional Comments",
           "name": "comments",
           "type": "textarea"
         }
