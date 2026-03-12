@@ -8,15 +8,12 @@
 /**
  * One or more scouting entries uploaded by a scouter
  */
-export type ScoutingEntryUploadSchema = ScoutingEntryUploadSchema1 & ScoutingEntryUploadSchema2;
-export type ScoutingEntryUploadSchema1 = {
+export type ScoutingEntryUploadSchema = {
   [k: string]: unknown;
-};
-
-export interface ScoutingEntryUploadSchema2 {
+} & {
   /**
    * The table to insert the request into
    */
   title: "pits" | "matches" | "ranking";
   [k: string]: unknown;
-}
+};

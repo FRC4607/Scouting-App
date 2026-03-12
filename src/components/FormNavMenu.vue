@@ -8,6 +8,7 @@
       @click="switchPage(i)">
       {{ unref(page).title }}
     </div>
+    <button id="home-button" @click="goHome">Home</button>
   </nav>
 </template>
 
@@ -15,13 +16,16 @@
 import FormPage from "./FormPage.vue";
 import { range } from "lodash";
 import { unref, watchEffect } from "vue";
-import { useValidationStore } from "@/common/stores";
+import { useRouter } from "vue-router";
+import { useValidationStore, useWidgetsStore } from "@/common/stores";
 
 const props = defineProps<{
   pages: InstanceType<typeof FormPage>[]
 }>();
 
+const router = useRouter();
 const validation = useValidationStore();
+const widgets = useWidgetsStore();
 
 let shown = $ref(0);
 let target = $ref(0);
@@ -48,6 +52,17 @@ function switchPage(n: number) {
   // Submit the range of pages from the current (inclusive) to the target (exclusive) for validation
   validation.triggerPages = range(shown, n);
   target = n;
+}
+
+function goHome() {
+  // Check if user has started scouting (past first page or has entered data)
+  const hasData = widgets.values.some(v => v.value !== "" && v.value !== false && v.value !== 0);
+  if (shown > 0 || hasData) {
+    if (!confirm("Are you sure you want to abandon the current scouting session? All unsaved data will be lost.")) {
+      return;
+    }
+  }
+  router.push({ name: "home" });
 }
 </script>
 
@@ -91,5 +106,21 @@ button:disabled {
 
 .link:not(.active):hover {
   background-color: #3d3d3d;
+}
+
+#home-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px;
+  background-color: #444;
+  border: none;
+  color: white;
+  font-size: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#home-button:hover {
+  background-color: #555;
 }
 </style>

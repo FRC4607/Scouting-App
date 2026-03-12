@@ -56,10 +56,10 @@
             </select>
         </div>
         <div style="display: table-cell;">
-            <label :for="currentId+'8'"><p class="alliance-color">Incapacitated?</p></label>
+            <label :for="currentId+'9'"><p class="alliance-color">Incapacitated?</p></label>
         </div>
         <div style="display: table-cell;">
-            <input :id="currentId+'8'" type="checkbox" class="alliance-color" v-model="incap[2]" />
+            <input :id="currentId+'9'" type="checkbox" class="alliance-color" v-model="incap[2]" />
         </div>
     </div>
 </template>

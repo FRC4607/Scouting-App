@@ -11,8 +11,8 @@
       <button @click="loadTBAData">Load</button>
     </FormGroup>
     <FormGroup :show="isTBA" :label-type="LabelType.PlainText" name="Teams Loaded">{{ teamsLoadStatus }}</FormGroup>
-    <FormGroup :show="isTBA" :label-type="LabelType.PlainText" name="Matches Loaded">{{ matchesLoadStatus }}</FormGroup>
-    <FormGroup :label-type="LabelType.LabelTag" id="match-level-input" name="Match Level">
+    <FormGroup :show="isTBA && !isPitMode" :label-type="LabelType.PlainText" name="Matches Loaded">{{ matchesLoadStatus }}</FormGroup>
+    <FormGroup :show="!isPitMode" :label-type="LabelType.LabelTag" id="match-level-input" name="Match Level">
       <select id="match-level-input" v-model.number="matchLevel" :disabled="config.data.forceQualifiers"
         @change=onLevelChange>
         <option value="3">Practice</option>
@@ -21,10 +21,10 @@
         <option value="2">Finals</option>
       </select>
     </FormGroup>
-    <FormGroup :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
+    <FormGroup :show="!isPitMode" :label-type="LabelType.LabelTag" id="match-input" name="Match Number">
       <input id="match-input" type="number" v-model.lazy="matchNumber" :min="1" />
     </FormGroup>
-    <FormGroup :show="isTBA && currentMatch !== null" :label-type="LabelType.LabelTag" id="team-input" name="Team">
+    <FormGroup :show="isTBA && !isPitMode && currentMatch !== null" :label-type="LabelType.LabelTag" id="team-input" name="Team">
       <span v-if="currentMatch === null">&lt;No Data&gt;</span>
       <select v-else id="team-input" v-model="selectedTeam">
         <option v-for="[i, { color, index, number, name }] of teamsList.entries()" :key="i" :value="i">
@@ -32,14 +32,24 @@
         </option>
       </select>
     </FormGroup>
-    <FormGroup :show="!isTBA || currentMatch === null" :label-type="LabelType.LabelTag" id="team-number-input" name="Team Number">
+    <FormGroup :show="isTBA && isPitMode && Array.isArray(teams)" :label-type="LabelType.LabelTag" id="pit-team-input" name="Team">
+      <select id="pit-team-input" v-model="selectedPitTeam">
+        <option v-for="[i, { number, name }] of pitTeamsList.entries()" :key="i" :value="i">
+          {{ number }} - {{ name }}
+        </option>
+      </select>
+    </FormGroup>
+    <FormGroup :show="(!isTBA || (!isPitMode && currentMatch === null)) && !isPitMode" :label-type="LabelType.LabelTag" id="team-number-input" name="Team Number">
       <input type="number" v-model="teamNumberManual" :min="1">
     </FormGroup>
-    <FormGroup :show="!isTBA || currentMatch === null" :label-type="LabelType.LabelTag" id="team-color-input" name="Team Color">
+    <FormGroup :show="(!isTBA || currentMatch === null) && !isPitMode" :label-type="LabelType.LabelTag" id="team-color-input" name="Team Color">
       <select id="team-color-input" v-model="teamColorManual">
         <option value="Red" selected>Red</option>
         <option value="Blue">Blue</option>
       </select>
+    </FormGroup>
+    <FormGroup :show="!isTBA && isPitMode" :label-type="LabelType.LabelTag" id="pit-team-number-manual-input" name="Team Number">
+      <input type="number" v-model="pitTeamNumberManual" :min="1">
     </FormGroup>
   </FormPage>
 </template>
@@ -60,6 +70,11 @@ interface Team {
   name: string;
 }
 
+interface PitTeam {
+  number: number;
+  name: string;
+}
+
 const page = $ref<InstanceType<typeof FormPage>>();
 defineExpose({ title: computed(() => page?.title), setShown: computed(() => page?.setShown) });
 
@@ -67,14 +82,18 @@ const config = useConfigStore();
 const tba = useTBAStore();
 const widgets = useWidgetsStore();
 
+const isPitMode = $computed(() => config.data.pitScoutingMode === true);
+
 const selectType = $ref(0);
-let eventKey = $ref("");
+let eventKey = $ref(widgets.teamSelectionConfig.eventKey || tba.eventCode || "");
 const matchLevel = $ref(0);
 const matchNumber = $ref(1);
 let selectedTeam = $ref(0);
+let selectedPitTeam = $ref(0);
 
 const teamNumberManual = $ref(1);
 const teamColorManual = $ref("Red");
+const pitTeamNumberManual = $ref(1);
 
 let teamsLoadStatus = $ref("");
 let matchesLoadStatus = $ref("");
@@ -124,23 +143,53 @@ const teamsList = $computed(() => {
   return result;
 });
 
+// All teams at the event (for pit scouting)
+const pitTeamsList = $computed(() => {
+  const result = new Array<PitTeam>();
+  if (!Array.isArray(teams)) return result;
+
+  for (const team of teams) {
+    const teamKey = get(team, "key") as string;
+    const number = parseInt(teamKey.substring(3));
+    const nickname = get(team, "nickname") as string || "(No name available)";
+    
+    result.push({ number, name: nickname });
+  }
+
+  // Sort teams by number
+  result.sort((a, b) => a.number - b.number);
+  return result;
+});
+
 // The exported team information
 const teamData = $computed(() => {
   if (isTBA && teamsList[selectedTeam]) return Object.values(teamsList[selectedTeam]).join();
-  else return `${teamColorManual},0,${teamNumberManual},(no name available)`;
+  else return `${teamColorManual},0,${teamNumberManual},(No name available)`;
+});
+
+// For pit scouting, export team_number directly
+const pitTeamNumber = $computed(() => {
+  if (isTBA && pitTeamsList[selectedPitTeam]) return pitTeamsList[selectedPitTeam].number;
+  else return pitTeamNumberManual;
 });
 
 // Add values to export
-widgets.addWidgetValue("event_key", $$(eventKey));
-widgets.addWidgetValue("match_level", $$(matchLevel));
-widgets.addWidgetValue("match_number", $$(matchNumber));
-widgets.addWidgetValue("team_data", $$(teamData));
+if (isPitMode) {
+  widgets.addWidgetValue("event_key", $$(eventKey));
+  widgets.addWidgetValue("team_number", $$(pitTeamNumber));
+} else {
+  widgets.addWidgetValue("event_key", $$(eventKey));
+  widgets.addWidgetValue("match_level", $$(matchLevel));
+  widgets.addWidgetValue("match_number", $$(matchNumber));
+  widgets.addWidgetValue("team_data", $$(teamData));
+}
 
 // Updates the loaded status message for a variable.
 // This function takes Ref objects to get a behavior similar to pass-by-reference in C++.
 function updateStatus(msg: Ref<string>, saveVar: Ref<unknown>, { code, data }: TBAData) {
   // Update variables
   eventKey = code;
+  widgets.teamSelectionConfig.eventKey = code;
 
   // Update status message
   if (isFailed(data)) {
@@ -160,18 +209,25 @@ function loadTBAData() {
   teamsLoadStatus = "Loading...";
   tba.load(eventKey, "teams").then((value: TBAData) => updateStatus($$(teamsLoadStatus), $$(teams), value));
 
-  matchesLoadStatus = "Loading...";
-  tba.load(eventKey, "matches").then((value: TBAData) => updateStatus($$(matchesLoadStatus), $$(matches), value));
+  if (!isPitMode) {
+    matchesLoadStatus = "Loading...";
+    tba.load(eventKey, "matches").then((value: TBAData) => updateStatus($$(matchesLoadStatus), $$(matches), value));
+  }
 }
 
 function onLevelChange() {
   selectedTeam = matchLevel !== 3 ? widgets.teamSelectionConfig.selectedTeam : -1;
 }
 
+// Auto-load cached data on component mount if event key exists
+if (eventKey && selectType === 0) {
+  loadTBAData();
+}
+
 </script>
 
 <style>
-#team-input {
+#team-input, #pit-team-input {
   width: 250px;
   text-overflow: ellipsis;
 }

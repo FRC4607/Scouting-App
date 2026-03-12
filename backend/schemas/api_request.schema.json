@@ -32,39 +32,43 @@
             "description": "The headers of the columns of the scouting entries",
             "type": "array",
             "const": [
-              "scouter_name",
+              "event_key",
               "team_number",
-              "length",
-              "width",
-              "start_height",
-              "max_height",
-              "weight",
-              "dt_type",
-              "drive_motor",
-              "swerve_type",
-              "wheel_rep_freq",
-              "bumper_height",
-              "can_bus_top",
-              "pneumatics",
-              "programming_language",
-              "num_batt",
-              "does_batt_maint",
-              "batt_maint_txt",
-              "batt_testing",
-              "batt_brand",
-              "batt_needed",
+              "scouter_name",
+              "prog_lang",
+              "bat_brand",
+              "other_brand",
+              "num_bat",
+              "bat_condition",
+              "height",
+              "hopper",
+              "hopper_size",
               "spare_parts",
-              "pit_checklist",
-              "does_scouting",
-              "trade_scouting_data",
-              "batt_storchrg",
-              "batt_loc",
-              "batt_con",
-              "powersw_loc",
-              "radio_loc",
-              "misc_pics",
-              "comments",
-              "ScoutedTime"
+              "bump",
+              "trench",
+              "shoot_type",
+              "shoot_notes",
+              "climb_type",
+              "climb_notes",
+              "index_type",
+              "index_notes",
+              "feed_rate",
+              "intake",
+              "intake_speed",
+              "pre_checklist",
+              "not_breakdown",
+              "components_protected",
+              "breaker_cover",
+              "pic_robot_full",
+              "pic_drivetrain",
+              "pic_intake",
+              "pic_shooter",
+              "pic_climber",
+              "pic_electronics",
+              "pic_battery",
+              "pic_battery_charging",
+              "pic_misc",
+              "scouted_time"
             ]
           },
           "values": {
@@ -74,8 +78,8 @@
             "uniqueItems": true,
             "items": {
               "type": "array",
-              "minItems": 33,
-              "maxItems": 33,
+              "minItems": 37,
+              "maxItems": 37,
               "items": {
                 "type": "string"
               }
@@ -105,76 +109,26 @@
           "header": {
             "description": "The headers of the columns of the scouting entries",
             "type": "array",
-            "const": [ "event_key",
-            "match_level",
-            "match_number",
-            "team_data",
-            "scouter_name",
-            "starting_pos",
-            "mobility",
-            "Level1",
-            "Level2",
-            "Level3",
-            "Level4",
-            "auto_algae",
-            "tele_algae",
-            "tele_Level1",
-            "tele_Level2",
-            "tele_Level3",
-            "tele_Level4",
-            "robo_barge_score",
-            "processor_scored",
-            "climb",
-            "defense",
-            "driver_rank",
-            "breakdown",
-            "comments",
-            "ScoutedTime"
-          ]
-          },
-          "values": {
-            "description": "The list of entries to be added into the database",
-            "type": "array",
-            "minItems": 1,
-            "uniqueItems": true,
-            "items": {
-              "type": "array",
-              "minItems": 25,
-              "maxItems": 25,
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "required": [
-          "header",
-          "values"
-        ]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "title": {
-            "type": "string",
-            "const": "ranking"
-          }
-        },
-        "required": [
-          "title"
-        ]
-      },
-      "then": {
-        "properties": {
-          "header": {
-            "description": "The headers of the columns of the scouting entries",
-            "type": "array",
             "const": [
-              "match",
-              "red",
-              "blue",
-              "ScoutedTime"
+              "event_key",
+              "match_level",
+              "match_number",
+              "team_data",
+              "scouter_name",
+              "starting_pos",
+              "auto_fuel",
+              "auto_climb",
+              "cycles",
+              "fuel_score",
+              "passing",
+              "climb",
+              "zone_play",
+              "bump_rank",
+              "drive_rank",
+              "defense_rank",
+              "breakdown",
+              "comments",
+              "scouted_time"
             ]
           },
           "values": {
@@ -184,8 +138,8 @@
             "uniqueItems": true,
             "items": {
               "type": "array",
-              "minItems": 4,
-              "maxItems": 4,
+              "minItems": 19,
+              "maxItems": 19,
               "items": {
                 "type": "string"
               }
@@ -219,7 +173,7 @@
               "match",
               "red",
               "blue",
-              "ScoutedTime"
+              "scouted_time"
             ]
           },
           "values": {

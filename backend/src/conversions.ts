@@ -6,16 +6,18 @@ interface Ranking {
   diff: number;
   match: number;
   incap: boolean;
-  ScoutedTime: string;
+  scouted_time: string;
 }
 
 function stringToInt(s: string): number {
+  if (s === "" || s === null || s === undefined) return 0;
   return Number.parseInt(s);
 }
 
-// function stringToFloat(s: string): number {
-//   return Number.parseFloat(s);
-// }
+function stringToFloat(s: string): number {
+  if (s === "" || s === null || s === undefined) return 0;
+  return Number.parseFloat(s);
+}
 
 function stringToBool(s: string): boolean {
   return s === "true" ? true : false;
@@ -53,7 +55,7 @@ function parseRanking(teamData: string, match: string, time: string): Ranking[] 
       diff: stringToInt(values[2]),
       match: stringToInt(match),
       incap: stringToBool(values[3]),
-      ScoutedTime: reformatISO(time)
+      scouted_time: reformatISO(time)
     });
   }
   return result;
@@ -62,39 +64,43 @@ function parseRanking(teamData: string, match: string, time: string): Ranking[] 
 export function convertPitScout(r: ApiRequest): Record<string, boolean | number | string>[] {
   const entries: Record<string, boolean | number | string>[] = [];
   const operations: Record<string, (s: string) => boolean | number | string> = {
+    event_key: identity,
     scouter_name: identity,
     team_number: stringToInt,
-    length: stringToInt,
-    width: stringToInt,
-    start_height: stringToInt,
-    max_height: stringToInt,
-    weight: stringToInt,
-    dt_type: stringToInt,
-    drive_motor: stringToInt,
-    swerve_type: stringToInt,
-    wheel_rep_freq: identity,
-    bumper_height: stringToInt,
-    can_bus_top: stringToInt,
-    pneumatics: stringToBool,
-    programming_language: stringToInt,
-    num_batt: stringToInt,
-    does_batt_maint: stringToBool,
-    batt_maint_txt: identity,
-    batt_testing: stringToBool,
-    batt_brand: stringToInt,
-    batt_needed: stringToBool,
+    prog_lang: stringToInt,
+    bat_brand: stringToInt,
+    other_brand: identity,
+    num_bat: stringToInt,
+    bat_condition: identity,
+    height: stringToInt,
+    hopper: stringToBool,
+    hopper_size: stringToInt,
     spare_parts: stringToBool,
-    pit_checklist: stringToBool,
-    does_scouting: stringToBool,
-    trade_scouting_data: stringToBool,
-    batt_storchrg: identity,
-    batt_loc: identity,
-    batt_con: identity,
-    powersw_loc: identity,
-    radio_loc: identity,
-    misc_pics: identity,
-    comments: identity,
-    ScoutedTime: reformatISO
+    bump: stringToBool,
+    trench: stringToBool,
+    shoot_type: stringToInt,
+    shoot_notes: identity,
+    climb_type: stringToInt,
+    climb_notes: identity,
+    index_type: stringToInt,
+    index_notes: identity,
+    feed_rate: stringToInt,
+    intake: stringToInt,
+    intake_speed: stringToInt,
+    pre_checklist: stringToBool,
+    not_breakdown: identity,
+    components_protected: stringToBool,
+    breaker_cover: stringToBool,
+    pic_robot_full: identity,
+    pic_drivetrain: identity,
+    pic_intake: identity,
+    pic_shooter: identity,
+    pic_climber: identity,
+    pic_electronics: identity,
+    pic_battery: identity,
+    pic_battery_charging: identity,
+    pic_misc: identity,
+    scouted_time: reformatISO
   };
   r.values.forEach((entry: string[]) => {
     const obj: Record<string, boolean | number | string> = {};
@@ -114,25 +120,19 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     match_number: stringToInt,
     scouter_name: identity,
     starting_pos: stringToInt,
-    mobility: stringToBool,
-    defense: stringToBool,
-    comments: identity,
-    ScoutedTime: reformatISO,
-    Level1: stringToInt,
-    Level2: stringToInt,
-    Level3: stringToInt,
-    Level4: stringToInt,
-    auto_algae: stringToInt,
-    tele_algae: stringToBool,
-    tele_Level1: stringToInt,
-    tele_Level2: stringToInt,
-    tele_Level3: stringToInt,
-    tele_Level4: stringToInt,
-    robo_barge_score: stringToInt,
-    processor_scored: stringToInt,
+    auto_fuel: stringToInt,
+    auto_climb: stringToBool,
+    cycles: stringToInt,
+    fuel_score: stringToInt,
+    passing: stringToBool,
     climb: stringToInt,
-    driver_rank: stringToInt,
-    breakdown: stringToBool
+    zone_play: stringToInt,
+    bump_rank: stringToInt,
+    drive_rank: stringToInt,
+    defense_rank: stringToInt,
+    breakdown: stringToBool,
+    comments: identity,
+    scouted_time: reformatISO
   };
   r.values.forEach((entry: string[]) => {
     const obj: Record<string, boolean | number | string> = {};

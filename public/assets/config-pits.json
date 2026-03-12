@@ -1,7 +1,8 @@
 {
-  "heading": "Reefscape - 2025 (Pit Scouting)",
+  "heading": "Rebuilt 2026 (Pits)",
   "logo": "logo.png",
-  "skipTeamSelection": true,
+  "skipTeamSelection": false,
+  "pitScoutingMode": true,
   "pages": [
     {
       "name": "Robot",
@@ -16,18 +17,6 @@
           }
         },
         {
-          "displayName": "Team Number",
-          "name": "team_number",
-          "type": "number",
-          "validation": {
-            "comparison": "inRange",
-            "value": [
-              1,
-              65535
-            ]
-          }
-        },
-        {
           "displayName": "Programming Language",
           "name": "prog_lang",
           "type": "dropdown",
@@ -35,7 +24,7 @@
             "Java",
             "C++",
             "Python",
-            "Labview"
+            "LabVIEW"
           ]
         },
         {
@@ -53,8 +42,9 @@
         },
         {
           "displayName": "Other Brand",
-          "name": "otherbrand",
-          "type": "textarea"
+          "name": "other_brand",
+          "type": "textarea",
+          "placeholder": "Only if Other selected above"
         },
         {
           "displayName": "Amount of Batteries",
@@ -68,19 +58,179 @@
         {
           "displayName": "Battery Condition",
           "name": "bat_condition",
-          "type": "textarea"
+          "type": "textarea",
+          "placeholder": "Age, wear, replacement status"
+        },
+        {
+          "displayName": "Robot Height (inches)",
+          "name": "height",
+          "type": "number"
+        },
+        {
+          "displayName": "Hopper Storage",
+          "name": "hopper",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Hopper Storage Size",
+          "name": "hopper_size",
+          "type": "number",
+          "placeholder": "# of game pieces"
         },
         {
           "displayName": "Spare Parts",
-          "name": "spareparts",
+          "name": "spare_parts",
           "type": "checkbox"
         },
         {
-          "displayName": "Component Protection",
-          "name": "component_prot",
+          "displayName": "Can Go Over Bump?",
+          "name": "bump",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Can Go Under Trench?",
+          "name": "trench",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Shooter Type",
+          "name": "shoot_type",
+          "type": "dropdown",
+          "options": [
+            "Fixed Flywheel Launcher",
+            "Turret Flywheel Launcher",
+            "Double Fixed Flywheel Launcher",
+            "Double Turret Flywheel Launcher",
+            "??????"
+          ]
+        },
+        {
+          "displayName": "Shooter Notes",
+          "name": "shoot_notes",
+          "type": "textarea",
+          "placeholder": "Range, accuracy, etc."
+        },
+        {
+          "displayName": "Climber Type",
+          "name": "climb_type",
+          "type": "dropdown",
+          "options": [
+            "Climber",
+            "None"
+          ]
+        },
+        {
+          "displayName": "Climber Notes",
+          "name": "climb_notes",
+          "type": "textarea",
+          "placeholder": "Level reached, requirements, reliability, etc."
+        },
+        {
+          "displayName": "Indexer Type",
+          "name": "index_type",
+          "type": "dropdown",
+          "options": [
+            "Indexer",
+            "No Indexer"
+          ]
+        },
+        {
+          "displayName": "Indexer Notes",
+          "name": "index_notes",
+          "type": "textarea",
+          "placeholder": "Capacity, speed, reliability (no jams), etc."
+        },
+        {
+          "displayName": "Feed Rate (fuel/sec)",
+          "name": "feed_rate",
+          "type": "number"
+        },
+        {
+          "displayName": "Intake",
+          "name": "intake",
+          "type": "dropdown",
+          "options": [
+            "None",
+            "Ground",
+            "?"
+          ]
+        },
+        {
+          "displayName": "Intake Speed (fuel/sec)",
+          "name": "intake_speed",
+          "type": "number"
+        },
+        {
+          "displayName": "Pre-Match Checklist",
+          "name": "pre_checklist",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "How Do They Not Break Down",
+          "name": "not_breakdown",
+          "type": "textarea",
+          "placeholder": "Strategies, practices"
+        },
+        {
+          "displayName": "Sensitive Components Protected",
+          "name": "components_protected",
+          "type": "checkbox"
+        },
+        {
+          "displayName": "Breaker Cover",
+          "name": "breaker_cover",
           "type": "checkbox"
         }
-        
+      ]
+    },
+    {
+      "name": "Pictures",
+      "widgets": [
+        {
+          "displayName": "Robot Full View",
+          "name": "pic_robot_full",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Drivetrain",
+          "name": "pic_drivetrain",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Intake Mechanism",
+          "name": "pic_intake",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Shooter/Scoring Mechanism",
+          "name": "pic_shooter",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Climber Mechanism",
+          "name": "pic_climber",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Electronics/Wiring",
+          "name": "pic_electronics",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Battery Storage Area",
+          "name": "pic_battery",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Battery Charging Area",
+          "name": "pic_battery_charging",
+          "type": "pictureupload"
+        },
+        {
+          "displayName": "Additional Photos",
+          "name": "pic_misc",
+          "type": "pictureupload"
+        }
       ]
     }
   ]

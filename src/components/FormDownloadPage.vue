@@ -34,8 +34,39 @@ const router = useRouter();
 
 const page = $ref<InstanceType<typeof FormPage>>();
 
-function clearForm() {
+async function clearForm() {
+  // Save current form data to localStorage
   widgets.save();
+
+  // Get the saved data bucket for this config
+  const data = widgets.savedData.get(config.name);
+
+  if (data && data.values.length > 0) {
+    const lastRow = data.values[data.values.length - 1];
+    const uploadPayload = {
+      title: data.title,
+      header: data.header,
+      values: [lastRow]
+    };
+
+    try {
+      // Attempt to upload only the newly saved row immediately
+      await widgets.uploadData(uploadPayload);
+
+      // On success, remove only the uploaded row and keep any older unsent rows
+      data.values.pop();
+      if (data.values.length === 0) {
+        widgets.savedData.delete(config.name);
+      }
+
+      console.log("Data uploaded successfully and cleared from local storage");
+    } catch (error) {
+      // If upload fails, keep the data in localStorage for later
+      console.log("Upload failed, data retained locally:", error);
+    }
+  }
+
+  // Reload the page to show fresh form
   location.reload();
 }
 

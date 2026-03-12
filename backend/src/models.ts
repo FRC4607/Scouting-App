@@ -1,46 +1,49 @@
 import { Model } from "objection";
 import { readFileSync } from "fs";
-import { env } from "process";
+import path from "path";
 
-const prefix = env["NODE_ENV"] == "production" ? "../" : "";
-const PitScoutSchema = JSON.parse(readFileSync(prefix + "schemas/pit_scout_entry.schema.json").toString());
-const MatchScoutSchema = JSON.parse(readFileSync(prefix + "schemas/match_scout_entry.schema.json").toString());
-const RankingSchema = JSON.parse(readFileSync(prefix + "schemas/ranking_entry.schema.json").toString());
+const schemasDir = path.resolve(__dirname, "..", "schemas");
+const PitScoutSchema = JSON.parse(readFileSync(path.join(schemasDir, "pit_scout_entry.schema.json")).toString());
+const MatchScoutSchema = JSON.parse(readFileSync(path.join(schemasDir, "match_scout_entry.schema.json")).toString());
+const RankingSchema = JSON.parse(readFileSync(path.join(schemasDir, "ranking_entry.schema.json")).toString());
 
 export class PitScoutEntry extends Model {
   scouter_name!: string;
   team_number!: number;
-  length!: number;
-  width!: number;
-  start_height!: number;
-  max_height!: number;
-  weight!: number;
-  dt_type!: number;
-  drive_motor!: number;
-  swerve_type!: number;
-  wheel_rep_freq!: string;
-  bumper_height!: number;
-  can_bus_top!: number;
-  pneumatics!: boolean;
-  programming_language!: number;
-  num_batt!: number;
-  does_batt_maint!: boolean;
-  batt_maint_txt!: string;
-  batt_testing!: boolean;
-  batt_brand!: number;
-  batt_needed!: boolean;
+  prog_lang!: number;
+  bat_brand!: number;
+  other_brand!: string;
+  num_bat!: number;
+  bat_condition!: string;
+  height!: number;
+  hopper!: boolean;
+  hopper_size!: number;
   spare_parts!: boolean;
-  pit_checklist!: boolean;
-  does_scouting!: boolean;
-  trade_scouting_data!: boolean;
-  batt_storchrg!: string;
-  batt_loc!: string;
-  batt_con!: string;
-  powersw_loc!: string;
-  radio_loc!: string;
-  misc_pics!: string;
-  comments!: string;
-  ScoutedTime!: string;
+  bump!: boolean;
+  trench!: boolean;
+  shoot_type!: number;
+  shoot_notes!: string;
+  climb_type!: number;
+  climb_notes!: string;
+  index_type!: number;
+  index_notes!: string;
+  feed_rate!: string;
+  intake!: number;
+  intake_speed!: string;
+  pre_checklist!: boolean;
+  not_breakdown!: string;
+  components_protected!: boolean;
+  breaker_cover!: boolean;
+  pic_robot_full!: string;
+  pic_drivetrain!: string;
+  pic_intake!: string;
+  pic_shooter!: string;
+  pic_climber!: string;
+  pic_electronics!: string;
+  pic_battery!: string;
+  pic_battery_charging!: string;
+  pic_misc!: string;
+  scouted_time!: string;
 
   static override get tableName() {
     return "pit_scouting_entries";
@@ -50,90 +53,56 @@ export class PitScoutEntry extends Model {
     return PitScoutSchema;
   }
 
-  get mappedDrivetrainType() {
-    return [
-      "Tank Drive",
-      "Mecanum",
-      "Swerve",
-      "Other"
-    ][this.dt_type]!;
-  }
-
-  get mappedDriveMotorType() {
-    return [
-      "Neo v1",
-      "Neo Vortex",
-      "Falcon",
-      "Kraken",
-      "CIM",
-      "Other"
-    ][this.drive_motor]!;
-  }
-
-  get mappedSwerveType() {
-    return [
-      "No swerve",
-      "SDS Mk4(i)",
-      "Other SDS",
-      "WCP SwerveX(s)",
-      "REV MAXSwerve",
-      "Custom/Other"
-    ][this.swerve_type]!;
-  }
-
-  get mappedCANTopology() {
-    return [
-      "Dazychain",
-      "Star"
-    ][this.can_bus_top]!;
-  }
-
   get programmingLanguageMapped() {
     return [
       "Java",
       "C++",
       "Python",
       "Labview"
-    ][this.programming_language]!;
+    ][this.prog_lang]!;
   }
 
   get batteryBrandMapped() {
     return [
       "MK",
-      "Interstate",
       "Duracell",
+      "Interstate",
       "Mighty Max",
       "Power Sonic",
-      "Other (comments)"
-    ][this.batt_brand]!;
+      "Other"
+    ][this.bat_brand]!;
   }
 
-  photoSplit(s: string) {
-    return s.split(",");
+  get shooterTypeMapped() {
+    return [
+      "Fixed Flywheel Launcher",
+      "Turret Flywheel launcher",
+      "Double Fixed Flywheel launcher",
+      "Double Turret Flywheel Launcher",
+      "??????"
+    ][this.shoot_type]!;
   }
 
-  get batteryStoragePictures() {
-    return this.photoSplit(this.batt_storchrg);
+  get climberTypeMapped() {
+    return [
+      "climber",
+      "none"
+    ][this.climb_type]!;
   }
 
-  get batteryLocationPictures() {
-    return this.photoSplit(this.batt_loc);
+  get indexerTypeMapped() {
+    return [
+      "indexer",
+      "no indexer"
+    ][this.index_type]!;
   }
 
-  get batteryConnectorPictures() {
-    return this.photoSplit(this.batt_con);
-  }
-
-  get mainPowerSwitchPictures() {
-    return this.photoSplit(this.powersw_loc);
-  }
-
-  get radioLocationPictures() {
-    return this.photoSplit(this.radio_loc);
-  }
-
-  get miscPictures() {
-    return this.photoSplit(this.misc_pics);
+  get intakeTypeMapped() {
+    return [
+      "none",
+      "ground",
+      "?"
+    ][this.intake]!;
   }
 }
 
@@ -146,25 +115,19 @@ export class MatchScoutEntry extends Model {
   team_number!: number;
   scouter_name!: string;
   starting_pos!: number;
-  mobility!: boolean;
-  defense!: boolean;
-  comments!: string;
-  ScoutedTime!: string;
-  Level1!: number;
-  Level2!: number;
-  Level3!: number;
-  Level4!: number;
-  auto_algae!: number;
-  tele_algae!: boolean;
-  tele_Level1!: number;
-  tele_Level2!: number;
-  tele_Level3!: number;
-  tele_Level4!: number;
-  robo_barge_score!: number;
-  processor_scored!: number;
+  auto_fuel!: number;
+  auto_climb!: boolean;
+  cycles!: number;
+  fuel_score!: number;
+  passing!: boolean;
   climb!: number;
-  driver_rank!: number;
+  zone_play!: number;
+  bump_rank!: number;
+  drive_rank!: number;
+  defense_rank!: number;
   breakdown!: boolean;
+  comments!: string;
+  scouted_time!: string;
 
   static override get tableName() {
     return "match_scouting_entries";
@@ -185,19 +148,24 @@ export class MatchScoutEntry extends Model {
 
   get mappedStartingPosition() {
     return [
-      "Blue Processor",
+      "Left",
       "Middle",
-      "Red Processor"
+      "Right"
     ][this.starting_pos];
   }
 
   get mappedClimb() {
     return [
-      "Shallow Cage",
-      "Deep Cage",
-      "Parked",
+      "L1",
+      "L2",
+      "L3",
       "None"
     ][this.climb];
+  }
+
+  get mappedZonePlay(): string[] {
+    const zones = ["Blue Alliance", "Neutral Zone", "Red Alliance"];
+    return zones.filter((_, i) => (this.zone_play >> i) & 1);
   }
 }
 
@@ -207,7 +175,7 @@ export class RankingEntry extends Model {
   diff!: number;
   match!: number;
   incap!: boolean;
-  ScoutedTime!: string;
+  scouted_time!: string;
 
 
   static override get tableName() {

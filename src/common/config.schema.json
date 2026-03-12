@@ -11,6 +11,9 @@
     "skipTeamSelection": {
       "type": "boolean"
     },
+    "pitScoutingMode": {
+      "type": "boolean"
+    },
     "forceQualifiers": {
       "type": "boolean"
     },
@@ -189,6 +192,9 @@
       "properties": {
         "type": {
           "const": "text"
+        },
+        "placeholder": {
+          "type": "string"
         }
       },
       "required": [
@@ -200,6 +206,9 @@
       "properties": {
         "type": {
           "const": "number"
+        },
+        "placeholder": {
+          "type": "string"
         }
       },
       "required": [
@@ -391,6 +400,9 @@
       "properties": {
         "type": {
           "const": "textarea"
+        },
+        "placeholder": {
+          "type": "string"
         }
       },
       "required": [
@@ -453,7 +465,10 @@
           "const": "teamranking"
         },
         "alliance": {
-          "enum": ["red", "blue"]
+          "enum": [
+            "red",
+            "blue"
+          ]
         }
       },
       "required": [

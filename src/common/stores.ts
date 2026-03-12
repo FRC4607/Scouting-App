@@ -61,7 +61,7 @@ export const useWidgetsStore = defineStore("widgets", () => {
 
     // Get header and record from the data (`name` is already a string so it does not need stringification)
     // Then add the current timestamp as the last field in the record
-    const header = values.map((i: WidgetValue) => i.name).concat("ScoutedTime");
+    const header = values.map((i: WidgetValue) => i.name).concat("scouted_time");
     const record = values.map((i: WidgetValue) => stringify(i.value)).concat(new Date().toString());
     return { title: useConfigStore().name, header, values: [record] };
   }
@@ -144,7 +144,8 @@ export const useWidgetsStore = defineStore("widgets", () => {
         } else {
           reject({
             status: this.status,
-            statusText: upload.statusText
+            statusText: upload.statusText,
+            response: upload.response
           });
         }
       };

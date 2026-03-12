@@ -12,21 +12,23 @@ import { ApiRequest } from "../schemas/ApiRequest";
 import { MatchScoutEntry, PitScoutEntry, RankingEntry } from "./models";
 import { convertMatchScout, convertPitScout, convertRanking } from "./conversions";
 
-const knex = Knex(config[env["NODE_ENV"] ? env["NODE_ENV"] : "development"]);
-console.log("Starting Knex using " + env["NODE_ENV"] ? env["NODE_ENV"] : "development" + " environment");
+const knexEnv = env["NODE_ENV"] || "production";
+const knex = Knex(config[knexEnv]);
+console.log("Starting Knex using " + knexEnv + " environment");
 Model.knex(knex);
 
-const prefix = env["NODE_ENV"] == "production" ? "../" : "";
-const apiSchema = JSON.parse(fs.readFileSync(prefix + "schemas/api_request.schema.json").toString());
+const schemasDir = path.resolve(__dirname, "..", "schemas");
+const apiSchema = JSON.parse(fs.readFileSync(path.join(schemasDir, "api_request.schema.json")).toString());
 
 const app: http.RequestListener = async (req, res) => {
   try {
     if (req.method === "GET") {
-      let url = path.normalize(path.join(__dirname, "..", `/static${req.url}`));
-      console.log(url);
-      if (req.url == "/") url += "index.html";
-      // Path Filtering
-      if (path.parse(url).dir.match(path.join(__dirname, "..")) == null) {
+      let url = path.normalize(path.join(__dirname, "..", "static", req.url || "/"));
+      if (req.url == "/") url = path.join(url, "index.html");
+      console.log("Serving:", url);
+      // Path Filtering - ensure the resolved path is within the build directory
+      const staticDir = path.resolve(__dirname, "..", "static");
+      if (!url.startsWith(staticDir)) {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHead(403);
         res.end();
