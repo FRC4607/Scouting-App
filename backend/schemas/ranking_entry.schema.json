@@ -26,7 +26,7 @@
     "incap": {
       "type": "boolean"
     },
-    "ScoutedTime": {
+    "scouted_time": {
       "type": "string"
     }
   },
@@ -37,6 +37,6 @@
     "diff",
     "match",
     "incap",
-    "ScoutedTime"
+    "scouted_time"
   ]
 }

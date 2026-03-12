@@ -1,5 +1,5 @@
 <template>
-  <input :id="currentId" :type="data.type" v-model="value" />
+  <input :id="currentId" :type="data.type" v-model="value" :placeholder="data.placeholder" />
 </template>
 
 <script setup lang="ts">
@@ -21,3 +21,11 @@ const defaultValues = new Map<string, unknown>([
 const value = $ref(defaultValues.get(props.data.type));
 defineExpose({ index: useWidgetsStore().addWidgetValue(props.data, $$(value)) });
 </script>
+
+<style scoped>
+input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+</style>

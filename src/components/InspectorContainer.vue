@@ -196,7 +196,7 @@ function onDecode(s: any) {
       return;
     }
     if (data.codes === undefined) {
-      console.error("bad codes")
+      console.error("bad codes");
       showErrorMessage = true;
       return;
     }
@@ -206,7 +206,7 @@ function onDecode(s: any) {
       return;
     }
     if (data.header === undefined) {
-      console.log("bad header");
+      console.error("bad header");
       showErrorMessage = true;
       return;
     }

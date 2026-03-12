@@ -24,6 +24,11 @@ export default defineConfig({
     ReactivityTransform(),
     vue(),
     VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        skipWaiting: true,
+        clientsClaim: true
+      },
       includeAssets: ["assets/*", "icons/*"],
       manifest: {
         name: "CIS Scouting",

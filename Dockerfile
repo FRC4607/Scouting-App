@@ -23,7 +23,7 @@ RUN npm run build-linux
 EXPOSE 4173
 
 # Set the node environment to production
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
-# Define the app run command
-CMD [ "npm", "run", "run" ]
+# Run knex migrations for production, then start the app
+CMD ["/bin/sh", "-c", "cd backend && npx knex migrate:latest --env production && cd .. && npm run run"]

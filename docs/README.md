@@ -18,21 +18,28 @@ Powered by [Vue.js](https://vuejs.org) and [The Blue Alliance](https://theblueal
 
 1. Obtain a Blue Alliance read API key from the [account page](https://www.thebluealliance.com/account).
 2. Create a file named `.env.local` in the root folder and inside of it put: `VITE_TBA_API_KEY=`***```your_api_key```***
-3. Setup a MySQL database named `scouting` and create a user for it with `SELECT`, `INSERT`, `UPDATE`, `CREATE`, `DROP`, and `ALTER` permissions.
-4. Create a file named `mysql-config.json` in the `backend/` folder and add the MySQL login information in this format:
+3. Install dependencies:
+   ```bash
+   npm run installPackages
+   ```
+4. Setup the database. If `backend/knexfile.ts` does not exist, copy it from the example:
+   ```bash
+   cp backend/knexfile.example.ts backend/knexfile.ts
+   ```
+   Then update `backend/knexfile.ts` with your database credentials. By default, the `development` environment uses SQLite. For PostgreSQL, update the `staging` or `production` section with your connection details.
+5. Run database migrations:
+   ```bash
+   npm run knex-migrate
+   ```
+   If targeting a non-development environment (e.g. production), set `NODE_ENV` first:
+   ```bash
+   # Linux/macOS
+   NODE_ENV=production npm run knex-migrate
 
-```json
-{
-    "host": "your hostname or IP (eg. host.com)",
-    "port": "3306",
-    "user": "your username",
-    "password": "your password",
-    "database": "scouting",
-    "charset" : "utf8mb4"
-}
-```
-
-5. If you plan to use the pictureupload widget, you will need to add a configuration file named `imageServerConfig.ts` in the root folder that contains the code below with your information added. This is used to connect to a file storage server (like Nextcloud or a network share) using a WebDAV connection. If you do not plan to use the pictureupload widget, you can skip this step.
+   # Windows PowerShell
+   $env:NODE_ENV = "production"; npm run knex-migrate
+   ```
+6. (Optional) If you plan to use the pictureupload widget, create a file named `imageServerConfig.ts` in the root folder:
 
 ```ts
 export const imageServerConfig =  {
@@ -40,6 +47,59 @@ export const imageServerConfig =  {
     "username": "your username",
     "password": "your password"
   }
+```
+
+## Running the App
+
+### Development
+
+Start the frontend development server:
+```bash
+npm run dev
+```
+
+In a separate terminal, start the backend server:
+```bash
+npm run dev:backend
+```
+
+- **Frontend**: http://localhost:5173/
+- **Backend API**: http://localhost:4173/
+
+### Production Build
+
+**Linux:**
+```bash
+npm run build-linux
+npm run run
+```
+
+**Windows:**
+```bash
+npm run build-windows
+npm run run
+```
+
+**Docker:**
+```bash
+# Build and run locally
+npm run docker-build
+npm run docker-run
+
+# Build and push to Docker Hub
+npm run docker-deploy
+```
+
+### Database Migrations
+
+Check migration status:
+```bash
+npm run knex-status
+```
+
+Apply pending migrations:
+```bash
+npm run knex-migrate
 ```
 
 ## Configuration
@@ -50,7 +110,20 @@ Configuring the interface and data fields is easy and codeless! You just need to
 
 ### Backend
 
-The backend needs to know what data fields your app is using so it can properly handle and save them. The data types and fields can be configured in `backend/src/TableSchemes.ts`. The naming scheme must be consistent with what is configured in the [config files](docs/config.md). The name field must be all lowercase and any spaces should be replaced with underscores (eg. "Hello There" becomes "hello_there"). Make sure there is a table scheme entry for each of the items in the config files or the database will not save all of the data. To help you out in case you miss some, any fields that you forget to add to the table scheme will be logged to the console of the app when you try to upload data to the database. Keep an eye out for these messages while you are testing things out.
+The backend uses JSON schemas and Knex migrations to define data fields. When updating the scouting form fields:
+
+1. Update the config files in `public/assets/` (`config-matches.json`, `config-pits.json`)
+2. Update the JSON schemas in `backend/schemas/`:
+   - `match_scout_entry.schema.json`
+   - `pit_scout_entry.schema.json`
+   - `api_request.schema.json`
+3. Update the TypeScript types in `backend/schemas/` (`.d.ts` files)
+4. Update the models in `backend/src/models.ts`
+5. Update the conversions in `backend/src/conversions.ts`
+6. Create a new migration in `backend/migrations/` to update the database schema
+7. Run `npm run knex-migrate` to apply the changes
+
+The naming scheme in config files must be consistent with the schema definitions. The `name` field should use lowercase with underscores (eg. "Hello There" becomes "hello_there").
 
 ### Flexibility
 

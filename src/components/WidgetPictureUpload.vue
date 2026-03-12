@@ -76,7 +76,7 @@ function uploadImage(e: any) {
     return; // no image was selected or taken, just a button click (user cancelled probably)
   }
   console.log(`File collected from user: ${image.name}`);
-  // add file extension to file name (e.g: .png, .jpg, etc.)
+  // add file extension to file name (e.g., .png, .jpg, etc.)
   fileName += `.${image.name.split(".").pop()}`;
   const reader = new FileReader();
   reader.readAsDataURL(image);
@@ -88,7 +88,7 @@ function uploadImage(e: any) {
       if (!imageCorrectedBase64) {
         console.log("Issue with base64 encoding, raw base64 below:");
         console.log(imageRawBase64);
-        buttonText = "Failure.. try again";
+        buttonText = "Failure... Try again";
         setTimeout(() => {
           buttonText = buttonTextPrev;
         }, 4000);
@@ -126,7 +126,7 @@ function uploadImage(e: any) {
       }
 
       console.log(`Upload result ${result ? "success!\nFile name on server is: " + fileName : "failure"}`);
-      buttonText = result ? "Success!" : "Failure.. Try again";
+      buttonText = result ? "Success!" : "Failure... Try again";
       setTimeout(() => {
         if (result) {
           buttonText = "Take Another";
@@ -138,7 +138,7 @@ function uploadImage(e: any) {
     }
     catch (e) {
       console.error(e);
-      buttonText = "Failure.. Try again";
+      buttonText = "Failure... Try again";
       setTimeout(() => {
         buttonText = buttonTextPrev;
       }, 4000);

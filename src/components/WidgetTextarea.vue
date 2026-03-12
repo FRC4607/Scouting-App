@@ -1,5 +1,5 @@
 <template>
-  <textarea rows="5" cols="35" v-model="value" :id="currentId"></textarea>
+  <textarea rows="5" cols="35" v-model="value" :id="currentId" :placeholder="data.placeholder"></textarea>
 </template>
 
 <script setup lang="ts">

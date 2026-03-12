@@ -71,6 +71,7 @@ export interface ConfigSchema {
   heading?: string;
   logo?: string;
   skipTeamSelection?: boolean;
+  pitScoutingMode?: boolean;
   forceQualifiers?: boolean;
   pages: Page[];
   [k: string]: unknown;
@@ -113,10 +114,12 @@ export interface WidgetLabel {
 }
 export interface WidgetText {
   type?: "text";
+  placeholder?: string;
   [k: string]: unknown;
 }
 export interface WidgetNumber {
   type?: "number";
+  placeholder?: string;
   [k: string]: unknown;
 }
 export interface WidgetCheckbox {
@@ -182,6 +185,7 @@ export interface WidgetAverageStopwatch {
 }
 export interface WidgetTextarea {
   type?: "textarea";
+  placeholder?: string;
   [k: string]: unknown;
 }
 export interface WidgetToggleGrid {

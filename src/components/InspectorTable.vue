@@ -7,10 +7,10 @@
       </tr>
     </thead>
     <tbody>
-      <label v-for="[i, record] of data.values.entries()" :key="i" :class="{ select: selections.has(i) }">
-        <td><input type="checkbox" v-model="selections" :value="i" @change="checkboxClicked(i)" /></td>
+      <tr v-for="[i, record] of data.values.entries()" :key="i" :class="{ select: selections.has(i) }" @click="rowClicked(i, $event)">
+        <td><input type="checkbox" v-model="selections" :value="i" @change="checkboxClicked(i)" @click.stop /></td>
         <td v-for="[j, value] of record.entries()" :key="j">{{ value }}</td>
-      </label>
+      </tr>
     </tbody>
   </table>
 </template>
@@ -66,14 +66,25 @@ function checkboxClicked(index: number) {
   // Update the last clicked index
   lastClicked = index;
 }
+
+function rowClicked(index: number, event: MouseEvent) {
+  // Toggle selection when clicking on the row (but not the checkbox itself)
+  if (selections.has(index)) {
+    selections.delete(index);
+  } else {
+    selections.add(index);
+  }
+  // Trigger reactivity by creating a new Set
+  selections = new Set(selections);
+  checkboxClicked(index);
+}
 </script>
 
 <style lang="postcss">
 .inspector-table {
   white-space: pre;
 
-  label {
-    display: table-row;
+  tbody tr {
     cursor: pointer;
     transition: background-color 0.1s;
   }
