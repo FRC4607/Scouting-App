@@ -3,7 +3,7 @@
   "logo": "logo.png",
   "pages": [
     {
-      "name": "Setup & Autonomous",
+      "name": "Setup & Cycles",
       "widgets": [
         {
           "displayName": "Scouter Name",
@@ -15,99 +15,30 @@
           }
         },
         {
-          "displayName": "Robot Starting Position",
-          "name": "starting_pos",
-          "type": "dropdown",
-          "options": [
-            "Left",
-            "Middle",
-            "Right"
-          ]
+          "displayName":"Auto Cycles",
+          "name": "auto_cycles",
+          "type": "spinbox",
+          "min": 0
         },
-        {
-          "displayName": "Auto Fuel",
-          "name": "auto_fuel",
+         {
+          "displayName":"Teleop Cycles",
+          "name": "teleop_cycles",
           "type": "spinbox",
           "min": 0
         },
         {
-          "displayName": "Auto Climb",
-          "name": "auto_climb",
-          "type": "checkbox"
-        }
-      ]
-    },
-    {
-      "name": "Teleop",
-      "widgets": [
-        {
-          "displayName": "Cycles (pickup + score)",
-          "name": "cycles",
+          "displayName": "Driver Rank",
+          "name": "driver_rank",
           "type": "spinbox",
-          "min": 0
-        },
-        {
-          "displayName": "Fuel Scored",
-          "name": "fuel_score",
-          "type": "spinbox",
-          "min": 0
-        },
-        {
-          "displayName": "Passing",
-          "name": "passing",
-          "type": "checkbox"
-        }
-      ]
-    },
-    {
-      "name": "Endgame",
-      "widgets": [
-        {
-          "displayName": "Climb",
-          "name": "climb",
-          "type": "dropdown",
-          "options": [
-            "L1",
-            "L2",
-            "L3",
-            "None"
-          ]
-        },
-        {
-          "displayName": "Zones Played",
-          "name": "zone_play",
-          "type": "multicheckbox",
-          "options": [
-            "Blue Alliance",
-            "Neutral Zone",
-            "Red Alliance"
-          ]
-        },
-        {
-          "displayName": "Bump Rank (1=worst, 5=best)",
-          "name": "bump_rank",
-          "type": "spinbox",
-          "min": 1,
-          "max": 5
-        },
-        {
-          "displayName": "Drivers Rank (1=worst, 5=best)",
-          "name": "drive_rank",
-          "type": "spinbox",
-          "min": 1,
+          "min": 0,
           "max": 5
         },
         {
           "displayName": "Defense Rank (1=worst, 5=best)",
           "name": "defense_rank",
           "type": "spinbox",
-          "min": 1,
+          "min": 0,
           "max": 5
-        },
-        {
-          "displayName": "Breakdown",
-          "name": "breakdown",
-          "type": "checkbox"
         },
         {
           "displayName": "Additional Comments",
