@@ -115,18 +115,10 @@
               "match_number",
               "team_data",
               "scouter_name",
-              "starting_pos",
-              "auto_fuel",
-              "auto_climb",
-              "cycles",
-              "fuel_score",
-              "passing",
-              "climb",
-              "zone_play",
-              "bump_rank",
-              "drive_rank",
+              "auto_cycles",
+              "teleop_cycles",
+              "driver_rank",
               "defense_rank",
-              "breakdown",
               "comments",
               "scouted_time"
             ]
@@ -138,8 +130,8 @@
             "uniqueItems": true,
             "items": {
               "type": "array",
-              "minItems": 19,
-              "maxItems": 19,
+              "minItems": 11,
+              "maxItems": 11,
               "items": {
                 "type": "string"
               }

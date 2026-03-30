@@ -114,18 +114,10 @@ export class MatchScoutEntry extends Model {
   ds_position!: number;
   team_number!: number;
   scouter_name!: string;
-  starting_pos!: number;
-  auto_fuel!: number;
-  auto_climb!: boolean;
-  cycles!: number;
-  fuel_score!: number;
-  passing!: boolean;
-  climb!: number;
-  zone_play!: number;
-  bump_rank!: number;
-  drive_rank!: number;
+  auto_cycles!: number;
+  teleop_cycles!: number;
+  driver_rank!: number;
   defense_rank!: number;
-  breakdown!: boolean;
   comments!: string;
   scouted_time!: string;
 
@@ -144,28 +136,6 @@ export class MatchScoutEntry extends Model {
       "Finals",
       "Practice"
     ][this.match_level];
-  }
-
-  get mappedStartingPosition() {
-    return [
-      "Left",
-      "Middle",
-      "Right"
-    ][this.starting_pos];
-  }
-
-  get mappedClimb() {
-    return [
-      "L1",
-      "L2",
-      "L3",
-      "None"
-    ][this.climb];
-  }
-
-  get mappedZonePlay(): string[] {
-    const zones = ["Blue Alliance", "Neutral Zone", "Red Alliance"];
-    return zones.filter((_, i) => (this.zone_play >> i) & 1);
   }
 }
 

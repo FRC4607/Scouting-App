@@ -30,55 +30,23 @@
     "scouter_name": {
       "type": "string"
     },
-    "starting_pos": {
+    "auto_cycles": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "teleop_cycles": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "driver_rank": {
       "type": "integer",
       "minimum": 0,
-      "maximum": 2
-    },
-    "auto_fuel": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "auto_climb": {
-      "type": "boolean"
-    },
-    "cycles": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "fuel_score": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "passing": {
-      "type": "boolean"
-    },
-    "climb": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 3
-    },
-    "zone_play": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "bump_rank": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 5
-    },
-    "drive_rank": {
-      "type": "integer",
-      "minimum": 1,
       "maximum": 5
     },
     "defense_rank": {
       "type": "integer",
-      "minimum": 1,
+      "minimum": 0,
       "maximum": 5
-    },
-    "breakdown": {
-      "type": "boolean"
     },
     "comments": {
       "type": "string"
@@ -96,18 +64,10 @@
     "ds_position",
     "team_number",
     "scouter_name",
-    "starting_pos",
-    "auto_fuel",
-    "auto_climb",
-    "cycles",
-    "fuel_score",
-    "passing",
-    "climb",
-    "zone_play",
-    "bump_rank",
-    "drive_rank",
+    "auto_cycles",
+    "teleop_cycles",
+    "driver_rank",
     "defense_rank",
-    "breakdown",
     "comments",
     "scouted_time"
   ]
