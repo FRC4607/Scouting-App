@@ -20,6 +20,7 @@ export interface MatchScoutEntryInterface {
   teleop_cycles: number;
   driver_rank: number;
   defense_rank: number;
+  breakdown: boolean;
   comments: string;
   scouted_time: string;
 }

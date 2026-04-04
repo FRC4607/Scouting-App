@@ -54,6 +54,7 @@ All fields are **NOT NULL**.
 | `not_breakdown` | text | Team's strategies/practices to prevent robot breakdowns | Free text |
 | `components_protected` | boolean | Sensitive electronic components protected from damage/shorts | `true` / `false` |
 | `breaker_cover` | boolean | Circuit breakers have protective covers installed | `true` / `false` |
+| `business_binder` | boolean | Team has a business binder | `true` / `false` |
 
 ### Pictures
 

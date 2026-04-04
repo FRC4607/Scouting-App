@@ -91,6 +91,7 @@ export function convertPitScout(r: ApiRequest): Record<string, boolean | number 
     not_breakdown: identity,
     components_protected: stringToBool,
     breaker_cover: stringToBool,
+    business_binder: stringToBool,
     pic_robot_full: identity,
     pic_drivetrain: identity,
     pic_intake: identity,
@@ -123,6 +124,7 @@ export function convertMatchScout(r: ApiRequest): Record<string, boolean | numbe
     teleop_cycles: stringToInt,
     driver_rank: stringToInt,
     defense_rank: stringToInt,
+    breakdown: stringToBool,
     comments: identity,
     scouted_time: reformatISO
   };

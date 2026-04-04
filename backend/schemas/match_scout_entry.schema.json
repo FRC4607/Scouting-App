@@ -48,6 +48,9 @@
       "minimum": 0,
       "maximum": 5
     },
+    "breakdown": {
+      "type": "boolean"
+    },
     "comments": {
       "type": "string"
     },
@@ -68,6 +71,7 @@
     "teleop_cycles",
     "driver_rank",
     "defense_rank",
+    "breakdown",
     "comments",
     "scouted_time"
   ]

@@ -183,10 +183,9 @@
         },
         {
           "displayName": "Business Binder",
-          "name": "Business Binder",
+          "name": "business_binder",
           "type": "checkbox"
         }
-        
       ]
     },
     {

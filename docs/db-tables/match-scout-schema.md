@@ -38,4 +38,5 @@ All fields are **NOT NULL**.
 |---|---|---|---|
 | `driver_rank` | tinyint (unsigned) | Driver skill rating (0=N/A, 1=worst, 5=best) | 0–5 |
 | `defense_rank` | tinyint (unsigned) | Robot's defensive play effectiveness (0=N/A, 1=worst, 5=best) | 0–5 |
+| `breakdown` | boolean | Whether the robot broke down during the match | `true` / `false` |
 | `comments` | text | Additional observations, strategy notes, or concerns | Free text |

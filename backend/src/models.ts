@@ -34,6 +34,7 @@ export class PitScoutEntry extends Model {
   not_breakdown!: string;
   components_protected!: boolean;
   breaker_cover!: boolean;
+  business_binder!: boolean;
   pic_robot_full!: string;
   pic_drivetrain!: string;
   pic_intake!: string;
@@ -118,6 +119,7 @@ export class MatchScoutEntry extends Model {
   teleop_cycles!: number;
   driver_rank!: number;
   defense_rank!: number;
+  breakdown!: boolean;
   comments!: string;
   scouted_time!: string;
 

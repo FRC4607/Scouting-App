@@ -36,6 +36,7 @@ export interface PitScoutEntryInterface {
   not_breakdown: string;
   components_protected: boolean;
   breaker_cover: boolean;
+  business_binder: boolean;
   pic_robot_full: string;
   pic_drivetrain: string;
   pic_intake: string;

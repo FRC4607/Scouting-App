@@ -100,6 +100,9 @@
     "breaker_cover": {
       "type": "boolean"
     },
+    "business_binder": {
+      "type": "boolean"
+    },
     "pic_robot_full": {
       "type": "string"
     },
@@ -160,6 +163,7 @@
     "not_breakdown",
     "components_protected",
     "breaker_cover",
+    "business_binder",
     "pic_robot_full",
     "pic_drivetrain",
     "pic_intake",

@@ -15,13 +15,13 @@
           }
         },
         {
-          "displayName":"Auto Cycles",
+          "displayName": "Auto Cycles",
           "name": "auto_cycles",
           "type": "spinbox",
           "min": 0
         },
-         {
-          "displayName":"Teleop Cycles",
+        {
+          "displayName": "Teleop Cycles",
           "name": "teleop_cycles",
           "type": "spinbox",
           "min": 0
@@ -42,7 +42,7 @@
         },
         {
           "displayName": "Breakdown",
-          "name": "Breakdown",
+          "name": "breakdown",
           "type": "checkbox"
         },
         {
