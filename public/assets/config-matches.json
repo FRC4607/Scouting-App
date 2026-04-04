@@ -41,6 +41,11 @@
           "max": 5
         },
         {
+          "displayName": "Breakdown",
+          "name": "Breakdown",
+          "type": "checkbox"
+        },
+        {
           "displayName": "Additional Comments",
           "name": "comments",
           "type": "textarea"
