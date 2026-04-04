@@ -180,7 +180,13 @@
           "displayName": "Breaker Cover",
           "name": "breaker_cover",
           "type": "checkbox"
+        },
+        {
+          "displayName": "Business Binder",
+          "name": "Business Binder",
+          "type": "checkbox"
         }
+        
       ]
     },
     {
