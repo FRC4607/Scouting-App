@@ -22,6 +22,7 @@
     "docker-run": "docker run -p 4173:4173 -d ultimate360/scouting-app",
     "docker-push": "docker push ultimate360/scouting-app",
     "docker-deploy": "npm run docker-build && npm run docker-push",
+    "full-send": "npm run build-windows && npm run docker-deploy",
     "generateSchema": "json2ts src/common/config.schema.json src/config.d.ts",
     "knex-migrate": "cd backend && npx knex migrate:latest",
     "knex-migrate:staging": "cd backend && npx knex migrate:latest --env staging",
@@ -65,7 +66,7 @@
     "postcss": "^8.5.8",
     "postcss-nested": "^7.0.2",
     "postcss-preset-env": "^11.2.0",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.2",
     "vite": "^7.3.1",
     "vite-plugin-live-reload": "^3.1.0",
     "vite-plugin-pwa": "^1.2.0"
