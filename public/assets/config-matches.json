@@ -41,7 +41,7 @@
           "max": 5
         },
         {
-          "displayName": "Breakdown",
+          "displayName": "🪦🔧 Breakdown\n(disabled, stuck\nlost power, broken, etc.)",
           "name": "breakdown",
           "type": "checkbox"
         },

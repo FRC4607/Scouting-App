@@ -182,7 +182,7 @@
           "type": "checkbox"
         },
         {
-          "displayName": "Business Binder",
+          "displayName": "Business Binder/Plan",
           "name": "business_binder",
           "type": "checkbox"
         }

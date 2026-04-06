@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hasLabel" :style="{ gridArea: getGridArea(0) }" class="label" v-show="show">
+  <div v-if="hasLabel" :style="{ gridArea: getGridArea(0), whiteSpace: 'pre-line' }" class="label" v-show="show">
     <span v-if="labelType === LabelType.PlainText">{{ displayName ?? name }}</span>
     <label v-else :for="id">{{ displayName ?? name }}</label>
   </div>

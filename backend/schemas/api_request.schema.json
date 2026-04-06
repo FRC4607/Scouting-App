@@ -59,6 +59,7 @@
               "not_breakdown",
               "components_protected",
               "breaker_cover",
+              "business_binder",
               "pic_robot_full",
               "pic_drivetrain",
               "pic_intake",
@@ -78,8 +79,8 @@
             "uniqueItems": true,
             "items": {
               "type": "array",
-              "minItems": 37,
-              "maxItems": 37,
+              "minItems": 38,
+              "maxItems": 38,
               "items": {
                 "type": "string"
               }
@@ -119,6 +120,7 @@
               "teleop_cycles",
               "driver_rank",
               "defense_rank",
+              "breakdown",
               "comments",
               "scouted_time"
             ]
@@ -130,8 +132,8 @@
             "uniqueItems": true,
             "items": {
               "type": "array",
-              "minItems": 11,
-              "maxItems": 11,
+              "minItems": 12,
+              "maxItems": 12,
               "items": {
                 "type": "string"
               }
